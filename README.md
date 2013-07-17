@@ -2,13 +2,23 @@
 A simple parser of SDP. Just because. Cool to try. Easy to extend. Good starting point.
 
 ## Usage
-require it and pass it an unprocessed SDP string.
+Require it and pass it an unprocessed SDP string.
+
+```js
+var parse = require('sdp-parser');
+var sdp = "c=IN IP4 0.0.0.0\no=hi there";
+parse(sdp);
+
+{ meta: 
+   { connection: '0.0.0.0',
+     identifier: 'hi there' },
+  media: [] }
+```
 
 ## Installation
-Not on NPM yet.
 
 ```bash
-$ npm install SOMETHING
+$ npm install sdp-parser
 ```
 
 ## License
