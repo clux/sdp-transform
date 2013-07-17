@@ -1,4 +1,4 @@
-# SDP Parser
+# SDP Parser [![Build Status](https://secure.travis-ci.org/clux/sdp-parser.png)](http://travis-ci.org/clux/sdp-parser)
 A simple parser of SDP. Just because. Cool to try. Easy to extend. Good starting point.
 
 ## Usage
