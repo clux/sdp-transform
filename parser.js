@@ -15,9 +15,15 @@ var r = {
   //a=sendrecv/recvonly/sendonly/inactive
   aSendRecv: /^(sendrecv|recvonly|sendonly|inactive)/,
   //a=fingerprint:SHA-1 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33
-  aFinger: /^fingerprint\:(\S*) (.*)/
+  aFinger: /^fingerprint\:(\S*) (.*)/,
+  // a=ice-ufrag:F7gI
+  aIceUfrag: /^ice\-ufrag\:(.*)/,
+  // a=ice-pwd:x9cml/YzichV2+XlhiMu8g
+  aIcePwd: /^ice\-pwd\:(.*)/,
+  //a=candidate:0 1 UDP 2113667327 203.0.113.1 54400 typ host
+  aCandidate: /^candidate:(\S*) (\d*) (\S*) (\d*) (\S*) (\d*) typ (\S*)/
+
 };
-// TODO: ice
 
 // fmtpConfigs are parsed to an object where all values are left as strings
 // unless they clearly are integers
@@ -36,7 +42,7 @@ var parse = function (sdp) {
   var mLines = [];
   var mLineIdx = -1; // by default not inside any mLine
 
-  var meta = {}; // meta data not related to an m-line
+  var meta = {ice: {}}; // meta data not related to an m-line
 
   for (var i = 0; i < lines.length; i += 1) {
     var l = lines[i];
@@ -74,12 +80,45 @@ var parse = function (sdp) {
           feedback: !!mMatch[4], // TODO: figure out how AVPF works
           maps: mMatch[5].split(' ').map(Number),
           rtpMaps: [],
-          fmtpMaps: []
+          fmtpMaps: [],
+          ice: {
+            candidates: []
+          }
         });
       }
       break;
     case "a":
-      if (r.aRtp.test(content) && mLineIdx >= 0) {
+      // (potentially) global properties
+      if (r.aIcePwd.test(content)) {
+        var aMatch = content.match(r.aIcePwd);
+        var savePt = (mLineIdx < 0) ? meta : mLines[mLineIdx];
+        savePt.ice.pwd = aMatch[1];
+      }
+      else if (r.aIceUfrag.test(content)) {
+        var aMatch = content.match(r.aIceUfrag);
+        var savePt = (mLineIdx < 0) ? meta : mLines[mLineIdx];
+        savePt.ice.ufrag = aMatch[1];
+      }
+
+      if (mLineIdx < 0) {
+        continue;
+      }
+
+      if (r.aCandidate.test(content)) { // TODO: verify these are m-line only
+        var aMatch = content.match(r.aCandidate);
+        mLines[mLineIdx].ice.candidates.push({
+          foundation: aMatch[1],
+          component: aMatch[2] | 0,
+          transport: aMatch[3],
+          priority: aMatch[4] | 0,
+          ip: aMatch[5],
+          port: aMatch[6] | 0,
+          type: aMatch[7]
+        });
+      }
+
+      // properties affecting the current m-line
+      if (r.aRtp.test(content)) {
         var aMatch = content.match(r.aRtp);
         // add the rtpmap if it was advertised in the main m-line
         if (mLines[mLineIdx].maps.indexOf(aMatch[1] | 0) >= 0) {
@@ -90,7 +129,7 @@ var parse = function (sdp) {
           });
         }
       }
-      else if (r.aFmtp.test(content) && mLineIdx >= 0) {
+      else if (r.aFmtp.test(content)) {
         var aMatch = content.match(r.aFmtp);
         if (mLines[mLineIdx].maps.indexOf(aMatch[1] | 0) >= 0) {
           mLines[mLineIdx].fmtpMaps.push({
@@ -99,26 +138,27 @@ var parse = function (sdp) {
           });
         }
       }
-      else if (r.aMid.test(content) && mLineIdx >= 0) {
+      else if (r.aMid.test(content)) {
         var aMatch = content.match(r.aMid);
         mLines[mLineIdx].mid = aMatch[1] | 0;
       }
-      else if (r.aSetup.test(content) && mLineIdx >= 0) {
+      else if (r.aSetup.test(content)) {
         var aMatch = content.match(r.aSetup);
         mLines[mLineIdx].setup = aMatch[1];
       }
-      else if (r.aFinger.test(content) && mLineIdx >= 0) {
+      else if (r.aFinger.test(content)) {
         var aMatch = content.match(r.aFinger);
         mLines[mLineIdx].encryption = {
           type: aMatch[1],
           fingerprint: aMatch[2]
         };
       }
-      else if (r.aSendRecv.test(content) && mLineIdx >= 0) {
+      else if (r.aSendRecv.test(content)) {
         var aMatch = content.match(r.aSendRecv);
         mLines[mLineIdx].sendrecv = aMatch[1];
       }
-      break; // properties affecting the current m-line
+      break;
+
     case "c": // connection info (could be global or under an m-line)
       if (r.cIp.test(content)) {
         var ipMatch = content.match(r.cIp);
