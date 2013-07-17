@@ -3,7 +3,7 @@ var r = {
   //c=IN IP4 10.47.197.26
   cIp: /^IN IP(\d) (.*)/,
   //m=video 51744 RTP/AVP 126 97 98 34 31
-  mRtp: /(\w*) (\d{4,5}) (S?)RTP\/AVP (.*)/,
+  mRtp: /(\w*) (\d{4,5}) RTP\/(S?)AVP(F?) (.*)/,
   //a=rtpmap:110 MP4A-LATM/90000
   aRtp: /^rtpmap\:(\d*) (\w*)\/(\d*)/,
   //a=fmtp:108 profile-level-id=24;object=23;bitrate=64000
@@ -71,7 +71,8 @@ var parse = function (sdp) {
           type: mMatch[1], // audio/video/application/..
           port: mMatch[2] | 0,
           encrypted: !!mMatch[3], // true => required
-          maps: mMatch[4].split(' ').map(Number),
+          feedback: !!mMatch[4], // TODO: figure out how AVPF works
+          maps: mMatch[5].split(' ').map(Number),
           rtpMaps: [],
           fmtpMaps: []
         });
@@ -142,7 +143,7 @@ module.exports = parse;
 
 if (module === require.main) {
   var fs = require('fs');
-  var sdp = fs.readFileSync('./test.sdp')+'';
+  var sdp = fs.readFileSync('./test/normal.sdp')+'';
   var res = parse(sdp);
   console.log(res.meta);
   console.log(res.media);

@@ -1,0 +1,23 @@
+{
+  "name": "sdp-parser",
+  "description": "A simple parser for the Session Description Protocol",
+  "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/clux/sdp-parser.git"
+  },
+  "keywords": [],
+  "main": "parser.js",
+  "scripts": {
+    "test": "tap ./test/*.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tap": "~0.4.2"
+  },
+  "bugs": {
+    "url": "http://github.com/clux/sdp-parser/issues"
+  },
+  "license": "MIT"
+}
