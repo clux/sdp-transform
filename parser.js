@@ -1,7 +1,9 @@
 var r = {
-  line : /^([voamscitb])\=(.*)/,
+  line : /^([a-z])=(.*)/,
   //c=IN IP4 10.47.197.26
   cIp: /^IN IP(\d) (.*)/,
+  //b=AS:4000
+  bLine: /(TIAS|AS|CT)\:(\d*)/,
   //m=video 51744 RTP/AVP 126 97 98 34 31
   mRtp: /(\w*) (\d{4,5}) RTP\/(S?)AVP(F?) (.*)/,
   //a=rtpmap:110 MP4A-LATM/90000
@@ -12,17 +14,16 @@ var r = {
   aSetup: /^setup\:(\w*)/,
   //a=mid:1
   aMid: /^mid\:(\d*)/,
-  //a=sendrecv/recvonly/sendonly/inactive
+  //a=sendrecv
   aSendRecv: /^(sendrecv|recvonly|sendonly|inactive)/,
   //a=fingerprint:SHA-1 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF:00:11:22:33
   aFinger: /^fingerprint\:(\S*) (.*)/,
-  // a=ice-ufrag:F7gI
+  //a=ice-ufrag:F7gI
   aIceUfrag: /^ice\-ufrag\:(.*)/,
-  // a=ice-pwd:x9cml/YzichV2+XlhiMu8g
+  //a=ice-pwd:x9cml/YzichV2+XlhiMu8g
   aIcePwd: /^ice\-pwd\:(.*)/,
   //a=candidate:0 1 UDP 2113667327 203.0.113.1 54400 typ host
   aCandidate: /^candidate:(\S*) (\d*) (\S*) (\d*) (\S*) (\d*) typ (\S*)/
-
 };
 
 // fmtpConfigs are parsed to an object where all values are left as strings
@@ -67,6 +68,14 @@ var parse = function (sdp) {
       meta.identifier = content;
       break;
     case "b":
+      if (r.bLine.test(content)) {
+        var bMatch = content.match(r.bLine);
+        var savePt = (mLineIdx < 0) ? meta : mLines[mLineIdx];
+        savePt.bandwidth = {
+          type: bMatch[1],
+          bandwidth: bMatch[2] | 0
+        };
+      }
       break; // bandwidth TODO!
 
     case "m":  // actual media
@@ -77,7 +86,7 @@ var parse = function (sdp) {
           type: mMatch[1], // audio/video/application/..
           port: mMatch[2] | 0,
           encrypted: !!mMatch[3], // true => required
-          feedback: !!mMatch[4], // TODO: figure out how AVPF works
+          feedback: !!mMatch[4], // may be false but still use rtcp feedback..
           maps: mMatch[5].split(' ').map(Number),
           rtpMaps: [],
           fmtpMaps: [],
