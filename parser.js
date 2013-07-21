@@ -1,5 +1,14 @@
 var lineReg = /^([a-z])=(.*)/;
 var regs = {
+  i: [{
+      name: 'description',
+      reg: /(.*)/
+  }],
+  o: [{ //o=- 20518 0 IN IP4 203.0.113.1
+    name: 'origin',
+    reg: /(\S*) (\d*) (\d*) (\S*) IP(\d) (.*)/,
+    names: ['username', 'sessionId', 'sessionVersion', 'netType', 'ipVer', 'address']
+  }],
   c: [
     { //c=IN IP4 10.47.197.26
       name: 'connection',
@@ -95,24 +104,19 @@ var parseReg = function (match, location, names, rawName) {
 };
 
 var parse = function (sdp) {
-  var lines = sdp.split('\n');
-
   var session = {}; // session data not related to an m-line
   var mLines = [];
-  session.media = mLines; // link it up
   var location = session;  // will be updated to point at current mLine
 
-  for (var i = 0; i < lines.length; i += 1) {
-    var l = lines[i];
-    if (!lineReg.test(l)) {
-      continue; // skip lines we dont understand
-    }
+  // parse lines we understand
+  sdp.split('\n').filter(RegExp.prototype.test.bind(lineReg)).forEach(function (l) {
     var match = l.match(lineReg);
     var type = match[1];
     var content = match[2];
     if (!regs[type]) {
-      continue; // skip lines without matching grammar
+      return;
     }
+
     if (type === 'm') {
       mLines.push({rtp: [], fmtp: []});
       location = mLines[mLines.length-1];
@@ -128,7 +132,7 @@ var parse = function (sdp) {
         else if (needsObject && !location[obj.name]) {
           location[obj.name] = {};
         }
-        var keyLocation = obj.push ? 
+        var keyLocation = obj.push ?
           {} :  // blank object that will be pushed
           needsObject ? location[obj.name] : location; // otherwise, named location or root
 
@@ -139,8 +143,7 @@ var parse = function (sdp) {
         break;
       }
     }
-    continue;
-  }
+  });
 
   // post processing
   for (var i = 0; i < mLines.length; i += 1) {
@@ -155,6 +158,7 @@ var parse = function (sdp) {
     }
   }
 
+  session.media = mLines; // link it up
   return session;
 };
 
@@ -164,5 +168,5 @@ if (module === require.main) {
   var fs = require('fs');
   var sdp = fs.readFileSync('./test/normal.sdp')+'';
   var res = parse(sdp);
-  console.log(res.media[1]);
+  console.log(res);
 }
