@@ -9,28 +9,22 @@ var regs = {
     reg: /(\S*) (\d*) (\d*) (\S*) IP(\d) (.*)/,
     names: ['username', 'sessionId', 'sessionVersion', 'netType', 'ipVer', 'address']
   }],
-  c: [
-    { //c=IN IP4 10.47.197.26
+  c: [{ //c=IN IP4 10.47.197.26
       name: 'connection',
       reg: /^IN IP(\d) (.*)/,
       names: ['version', 'ip']
-    }
-  ],
-  b: [
-    { //b=AS:4000
+  }],
+  b: [{ //b=AS:4000
       push: 'bandwidth',
       reg: /(TIAS|AS|CT|RR|RS)\:(\d*)/,
       names: ['type', 'limit']
-    }
-  ],
-  m: [
-    { //m=video 51744 RTP/AVP 126 97 98 34 31
+  }],
+  m: [{ //m=video 51744 RTP/AVP 126 97 98 34 31
       //NB: special - can write directly to `location` does not need a 'name'
       // TODO: rtp/fmtp should filter by the payloads found here
       reg: /(\w*) (\d{4,5}) ([A-Z\/]*) (.*)?/,
       names: ['type', 'port', 'protocol', 'payloads']
-    }
-  ],
+  }],
   a: [
     // TODO: add a separator somehow to indicate mLine only properties
     { //a=rtpmap:110 MP4A-LATM/90000
