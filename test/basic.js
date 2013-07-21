@@ -16,7 +16,15 @@ test("normal.sdp", function (t) {
     t.ok(media && media.length > 0, "got media");
 
     //t.equal(session.identifier, '- 20518 0 IN IP4 203.0.113.1', 'identifier');
+    t.equal(session.origin.username, '-', 'origin username');
+    t.equal(session.origin.sessionId, 20518, 'origin sessionId');
+    t.equal(session.origin.sessionVersion, 0, 'origin sessionVersion');
+    t.equal(session.origin.netType, 'IN', 'origin netType');
+    t.equal(session.origin.ipVer, 4, 'origin ipVer');
+    t.equal(session.origin.address, '203.0.113.1', 'origin address');
+
     t.equal(session.connection.ip, '203.0.113.1');
+    t.equal(session.connection.version, 4);
 
     // global ICE and fingerprint
     t.equal(session.iceUfrag, "F7gI", "global ufrag");
