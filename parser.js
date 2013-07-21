@@ -92,7 +92,7 @@ var fmtpReducer = function (acc, expr) {
   return acc;
 };
 
-var parseReg = function (match, location, names, rawName) {
+var attachProperties = function (match, location, names, rawName) {
   if (rawName && !names) {
     location[rawName] = toIntIfInt(match[1]);
   }
@@ -100,6 +100,25 @@ var parseReg = function (match, location, names, rawName) {
     for (var i = 0; i < names.length; i += 1) {
       location[names[i]] = toIntIfInt(match[i+1]);
     }
+  }
+};
+
+var parseReg = function (obj, location, content) {
+  var needsBlank = obj.name && obj.names;
+  if (obj.push && !location[obj.push]) {
+    location[obj.push] = [];
+  }
+  else if (needsBlank && !location[obj.name]) {
+    location[obj.name] = {};
+  }
+  var keyLocation = obj.push ?
+    {} :  // blank object that will be pushed
+    needsBlank ? location[obj.name] : location; // otherwise, named location or root
+
+  attachProperties(content.match(obj.reg), keyLocation, obj.names, obj.name);
+
+  if (obj.push) {
+    location[obj.push].push(keyLocation);
   }
 };
 
@@ -124,22 +143,8 @@ var parse = function (sdp) {
 
     for (var j = 0; j < regs[type].length; j += 1) {
       var obj = regs[type][j];
-      var needsObject = obj.name && obj.names;
       if (obj.reg.test(content)) {
-        if (obj.push && !location[obj.push]) {
-          location[obj.push] = [];
-        }
-        else if (needsObject && !location[obj.name]) {
-          location[obj.name] = {};
-        }
-        var keyLocation = obj.push ?
-          {} :  // blank object that will be pushed
-          needsObject ? location[obj.name] : location; // otherwise, named location or root
-
-        parseReg(content.match(obj.reg), keyLocation, obj.names, obj.name);
-        if (obj.push) {
-          location[obj.push].push(keyLocation);
-        }
+        parseReg(obj, location, content)
         break;
       }
     }
