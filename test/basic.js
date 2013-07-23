@@ -1,7 +1,7 @@
 var tap = require('tap')
   , fs = require('fs')
   , test = tap.test
-  , parse = require('../');
+  , parse = require('../').parse;
 
 test("normal.sdp", function (t) {
   fs.readFile('./normal.sdp', function (err, sdp) {
