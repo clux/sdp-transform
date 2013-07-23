@@ -1,7 +1,7 @@
 var grammar = {
   v: [{
       name: 'version',
-      reg: /^(\d*)$/,
+      reg: /^(\d*)$/
   }],
   o: [{ //o=- 20518 0 IN IP4 203.0.113.1
     name: 'origin',
@@ -26,7 +26,7 @@ var grammar = {
       name: 'connection',
       reg: /^IN IP(\d) (.*)/,
       names: ['version', 'ip'],
-      format: "IN IP%d %s",
+      format: "IN IP%d %s"
   }],
   b: [{ //b=AS:4000
       push: 'bandwidth',
@@ -71,7 +71,7 @@ var grammar = {
     },
     { //a=sendrecv
       name: 'sendrecv',
-      reg: /^(sendrecv|recvonly|sendonly|inactive)/,
+      reg: /^(sendrecv|recvonly|sendonly|inactive)/
     },
     { //a=ice-ufrag:F7gI
       name: 'iceUfrag',
@@ -98,6 +98,7 @@ var grammar = {
   ]
 };
 
+// set sensible defaults to avoid polluting the grammar with boring details
 Object.keys(grammar).forEach(function (key) {
   var objs = grammar[key];
   objs.forEach(function (obj) {

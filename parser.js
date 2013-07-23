@@ -1,6 +1,3 @@
-var grammar = require('./grammar');
-var validLine = RegExp.prototype.test.bind(/^([a-z])=(.*)/);
-
 var toIntIfInt = function (v) {
   return String(Number(v)) === v ? Number(v) : v;
 };
@@ -35,6 +32,9 @@ var parseReg = function (obj, location, content) {
   }
 };
 
+var grammar = require('./grammar');
+var validLine = RegExp.prototype.test.bind(/^([a-z])=(.*)/);
+
 exports.parse = function (sdp) {
   var session = {}
     , media = []
@@ -52,7 +52,7 @@ exports.parse = function (sdp) {
     for (var j = 0; j < (grammar[type] || []).length; j += 1) {
       var obj = grammar[type][j];
       if (obj.reg.test(content)) {
-        return parseReg(obj, location, content);        
+        return parseReg(obj, location, content);
       }
     }
   });

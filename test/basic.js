@@ -1,7 +1,9 @@
 var tap = require('tap')
   , fs = require('fs')
   , test = tap.test
-  , parse = require('../').parse;
+  , parser = require('../')
+  , parse = parser.parse
+  , parseFmtpConfig = parser.parseFmtpConfig;
 
 test("normal.sdp", function (t) {
   fs.readFile('./normal.sdp', function (err, sdp) {
@@ -51,8 +53,9 @@ test("normal.sdp", function (t) {
     t.equal(video.rtp[0].codec, "H264", "video rtp 0 codec");
     t.equal(video.rtp[0].rate, 90000, "video rtp 0 rate");
     t.equal(video.fmtp[0].payload, 97, "video fmtp 0 payload");
-    t.equal(video.fmtp[0].config['profile-level-id'], "4d0028", "video fmtp 0 profile-level-id");
-    t.equal(video.fmtp[0].config['packetization-mode'], 1, "video fmtp 0 packetization-mode");
+    var vidFmtp = parseFmtpConfig(video.fmtp[0].config);
+    t.equal(vidFmtp['profile-level-id'], "4d0028", "video fmtp 0 profile-level-id");
+    t.equal(vidFmtp['packetization-mode'], 1, "video fmtp 0 packetization-mode");
     t.equal(video.rtp[1].payload, 98, "video rtp 1 payload");
     t.equal(video.rtp[1].codec, "VP8", "video rtp 1 codec");
     t.equal(video.rtp[1].rate, 90000, "video rtp 1 rate");
