@@ -5,7 +5,7 @@ var grammar = {
   }],
   o: [{ //o=- 20518 0 IN IP4 203.0.113.1
     name: 'origin',
-    reg: /(\S*) (\d*) (\d*) (\S*) IP(\d) (.*)/,
+    reg: /^(\S*) (\d*) (\d*) (\S*) IP(\d) (.*)/,
     names: ['username', 'sessionId', 'sessionVersion', 'netType', 'ipVer', 'address'],
     format: "%s %d %d %s IP%d %s"
   }],
@@ -16,11 +16,13 @@ var grammar = {
   e: [{ name: 'email' }],
   p: [{ name: 'phone' }],
   z: [{ name: 'timezones' }], // TODO: this one can actually be parsed properly..
-  r: [{ name: 'repeats' }], // TODO: this one can also be parsed properly
-  t: [{
+  r: [{ name: 'repeats' }],   // TODO: this one can also be parsed properly
+  //k: [{}], // outdated thing ignored
+  t: [{ //t=0 0
     name: 'timing',
-    reg: /(\d*) (\d*)/,
-    names: ['start', 'stop']
+    reg: /^(\d*) (\d*)/,
+    names: ['start', 'stop'],
+    format: "%d %d"
   }],
   c: [{ //c=IN IP4 10.47.197.26
       name: 'connection',
@@ -30,14 +32,14 @@ var grammar = {
   }],
   b: [{ //b=AS:4000
       push: 'bandwidth',
-      reg: /(TIAS|AS|CT|RR|RS)\:(\d*)/,
+      reg: /^(TIAS|AS|CT|RR|RS)\:(\d*)/,
       names: ['type', 'limit'],
       format: "%s:%s"
   }],
   m: [{ //m=video 51744 RTP/AVP 126 97 98 34 31
       // NB: special - pushes to session
       // TODO: rtp/fmtp should be filtered by the payloads found here?
-      reg: /(\w*) (\d*) ([\w\/]*)\s?(.*)?/,
+      reg: /^(\w*) (\d*) ([\w\/]*)\s?(.*)?/,
       names: ['type', 'port', 'protocol', 'payloads'],
       format: "%s %d %s %s"
   }],

@@ -1,5 +1,7 @@
 # SDP Parser [![Build Status](https://secure.travis-ci.org/clux/sdp-parser.png)](http://travis-ci.org/clux/sdp-parser)
-A simple parser of SDP. Defines internal regexes based on [RFC4566](http://tools.ietf.org/html/rfc4566) (SDP) and [RFC5245](http://tools.ietf.org/html/rfc5245) (ICE), and will force values that are integers to integers and leave everything else as strings. Simple to extend or build upon.
+A simple parser of SDP. Defines internal regexes based on [RFC4566 - SDP](http://tools.ietf.org/html/rfc4566), and [RFC5245 - ICE](http://tools.ietf.org/html/rfc5245).
+
+For simplicity it will force values that are integers to integers and leave everything else as strings. The module should be simple to extend or build upon, and is constructed rigorously.
 
 
 ## Usage
