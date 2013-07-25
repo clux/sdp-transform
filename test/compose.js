@@ -1,8 +1,9 @@
 var tap = require('tap')
   , fs = require('fs')
   , test = tap.test
-  , parse = require('../').parse
-  , write = require('../writer');
+  , main = require('../')
+  , parse = main.parse
+  , write = main.write;
 
 test("identity ops on normal.sdp", function (t) {
   fs.readFile('./normal.sdp', function (err, sdp) {

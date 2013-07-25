@@ -8,7 +8,7 @@
     "url": "git://github.com/clux/sdp-parser.git"
   },
   "keywords": [],
-  "main": "parser.js",
+  "main": "index.js",
   "scripts": {
     "test": "tap ./test/*.js"
   },

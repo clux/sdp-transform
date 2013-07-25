@@ -1,9 +1,9 @@
 var tap = require('tap')
   , fs = require('fs')
   , test = tap.test
-  , parser = require('../')
-  , parse = parser.parse
-  , parseFmtpConfig = parser.parseFmtpConfig;
+  , main = require('../')
+  , parse = main.parse
+  , parseFmtpConfig = main.parseFmtpConfig;
 
 test("normal.sdp", function (t) {
   fs.readFile('./normal.sdp', function (err, sdp) {
