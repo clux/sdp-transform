@@ -1,14 +1,14 @@
-# SDP Parser [![Build Status](https://secure.travis-ci.org/clux/sdp-parser.png)](http://travis-ci.org/clux/sdp-parser)
-A simple parser of SDP. Defines internal regexes based on [RFC4566 - SDP](http://tools.ietf.org/html/rfc4566), and [RFC5245 - ICE](http://tools.ietf.org/html/rfc5245).
+# SDP [![Build Status](https://secure.travis-ci.org/clux/sdp.png)](http://travis-ci.org/clux/sdp)
+A simple parser and writer of SDP. Defines internal grammar based on [RFC4566 - SDP](http://tools.ietf.org/html/rfc4566), and [RFC5245 - ICE](http://tools.ietf.org/html/rfc5245).
 
-For simplicity it will force values that are integers to integers and leave everything else as strings. The module should be simple to extend or build upon, and is constructed rigorously.
+For simplicity it will force values that are integers to integers and leave everything else as strings when parsing. The module should be simple to extend or build upon, and is constructed rigorously.
 
 
-## Usage
+## Usage - Parser
 Require it and pass it an unprocessed SDP string.
 
 ```js
-var parse = require('sdp-parser');
+var parse = require('sdp-something').parse;
 
 var sdp = "v=0\n\
 o=- 20518 0 IN IP4 203.0.113.1\n\
@@ -49,7 +49,7 @@ res;
        type: 'audio',
        port: 54400,
        protocol: 'RTP/SAVPF',
-       payloads: [Object],
+       payloads: "0 96",
        ptime: 20,
        sendrecv: 'sendrecv',
        candidates: [Object] } ] }
@@ -66,7 +66,7 @@ sdp.media[0];
   type: 'audio',
   port: 54400,
   protocol: 'RTP/SAVPF',
-  payloads: [ 0, 96 ],
+  payloads: "0 96",
   ptime: 20,
   sendrecv: 'sendrecv',
   candidates: 
@@ -89,10 +89,14 @@ sdp.media[0];
 
 In this example, only slightly dodgy string coercion case here is for `candidates[i].foundation`, which can be a string, but in this case can be equally parsed as an integer.
 
+## Usage - Writer
+TODO (see tests for now)
+
 ## Installation
+Need to find a name in the global namespace hell of npm...
 
 ```bash
-$ npm install sdp-parser
+$ npm install sdp-something
 ```
 
 ## License
