@@ -1,6 +1,8 @@
-0.2.0 / 2013-07-24
+0.2.0 / 2013-07-27
 ==================
   * parse most normal lines sensibly
+  * factored out grammar properly
+  * added a writer that uses common grammar
   * stop preprocessing parse object explicitly (so that parser ∘ writer == Id)
     these parser helpers are instead exposed (may in the future be extended)
 
