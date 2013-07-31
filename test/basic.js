@@ -59,6 +59,13 @@ test("normal.sdp", function (t) {
     t.equal(video.rtp[1].payload, 98, "video rtp 1 payload");
     t.equal(video.rtp[1].codec, "VP8", "video rtp 1 codec");
     t.equal(video.rtp[1].rate, 90000, "video rtp 1 rate");
+    t.equal(video.rtcpFb[0].payload, '*', "video rtcp-fb 0 payload");
+    t.equal(video.rtcpFb[0].type, 'nack', "video rtcp-fb 0 type");
+    t.equal(video.rtcpFb[1].payload, 98, "video rtcp-fb 0 payload");
+    t.equal(video.rtcpFb[1].type, 'nack', "video rtcp-fb 0 type");
+    t.equal(video.rtcpFb[1].subtype, 'rpsi', "video rtcp-fb 0 subtype");
+    t.equal(video.rtcpFbTrrInt[0].payload, 98, "video rtcp-fb trr-int 0 payload");
+    t.equal(video.rtcpFbTrrInt[0].value, 100, "video rtcp-fb trr-int 0 value");
 
     // ICE candidates (same for both audio and video in this case)
     [audio.candidates, video.candidates].forEach(function (cs, i) {
