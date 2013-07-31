@@ -22,6 +22,7 @@ a=rtpmap:98 VP8/90000
 a=rtcp-fb:* nack
 a=rtcp-fb:98 nack rpsi
 a=rtcp-fb:98 trr-int 100
+a=crypto:1 AES_CM_128_HMAC_SHA1_32 inline:keNcG3HezSNID7LmfDa9J4lfdUL8W1F7TNJKcbuy|2^20|1:32
 a=sendrecv
 a=candidate:0 1 UDP 2113667327 203.0.113.1 55400 typ host
 a=candidate:1 2 UDP 2113667326 203.0.113.1 55401 typ host

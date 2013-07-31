@@ -71,6 +71,9 @@ test("normal.sdp", function (t) {
     t.equal(video.rtcpFb[1].subtype, 'rpsi', "video rtcp-fb 0 subtype");
     t.equal(video.rtcpFbTrrInt[0].payload, 98, "video rtcp-fb trr-int 0 payload");
     t.equal(video.rtcpFbTrrInt[0].value, 100, "video rtcp-fb trr-int 0 value");
+    t.equal(video.crypto[0].id, 1, "video crypto 0 id");
+    t.equal(video.crypto[0].suite, 'AES_CM_128_HMAC_SHA1_32', "video crypto 0 suite");
+    t.equal(video.crypto[0].config, 'inline:keNcG3HezSNID7LmfDa9J4lfdUL8W1F7TNJKcbuy|2^20|1:32', "video crypto 0 config");
 
     // ICE candidates (same for both audio and video in this case)
     [audio.candidates, video.candidates].forEach(function (cs, i) {
