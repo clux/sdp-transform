@@ -2,7 +2,7 @@
   "name": "sdp-transform",
   "description": "A simple parser/write for the Session Description Protocol",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/clux/sdp-transform.git"
