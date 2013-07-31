@@ -43,6 +43,11 @@ test("normal.sdp", function (t) {
     t.equal(audio.rtp[1].payload, 96, "audio rtp 1 payload");
     t.equal(audio.rtp[1].codec, "opus", "audio rtp 1 codec");
     t.equal(audio.rtp[1].rate, 48000, "audio rtp 1 rate");
+    t.equal(audio.ext[0].id, 1, "audio extmap 0 id");
+    t.equal(audio.ext[0].uri, 'URI-toffset', "audio extmap 0 id");
+    t.equal(audio.ext[1].id, 2, "audio extmap 0 id");
+    t.equal(audio.ext[1].direction, 'recvonly', "audio extmap 0 id");
+    t.equal(audio.ext[1].uri, 'URI-gps-string', "audio extmap 0 id");
 
     var video = media[1];
     t.equal(video.type, "video", "video");
@@ -59,6 +64,16 @@ test("normal.sdp", function (t) {
     t.equal(video.rtp[1].payload, 98, "video rtp 1 payload");
     t.equal(video.rtp[1].codec, "VP8", "video rtp 1 codec");
     t.equal(video.rtp[1].rate, 90000, "video rtp 1 rate");
+    t.equal(video.rtcpFb[0].payload, '*', "video rtcp-fb 0 payload");
+    t.equal(video.rtcpFb[0].type, 'nack', "video rtcp-fb 0 type");
+    t.equal(video.rtcpFb[1].payload, 98, "video rtcp-fb 0 payload");
+    t.equal(video.rtcpFb[1].type, 'nack', "video rtcp-fb 0 type");
+    t.equal(video.rtcpFb[1].subtype, 'rpsi', "video rtcp-fb 0 subtype");
+    t.equal(video.rtcpFbTrrInt[0].payload, 98, "video rtcp-fb trr-int 0 payload");
+    t.equal(video.rtcpFbTrrInt[0].value, 100, "video rtcp-fb trr-int 0 value");
+    t.equal(video.crypto[0].id, 1, "video crypto 0 id");
+    t.equal(video.crypto[0].suite, 'AES_CM_128_HMAC_SHA1_32', "video crypto 0 suite");
+    t.equal(video.crypto[0].config, 'inline:keNcG3HezSNID7LmfDa9J4lfdUL8W1F7TNJKcbuy|2^20|1:32', "video crypto 0 config");
 
     // ICE candidates (same for both audio and video in this case)
     [audio.candidates, video.candidates].forEach(function (cs, i) {
