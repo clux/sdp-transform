@@ -43,6 +43,11 @@ test("normal.sdp", function (t) {
     t.equal(audio.rtp[1].payload, 96, "audio rtp 1 payload");
     t.equal(audio.rtp[1].codec, "opus", "audio rtp 1 codec");
     t.equal(audio.rtp[1].rate, 48000, "audio rtp 1 rate");
+    t.equal(audio.ext[0].id, 1, "audio extmap 0 id");
+    t.equal(audio.ext[0].uri, 'URI-toffset', "audio extmap 0 id");
+    t.equal(audio.ext[1].id, 2, "audio extmap 0 id");
+    t.equal(audio.ext[1].direction, 'recvonly', "audio extmap 0 id");
+    t.equal(audio.ext[1].uri, 'URI-gps-string', "audio extmap 0 id");
 
     var video = media[1];
     t.equal(video.type, "video", "video");
