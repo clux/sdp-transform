@@ -1,3 +1,15 @@
+0.3.0 / 2013-10-18
+==================
+  * Changed ext grammar to parse id and direction as one (fixes writing bug)
+  * Allow mid to be a string (fixes bug)
+  * Add support for maxptime value
+  * Add support for ice-options
+  * Add support for grouping frameworks
+  * Add support for msid-semantic
+  * Add support for ssrc
+  * Add support for rtcp-mux
+  * Writer improvements: add support for session level push attributes
+
 0.2.1 / 2013-07-31
 ==================
   * Support release thanks to @legastero, following was pulled from his fork:
