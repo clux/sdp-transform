@@ -43,11 +43,16 @@ test("normal.sdp", function (t) {
     t.equal(audio.rtp[1].payload, 96, "audio rtp 1 payload");
     t.equal(audio.rtp[1].codec, "opus", "audio rtp 1 codec");
     t.equal(audio.rtp[1].rate, 48000, "audio rtp 1 rate");
-    t.equal(audio.ext[0].id, 1, "audio extmap 0 id");
-    t.equal(audio.ext[0].uri, 'URI-toffset', "audio extmap 0 id");
-    t.equal(audio.ext[1].id, 2, "audio extmap 0 id");
-    t.equal(audio.ext[1].direction, 'recvonly', "audio extmap 0 id");
-    t.equal(audio.ext[1].uri, 'URI-gps-string', "audio extmap 0 id");
+    t.deepEqual(audio.ext[0], {
+      value: "1",
+      uri: "URI-toffset",
+      config: ""
+    }, "audio extension 0");
+    t.deepEqual(audio.ext[1], {
+      value: "2/recvonly",
+      uri: "URI-gps-string",
+      config: ""
+    }, "audio extension 1");
 
     var video = media[1];
     t.equal(video.type, "video", "video");
@@ -97,6 +102,67 @@ test("normal.sdp", function (t) {
     });
 
     t.equal(media.length, 2, "got 2 m-lines");
+
+    t.end();
+  });
+});
+
+/*
+var S = require('./'); var sdp = fs.readFileSync('./test/chrome.sdp')+'';
+S.write(S.parse(sdp)).split('\n')
+*/
+
+test("chrome.sdp", function (t) {
+  fs.readFile('./chrome.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.end();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length > 0, "got media");
+
+    t.ok(session.groups, "parsing session groups");
+    t.equal(session.groups.length, 1, "one grouping");
+    t.equal(session.groups[0].type, "BUNDLE", "grouping is BUNDLE");
+    t.equal(session.groups[0].mids, "audio video", "bundling audio video");
+    t.ok(session.msidSemantic, "have an msid semantic");
+    t.equal(session.msidSemantic.semantic, "WMS", "webrtc semantic");
+    t.equal(session.msidSemantic.token, "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV", "semantic token");
+
+
+    t.equal(media[0].iceOptions, 'google-ice', "ice options parsed");
+    t.equal(media[0].maxptime, 60, 'maxptime parsed');
+    t.equal(media[0].rtcpMux, 'rtcp-mux', 'rtcp-mux present');
+
+    t.ok(media[0].ssrcs, "have ssrc lines");
+    t.equal(media[0].ssrcs.length, 4, "got 4 ssrc lines");
+    var ssrcs = media[0].ssrcs;
+    t.deepEqual(ssrcs[0], {
+      id: 2754920552,
+      attribute: "cname",
+      value: "t9YU8M1UxTF8Y1A1"
+    }, "1st ssrc line");
+
+    t.deepEqual(ssrcs[1], {
+      id: 2754920552,
+      attribute: "msid",
+      value: "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0"
+    }, "2nd ssrc line");
+
+    t.deepEqual(ssrcs[2], {
+      id: 2754920552,
+      attribute: "mslabel",
+      value: "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV"
+    }, "3rd ssrc line");
+
+    t.deepEqual(ssrcs[3], {
+      id: 2754920552,
+      attribute: "label",
+      value: "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0"
+    }, "4th ssrc line");
 
     t.end();
   });
