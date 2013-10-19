@@ -1,3 +1,7 @@
+0.3.1 / 2013-10-19
+==================
+  * Fixed a bug that meant the writer didn't write the last newline (#6)
+
 0.3.0 / 2013-10-18
 ==================
   * Changed ext grammar to parse id and direction as one (fixes writing bug)
