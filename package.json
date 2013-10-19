@@ -1,13 +1,13 @@
 {
   "name": "sdp-transform",
-  "description": "A simple parser/write for the Session Description Protocol",
+  "description": "A simple parser/writer for the Session Description Protocol",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "version": "0.3.1",
   "repository": {
     "type": "git",
     "url": "clux/sdp-transform"
   },
-  "keywords": [],
+  "keywords": ["sdp", "webrtc", "serializer"],
   "main": "index.js",
   "scripts": {
     "test": "$(npm bin)/tap ./test/*.js"
