@@ -10,7 +10,7 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "test": "tap ./test/*.js"
+    "test": "$(npm bin)/tap ./test/*.js"
   },
   "dependencies": {},
   "devDependencies": {
