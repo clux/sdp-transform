@@ -6,7 +6,7 @@ var tap = require('tap')
   , write = main.write;
 
 test("identity ops on normal.sdp", function (t) {
-  fs.readFile('./normal.sdp', function (err, sdp) {
+  fs.readFile(__dirname + '/normal.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
       t.end();
@@ -33,7 +33,7 @@ test("identity ops on normal.sdp", function (t) {
 });
 
 test("identity ops on chrome.sdp", function (t) {
-  fs.readFile('./chrome.sdp', function (err, sdp) {
+  fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
       t.end();
