@@ -1,7 +1,7 @@
 0.3.2 / 2013-10-21
 ==================
   * Fixed a bug where large sessionId values where being rounded (#8)
-  * Optionally specify the outerOrder
+  * Optionally specify the `outerOrder` and `innerOrder` for the writer (allows working around Chrome not following the RFC specified order in #7)
 
 0.3.1 / 2013-10-19
 ==================
