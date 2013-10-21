@@ -1,3 +1,7 @@
+0.3.2 / 2013-10-21
+==================
+  * Fixed a bug where large sessionId values where being rounded (#8)
+
 0.3.1 / 2013-10-19
 ==================
   * Fixed a bug that meant the writer didn't write the last newline (#6)

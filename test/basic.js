@@ -124,6 +124,7 @@ test("chrome.sdp", function (t) {
     var media = session.media;
     t.ok(media && media.length > 0, "got media");
 
+    t.equal(session.origin.sessionId, '3710604898417546434', 'origin sessionId');
     t.ok(session.groups, "parsing session groups");
     t.equal(session.groups.length, 1, "one grouping");
     t.equal(session.groups[0].type, "BUNDLE", "grouping is BUNDLE");
