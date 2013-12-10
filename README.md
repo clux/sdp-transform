@@ -39,7 +39,7 @@ var res = transform.parse(sdpStr);
 
 res;
 { version: 0,
-  origin: 
+  origin:
    { username: '-',
      sessionId: 20518,
      sessionVersion: 0,
@@ -51,10 +51,10 @@ res;
   connection: { version: 4, ip: '203.0.113.1' },
   iceUfrag: 'F7gI',
   icePwd: 'x9cml/YzichV2+XlhiMu8g',
-  fingerprint: 
+  fingerprint:
    { type: 'sha-1',
      hash: '42:89:c5:c6:55:9d:6e:c8:e8:83:55:2a:39:f9:b6:eb:e9:a3:a9:e7' },
-  media: 
+  media:
    [ { rtp: [Object],
        fmtp: [],
        type: 'audio',
@@ -76,14 +76,14 @@ res;
 
 // each media line is parsed into the following format
 res.media[1];
-{ rtp: 
+{ rtp:
    [ { payload: 97,
        codec: 'H264',
        rate: 90000 },
      { payload: 98,
        codec: 'VP8',
        rate: 90000 } ],
-  fmtp: 
+  fmtp:
    [ { payload: 97,
        config: 'profile-level-id=4d0028;packetization-mode=1' } ],
   type: 'video',
@@ -91,7 +91,7 @@ res.media[1];
   protocol: 'RTP/SAVPF',
   payloads: '97 98',
   sendrecv: 'sendrecv',
-  candidates: 
+  candidates:
    [ { foundation: 0,
        component: 1,
        transport: 'UDP',
@@ -134,10 +134,10 @@ transform.write(res).split('\n'); // res parsed above
   'o=- 20518 0 IN IP4 203.0.113.1',
   's= ',
   'c=IN IP4 203.0.113.1',
+  't=0 0',
   'a=ice-ufrag:F7gI',
   'a=ice-pwd:x9cml/YzichV2+XlhiMu8g',
   'a=fingerprint:sha-1 42:89:c5:c6:55:9d:6e:c8:e8:83:55:2a:39:f9:b6:eb:e9:a3:a9:e7',
-  't=0 0',
   'm=audio 54400 RTP/SAVPF 0 96',
   'a=rtpmap:0 PCMU/8000',
   'a=rtpmap:96 opus/48000',
