@@ -1,3 +1,7 @@
+0.3.3 / 2013-12-10
+==================
+  * Fixed a bug that caused time description lines ("t=" and "z=") to be in the wrong place
+
 0.3.2 / 2013-10-21
 ==================
   * Fixed a bug where large sessionId values where being rounded (#8)
