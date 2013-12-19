@@ -62,7 +62,7 @@ res;
        protocol: 'RTP/SAVPF',
        payloads: '0 96',
        ptime: 20,
-       sendrecv: 'sendrecv',
+       direction: 'sendrecv',
        candidates: [Object] },
      { rtp: [Object],
        fmtp: [Object],
@@ -70,7 +70,7 @@ res;
        port: 55400,
        protocol: 'RTP/SAVPF',
        payloads: '97 98',
-       sendrecv: 'sendrecv',
+       direction: 'sendrecv',
        candidates: [Object] } ] }
 
 
@@ -90,7 +90,7 @@ res.media[1];
   port: 55400,
   protocol: 'RTP/SAVPF',
   payloads: '97 98',
-  sendrecv: 'sendrecv',
+  direction: 'sendrecv',
   candidates:
    [ { foundation: 0,
        component: 1,
