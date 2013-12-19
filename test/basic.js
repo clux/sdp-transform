@@ -36,7 +36,7 @@ test("normal.sdp", function (t) {
     t.equal(audio.type, "audio", "audio");
     t.equal(audio.port, 54400, "audio port");
     t.equal(audio.protocol, "RTP/SAVPF", "audio protocol");
-    t.equal(audio.sendrecv, "sendrecv", "audio sendrecv");
+    t.equal(audio.direction, "sendrecv", "audio direction");
     t.equal(audio.rtp[0].payload, 0, "audio rtp 0 payload");
     t.equal(audio.rtp[0].codec, "PCMU", "audio rtp 0 codec");
     t.equal(audio.rtp[0].rate, 8000, "audio rtp 0 rate");
@@ -58,7 +58,7 @@ test("normal.sdp", function (t) {
     t.equal(video.type, "video", "video");
     t.equal(video.port, 55400, "video port");
     t.equal(video.protocol, "RTP/SAVPF", "video protocol");
-    t.equal(video.sendrecv, "sendrecv", "video sendrecv");
+    t.equal(video.direction, "sendrecv", "video direction");
     t.equal(video.rtp[0].payload, 97, "video rtp 0 payload");
     t.equal(video.rtp[0].codec, "H264", "video rtp 0 codec");
     t.equal(video.rtp[0].rate, 90000, "video rtp 0 rate");
