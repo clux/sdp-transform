@@ -1,3 +1,7 @@
+0.3.4 / 2013-12-19
+==================
+  * Changed 'sendrecv' key on media streams to be called 'direction' to match SDP related RFCs (thanks to @saghul)
+
 0.3.3 / 2013-12-10
 ==================
   * Fixed a bug that caused time description lines ("t=" and "z=") to be in the wrong place
