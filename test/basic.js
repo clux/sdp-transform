@@ -109,7 +109,7 @@ test("normal.sdp", function (t) {
 
 /*
 var S = require('./'); var sdp = fs.readFileSync('./test/chrome.sdp')+'';
-S.write(S.parse(sdp)).split('\n')
+S.write(S.parse(sdp)).split('\r\n')
 */
 
 test("chrome.sdp", function (t) {
