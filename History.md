@@ -1,3 +1,8 @@
+0.5.0 / 2014-01-14
+==================
+  * Enforce spec mandated \r\n line endings over \n (#15)
+  * Parsing of opus rtpmap wrong because encoding parameters were discarded (#12)
+
 0.4.1 / 2013-12-19
 ==================
   * Changed 'sendrecv' key on media streams to be called 'direction' to match SDP related RFCs (thanks to @saghul)
