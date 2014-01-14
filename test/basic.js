@@ -138,6 +138,9 @@ test("chrome.sdp", function (t) {
     t.equal(media[0].maxptime, 60, 'maxptime parsed');
     t.equal(media[0].rtcpMux, 'rtcp-mux', 'rtcp-mux present');
 
+    t.equal(media[0].rtp[0].codec, 'opus', 'audio rtp 0 codec');
+    t.equal(media[0].rtp[0].encoding, 2, 'audio rtp 0 encoding');
+
     t.ok(media[0].ssrcs, "have ssrc lines");
     t.equal(media[0].ssrcs.length, 4, "got 4 ssrc lines");
     var ssrcs = media[0].ssrcs;
