@@ -1,3 +1,8 @@
+0.5.1 / 2014-01-16
+==================
+  * Correctly parse a=rtpmap with telephone-event codec #16
+  * Correctly parse a=rtcp lines that conditionally include the IP #16
+
 0.5.0 / 2014-01-14
 ==================
   * Enforce spec mandated \r\n line endings over \n (#15)
