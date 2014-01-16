@@ -133,6 +133,23 @@ test("chrome.sdp", function (t) {
     t.equal(session.msidSemantic.semantic, "WMS", "webrtc semantic");
     t.equal(session.msidSemantic.token, "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV", "semantic token");
 
+    // verify a=rtcp:65179 IN IP4 193.84.77.194
+    t.equal(media[0].rtcp.port, 1, 'rtcp port');
+    t.equal(media[0].rtcp.netType, 'IN', 'rtcp netType');
+    t.equal(media[0].rtcp.ipVer, 4, 'rtcp ipVer');
+    t.equal(media[0].rtcp.address, '0.0.0.0', 'rtcp address');
+
+    // and verify it works without specifying the ip
+    t.equal(media[1].rtcp.port, 12312, 'rtcp port');
+    t.equal(media[1].rtcp.netType, undefined, 'rtcp netType');
+    t.equal(media[1].rtcp.ipVer, undefined, 'rtcp ipVer');
+    t.equal(media[1].rtcp.address, undefined, 'rtcp address');
+
+    // verify a=rtpmap:126 telephone-event/8000
+    var lastRtp = media[0].rtp.length-1;
+    t.equal(media[0].rtp[lastRtp].codec, 'telephone-event', 'dtmf codec');
+    t.equal(media[0].rtp[lastRtp].rate, 8000, 'dtmf rate');
+
 
     t.equal(media[0].iceOptions, 'google-ice', "ice options parsed");
     t.equal(media[0].maxptime, 60, 'maxptime parsed');
