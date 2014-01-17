@@ -1,4 +1,8 @@
-0.5.12 / 2014-01-17
+0.5.3 / 2014-01-17
+==================
+  * ICE candidates now parsed fully (no longer ignoring optional attrs) (#13)
+
+0.5.2 / 2014-01-17
 ==================
   * Remove `util` dependency to help browserify users
   * Better parsing of `a=extmap`, `a=crypto` and `a=rtcp-fb` lines
