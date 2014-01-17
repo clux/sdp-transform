@@ -13,6 +13,9 @@
     "serializer"
   ],
   "main": "index.js",
+  "bin": {
+    "sdp-verify": "./checker.js"
+    },
   "scripts": {
     "test": "$(npm bin)/tap ./test/*.js"
   },
