@@ -1,26 +1,24 @@
 #!/usr/bin/env node
 
-var transform = require('./');
-var file = require('path').join(process.cwd(), process.argv[2]);
+var transform = require('./')
+  , file = require('path').join(process.cwd(), process.argv[2])
+  , sdp = require('fs').readFileSync(file).toString()
+  , parsed = transform.parse(sdp)
+  , written = transform.write(parsed)
+  , writtenLines = written.split('\r\n')
+  , origLines = sdp.split('\r\n')
+  , numMissing = 0
+  , numNew = 0
+  ;
 
-console.log('Verifying:', file + ':\n');
-var sdp = require('fs').readFileSync(file).toString();
 
-var parsed = transform.parse(sdp);
-var written = transform.write(parsed);
-
-var writtenLines = written.split('\r\n');
-var origLines = sdp.split('\r\n');
-
-var numMissing = 0;
 origLines.forEach(function (line, i) {
   if (writtenLines.indexOf(line) < 0) {
     console.error('l' + i + ' lost (' + line + ')');
-    numMissing = 0;
+    numMissing += 1;
   }
 });
 
-var numNew = 0;
 writtenLines.forEach(function (line, i) {
   if (origLines.indexOf(line) < 0) {
     console.error('l' + i + ' new (' + line + ')');
@@ -28,11 +26,12 @@ writtenLines.forEach(function (line, i) {
   }
 });
 
-var failed = (numMissing === 0 && numNew === 0);
+var failed = (numMissing > 0 || numNew > 0);
 if (failed) {
-  console.log('\nVerified');
+  console.log('\n' + file + ' changes during transform:');
+  console.log(numMissing + ' missing lines, ' + numNew + ' new lines')
 }
 else {
-  console.log('\nSome mismatches:', numMissing, 'missing,', numNew, 'new');
+  console.log(file + ' verified');
 }
-process.exit(failed ? 0 : 1);
+process.exit(failed ? 1 : 0);

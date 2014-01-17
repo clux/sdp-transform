@@ -1,6 +1,8 @@
-0.5.12/ 2014-01-XX
+0.5.12 / 2014-01-17
 ==================
   * Remove `util` dependency to help browserify users
+  * Better parsing of `a=extmap`, `a=crypto` and `a=rtcp-fb` lines
+  * `sdp-verify` bin file included to help discover effects of `write ∘ parse`
 
 0.5.1 / 2014-01-16
 ==================
