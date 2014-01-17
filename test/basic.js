@@ -45,13 +45,11 @@ test("normal.sdp", function (t) {
     t.equal(audio.rtp[1].rate, 48000, "audio rtp 1 rate");
     t.deepEqual(audio.ext[0], {
       value: "1",
-      uri: "URI-toffset",
-      config: ""
+      uri: "URI-toffset"
     }, "audio extension 0");
     t.deepEqual(audio.ext[1], {
       value: "2/recvonly",
-      uri: "URI-gps-string",
-      config: ""
+      uri: "URI-gps-string"
     }, "audio extension 1");
 
     var video = media[1];
