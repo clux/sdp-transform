@@ -51,3 +51,23 @@ test("identity ops on chrome.sdp", function (t) {
     t.end();
   });
 });
+
+test("identity ops on jssip.sdp", function (t) {
+  fs.readFile(__dirname + '/jssip.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.end();
+      return;
+    }
+    sdp += '';
+
+    var session = parse(sdp);
+    var newsdp = write(session);
+    var sessionNew = parse(newsdp);
+
+    t.deepEquals(session, sessionNew, "parse ∘ write ∘ parse === parse | jssip.sdp");
+    t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
+
+    t.end();
+  });
+});
