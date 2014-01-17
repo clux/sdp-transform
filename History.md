@@ -1,3 +1,7 @@
+0.5.12/ 2014-01-XX
+==================
+  * Remove `util` dependency to help browserify users
+
 0.5.1 / 2014-01-16
 ==================
   * Correctly parse a=rtpmap with telephone-event codec #16
