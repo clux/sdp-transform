@@ -186,3 +186,29 @@ test("chrome.sdp", function (t) {
     t.end();
   });
 });
+
+
+
+test("invalid.sdp", function (t) {
+  fs.readFile('./invalid.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.end();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length > 0, "got media");
+
+    // verify a=rtcp:65179 IN IP4 193.84.77.194
+    t.equal(media[0].rtcp.port, 1, 'rtcp port');
+    t.equal(media[0].rtcp.netType, 'IN', 'rtcp netType');
+    t.equal(media[0].rtcp.ipVer, 7, 'rtcp ipVer');
+    t.equal(media[0].rtcp.address, 'X', 'rtcp address');
+    t.equal(media[0].invalid.length, 1, 'found exactly 1 invalid line'); // f= lost
+    t.equal(media[0].invalid[0].value, 'goo:hithere', 'copied verbatim');
+       
+    t.end();
+  });
+});

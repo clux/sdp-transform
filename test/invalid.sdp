@@ -1,0 +1,10 @@
+v=0
+o=- 3710604898417546434 2 IN IP4 127.0.0.1
+s=-
+t=0 0
+m=audio 1 RTP/AVP 0
+c=IN IP4 0.0.0.0
+a=rtcp:1 IN IP7 X
+a=rtpmap:0 PCMU/8000
+a=goo:hithere
+f=invalid:yes

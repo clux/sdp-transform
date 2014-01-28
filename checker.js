@@ -11,6 +11,14 @@ var transform = require('./')
   , numNew = 0
   ;
 
+var parseFails = 0;
+parsed.media.forEach(function (media, i) {
+  (media.invalid || []).forEach(function (inv) {
+    console.warn('unrecognized a=' + inv.value + ' belonging to m=' + media.type);
+    parseFails += 1;
+  });
+});
+var parseStr = parseFails + ' unrecognized line(s) copied blindly';
 
 origLines.forEach(function (line, i) {
   if (writtenLines.indexOf(line) < 0) {
@@ -29,9 +37,11 @@ writtenLines.forEach(function (line, i) {
 var failed = (numMissing > 0 || numNew > 0);
 if (failed) {
   console.log('\n' + file + ' changes during transform:');
-  console.log(numMissing + ' missing lines, ' + numNew + ' new lines')
+  console.log(numMissing + ' missing line(s), ' + numNew + ' new line(s)%s',
+    parseFails > 0 ? ', ' + parseStr : ''
+  );
 }
 else {
-  console.log(file + ' verified');
+  console.log(file + ' verified%s', parseFails > 0 ? ', but had ' + parseStr : '');
 }
 process.exit(failed ? 1 : 0);
