@@ -1,3 +1,9 @@
+0.6.0 / 2014-02-18
+==================
+  * invalid a= lines are now parsed verbatim in `media[i].invalid` (#19)
+  * everything in `media[i].invalid` is written out verbatim (#19)
+  * add basic RTSP support (a=control lines) (#20)
+
 0.5.3 / 2014-01-17
 ==================
   * ICE candidates now parsed fully (no longer ignoring optional attrs) (#13)
