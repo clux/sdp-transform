@@ -1,15 +1,13 @@
-var tap = require('tap')
-  , fs = require('fs')
-  , test = tap.test
-  , main = require('../')
+var fs = require('fs')
+  , main = require(process.env.SDP_TRANSFORM_COV ? '../lib-cov' : '../')
   , parse = main.parse
   , write = main.write;
 
-test("identity ops on normal.sdp", function (t) {
+exports.normalCompose = function (t) {
   fs.readFile(__dirname + '/normal.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.end();
+      t.done();
       return;
     }
     sdp += '';
@@ -18,7 +16,7 @@ test("identity ops on normal.sdp", function (t) {
     var newsdp = write(session);
     var sessionNew = parse(newsdp);
 
-    t.deepEquals(session, sessionNew, "parse ∘ write ∘ parse === parse | normal.sdp");
+    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | normal.sdp");
     // This only tests that (parse ∘ write) == Id on the image of the parse.
 
     // It also doesn't test if (write ∘ parse) is the identity: which it isnt.
@@ -28,15 +26,15 @@ test("identity ops on normal.sdp", function (t) {
     // because our own ordering is deterministic.
     t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
 
-    t.end();
+    t.done();
   });
-});
+};
 
-test("identity ops on chrome.sdp", function (t) {
+exports.chromeCompose = function (t) {
   fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.end();
+      t.done();
       return;
     }
     sdp += '';
@@ -45,18 +43,18 @@ test("identity ops on chrome.sdp", function (t) {
     var newsdp = write(session);
     var sessionNew = parse(newsdp);
 
-    t.deepEquals(session, sessionNew, "parse ∘ write ∘ parse === parse | chrome.sdp");
+    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | chrome.sdp");
     t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
 
-    t.end();
+    t.done();
   });
-});
+};
 
-test("identity ops on jssip.sdp", function (t) {
+exports.jssipCompose = function (t) {
   fs.readFile(__dirname + '/jssip.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.end();
+      t.done();
       return;
     }
     sdp += '';
@@ -65,9 +63,9 @@ test("identity ops on jssip.sdp", function (t) {
     var newsdp = write(session);
     var sessionNew = parse(newsdp);
 
-    t.deepEquals(session, sessionNew, "parse ∘ write ∘ parse === parse | jssip.sdp");
+    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | jssip.sdp");
     t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
 
-    t.end();
+    t.done();
   });
-});
+};

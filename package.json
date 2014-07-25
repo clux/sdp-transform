@@ -12,16 +12,20 @@
     "webrtc",
     "serializer"
   ],
-  "main": "index.js",
+  "main": "./lib/",
   "bin": {
     "sdp-verify": "./checker.js"
   },
   "scripts": {
-    "test": "$(npm bin)/tap ./test/*.js"
+    "test": "nodeunit --reporter=verbose test/*.js",
+    "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test",
+    "coveralls": "npm run coverage | coveralls"
   },
   "dependencies": {},
   "devDependencies": {
-    "tap": "~0.4.4"
+    "coveralls": "^2.11.1",
+    "jscoverage": "^0.5.5",
+    "nodeunit": "^0.9.0"
   },
   "bugs": {
     "url": "http://github.com/clux/sdp-transform/issues"

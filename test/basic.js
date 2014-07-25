@@ -1,15 +1,13 @@
-var tap = require('tap')
-  , fs = require('fs')
-  , test = tap.test
-  , main = require('../')
+var fs = require('fs')
+  , main = require(process.env.SDP_TRANSFORM_COV ? '../lib-cov' : '../')
   , parse = main.parse
   , parseFmtpConfig = main.parseFmtpConfig;
 
-test("normal.sdp", function (t) {
-  fs.readFile('./normal.sdp', function (err, sdp) {
+exports.normalSdp = function (t) {
+  fs.readFile(__dirname + '/normal.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.end();
+      t.done();
       return;
     }
     var session = parse(sdp+'');
@@ -101,20 +99,20 @@ test("normal.sdp", function (t) {
 
     t.equal(media.length, 2, "got 2 m-lines");
 
-    t.end();
+    t.done();
   });
-});
+};
 
 /*
 var S = require('./'); var sdp = fs.readFileSync('./test/chrome.sdp')+'';
 S.write(S.parse(sdp)).split('\r\n')
 */
 
-test("chrome.sdp", function (t) {
-  fs.readFile('./chrome.sdp', function (err, sdp) {
+exports.chromeSdp = function (t) {
+  fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.end();
+      t.done();
       return;
     }
     var session = parse(sdp+'');
@@ -183,17 +181,15 @@ test("chrome.sdp", function (t) {
       value: "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0"
     }, "4th ssrc line");
 
-    t.end();
+    t.done();
   });
-});
+};
 
-
-
-test("invalid.sdp", function (t) {
-  fs.readFile('./invalid.sdp', function (err, sdp) {
+exports.invalidSdp = function (t) {
+  fs.readFile(__dirname + '/invalid.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.end();
+      t.done();
       return;
     }
     var session = parse(sdp+'');
@@ -209,6 +205,6 @@ test("invalid.sdp", function (t) {
     t.equal(media[0].invalid.length, 1, 'found exactly 1 invalid line'); // f= lost
     t.equal(media[0].invalid[0].value, 'goo:hithere', 'copied verbatim');
        
-    t.end();
+    t.done();
   });
-});
+};
