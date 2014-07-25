@@ -1,3 +1,7 @@
+0.6.1 / 2014-07-25
+==================
+  * Documentation and test coverage release
+
 0.6.0 / 2014-02-18
 ==================
   * invalid a= lines are now parsed verbatim in `media[i].invalid` (#19)
