@@ -1,6 +1,11 @@
-# SDP Transform [![Build Status](https://secure.travis-ci.org/clux/sdp-transform.png)](http://travis-ci.org/clux/sdp-transform) [![Dependency Status](https://david-dm.org/clux/sdp-transform.png)](https://david-dm.org/clux/sdp-transform)
+# SDP Transform
+[![npm status](http://img.shields.io/npm/v/sdp-transform.svg)](https://www.npmjs.org/package/sdp-transform)
+[![build status](https://secure.travis-ci.org/clux/sdp-transform.svg)](http://travis-ci.org/clux/sdp-transform)
+[![dependency status](https://david-dm.org/clux/sdp-transform.svg)](https://david-dm.org/clux/sdp-transform)
+[![coverage status](http://img.shields.io/coveralls/clux/sdp-transform.svg)](https://coveralls.io/r/clux/sdp-transform)
+[![unstable](http://img.shields.io/badge/stability-unstable-E5AE13.svg)](http://nodejs.org/api/documentation.html#documentation_stability_index)
 
-A simple parser and writer of SDP. Defines internal grammar based on [RFC4566 - SDP](http://tools.ietf.org/html/rfc4566), and [RFC5245 - ICE](http://tools.ietf.org/html/rfc5245).
+A simple parser and writer of SDP. Defines internal grammar based on [RFC4566 - SDP](http://tools.ietf.org/html/rfc4566), [RFC5245 - ICE](http://tools.ietf.org/html/rfc5245), and many more.
 
 For simplicity it will force values that are integers to integers and leave everything else as strings when parsing. The module should be simple to extend or build upon, and is constructed rigorously.
 
