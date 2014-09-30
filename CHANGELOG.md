@@ -1,3 +1,7 @@
+1.0.0 / 2014-09-30
+==================
+  * Be more lenient with nelines. Allow \r\n, \r or \n.
+
 0.6.1 / 2014-07-25
 ==================
   * Documentation and test coverage release
