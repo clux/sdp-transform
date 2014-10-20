@@ -1,3 +1,7 @@
+1.1.0 / 2014-10-20
+==================
+  * Add support for parsing session level `a=ice-lite`
+
 1.0.0 / 2014-09-30
 ==================
   * Be more lenient with nelines. Allow \r\n, \r or \n.

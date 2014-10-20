@@ -198,7 +198,7 @@ exports.iceliteSdp = function (t) {
     t.equal(session.icelite, 'ice-lite', 'icelite parsed');
 
     var rew = write(session);
-    t.ok(rew.indexOf("a=ice-lite") >= 0, "got ice-lite");
+    t.ok(rew.indexOf("a=ice-lite\r\n") >= 0, "got ice-lite");
     t.ok(rew.indexOf("m=") > rew.indexOf("a=ice-lite"), 'session level icelite');
     t.done();
   });
