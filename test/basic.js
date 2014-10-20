@@ -1,6 +1,7 @@
 var fs = require('fs')
   , main = require(process.env.SDP_TRANSFORM_COV ? '../lib-cov' : '../')
   , parse = main.parse
+  , write = main.write
   , parseFmtpConfig = main.parseFmtpConfig;
 
 exports.normalSdp = function (t) {
@@ -181,6 +182,24 @@ exports.chromeSdp = function (t) {
       value: "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0"
     }, "4th ssrc line");
 
+    t.done();
+  });
+};
+
+exports.iceliteSdp = function (t) {
+  fs.readFile(__dirname + '/icelite.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    t.equal(session.icelite, 'ice-lite', 'icelite parsed');
+
+    var rew = write(session);
+    t.ok(rew.indexOf("a=ice-lite") >= 0, "got ice-lite");
+    t.ok(rew.indexOf("m=") > rew.indexOf("a=ice-lite"), 'session level icelite');
     t.done();
   });
 };
