@@ -1,3 +1,8 @@
+1.2.0 / 2015-03-05
+==================
+  * a=msid attributes support and msid-semantic improvements
+  * writer now ignores `undefined` or `null` values
+
 1.1.0 / 2014-10-20
 ==================
   * Add support for parsing session level `a=ice-lite`
