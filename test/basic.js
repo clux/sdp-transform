@@ -227,3 +227,60 @@ exports.invalidSdp = function (t) {
     t.done();
   });
 };
+
+exports.jssipSdp = function (t) {
+  fs.readFile(__dirname + '/jssip.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length > 0, "got media");
+
+    var audio = media[0];
+    var audCands = audio.candidates;
+    t.equal(audCands.length, 6, '6 candidates');
+
+    // testing ice optionals:
+    t.deepEqual(audCands[0], {
+        foundation: 1162875081,
+        component: 1,
+        transport: 'udp',
+        priority: 2113937151,
+        ip: '192.168.34.75',
+        port: 60017,
+        type: 'host',
+        generation: 0
+      }, "audio candidate 0"
+    );
+    t.deepEqual(audCands[2], {
+        foundation: 3289912957,
+        component: 1,
+        transport: 'udp',
+        priority: 1845501695,
+        ip: '193.84.77.194',
+        port: 60017,
+        type: 'srflx',
+        raddr: '192.168.34.75',
+        rport: 60017,
+        generation: 0
+      }, "audio candidate 2 (raddr rport)"
+    );
+    t.deepEqual(audCands[4], {
+        foundation: 198437945,
+        component: 1,
+        transport: 'tcp',
+        priority: 1509957375,
+        ip: '192.168.34.75',
+        port: 0,
+        type: 'host',
+        generation: 0
+      }, "audio candidate 4 (tcp)"
+    );
+
+    t.done();
+  });
+};
