@@ -1,3 +1,7 @@
+1.2.1 / 2015-03-15
+==================
+  * Add parsing for a=ssrc-group
+
 1.2.0 / 2015-03-05
 ==================
   * a=msid attributes support and msid-semantic improvements
