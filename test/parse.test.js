@@ -104,11 +104,6 @@ exports.normalSdp = function (t) {
   });
 };
 
-/*
-var S = require('./'); var sdp = fs.readFileSync('./test/chrome.sdp')+'';
-S.write(S.parse(sdp)).split('\r\n')
-*/
-
 exports.chromeSdp = function (t) {
   fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
     if (err) {
