@@ -69,3 +69,23 @@ exports.jssipCompose = function (t) {
     t.done();
   });
 };
+
+exports.jsepCompose = function (t) {
+  fs.readFile(__dirname + '/jsep.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    sdp += '';
+
+    var session = parse(sdp);
+    var newsdp = write(session);
+    var sessionNew = parse(newsdp);
+
+    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | jsep.sdp");
+    t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
+
+    t.done();
+  });
+};
