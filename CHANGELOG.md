@@ -1,3 +1,7 @@
+1.3.0 / 2015-03-16
+==================
+  * Add support for `a=end-of-candidates` trickle ice attribute
+
 1.2.1 / 2015-03-15
 ==================
   * Add parsing for a=ssrc-group
