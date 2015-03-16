@@ -223,7 +223,7 @@ exports.invalidSdp = function (t) {
     t.equal(media[0].rtcp.address, 'X', 'rtcp address');
     t.equal(media[0].invalid.length, 1, 'found exactly 1 invalid line'); // f= lost
     t.equal(media[0].invalid[0].value, 'goo:hithere', 'copied verbatim');
-       
+
     t.done();
   });
 };
@@ -280,6 +280,44 @@ exports.jssipSdp = function (t) {
         generation: 0
       }, "audio candidate 4 (tcp)"
     );
+
+    t.done();
+  });
+};
+
+
+exports.jsepSdp = function (t) {
+  fs.readFile(__dirname + '/jsep.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length === 2, "got media");
+
+    var video = media[1];
+    t.equal(video.ssrcGroups.length, 1, '1 ssrc grouping')
+    t.deepEqual(video.ssrcGroups[0], {
+        semantics: 'FID',
+        ssrcs: '1366781083 1366781084'
+      }, 'ssrc-group'
+    );
+
+    t.equal(video.msid,
+      '61317484-2ed4-49d7-9eb7-1414322a7aae f30bdb4a-5db8-49b5-bcdc-e0c9a23172e0'
+      , 'msid'
+    );
+
+    // video.invalids contains 'end-of-candidates'
+    // we want to ensure this comes after the candidate lines
+    // so this is the only place we actually test the writer in here
+    t.ok(video.endOfCandidates, "have end of candidates marker");
+    var rewritten = write(session).split('\r\n');
+    var idx = rewritten.indexOf('a=end-of-candidates');
+    t.equal(rewritten[idx-1].slice(0, 11), 'a=candidate', 'marker after candidate');
 
     t.done();
   });
