@@ -3,20 +3,19 @@ var fs = require('fs')
   , parse = main.parse
   , write = main.write;
 
-exports.normalCompose = function (t) {
-  fs.readFile(__dirname + '/normal.sdp', function (err, sdp) {
+var verifyCompose = function (file, t) {
+  fs.readFile(__dirname + '/' + file, function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
+      return t.done();
     }
     sdp += '';
 
-    var session = parse(sdp);
-    var newsdp = write(session);
-    var sessionNew = parse(newsdp);
+    var obj = parse(sdp);
+    var sdp2 = write(obj);
+    var obj2 = parse(sdp2);
 
-    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | normal.sdp");
+    t.deepEqual(obj, obj2, "parse ∘ write ∘ parse === parse | " + file);
     // This only tests that (parse ∘ write) == Id on the image of the parse.
 
     // It also doesn't test if (write ∘ parse) is the identity: which it isnt.
@@ -24,68 +23,24 @@ exports.normalCompose = function (t) {
 
     // However: (write ∘ parse) should be the identity on the image of write
     // because our own ordering is deterministic.
-    t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
-
+    t.equal(sdp2, write(obj2), "write ∘ parse === Id on Im(write) for " + file);
     t.done();
-  });
+  })
+};
+
+
+exports.normalCompose = function (t) {
+  verifyCompose('normal.sdp', t);
 };
 
 exports.chromeCompose = function (t) {
-  fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
-    sdp += '';
-
-    var session = parse(sdp);
-    var newsdp = write(session);
-    var sessionNew = parse(newsdp);
-
-    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | chrome.sdp");
-    t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
-
-    t.done();
-  });
+  verifyCompose('chrome.sdp', t);
 };
 
 exports.jssipCompose = function (t) {
-  fs.readFile(__dirname + '/jssip.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
-    sdp += '';
-
-    var session = parse(sdp);
-    var newsdp = write(session);
-    var sessionNew = parse(newsdp);
-
-    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | jssip.sdp");
-    t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
-
-    t.done();
-  });
+  verifyCompose('jssip.sdp', t);
 };
 
 exports.jsepCompose = function (t) {
-  fs.readFile(__dirname + '/jsep.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
-    sdp += '';
-
-    var session = parse(sdp);
-    var newsdp = write(session);
-    var sessionNew = parse(newsdp);
-
-    t.deepEqual(session, sessionNew, "parse ∘ write ∘ parse === parse | jsep.sdp");
-    t.equal(newsdp, write(sessionNew), "write ∘ parse === Id on image of write");
-
-    t.done();
-  });
+  verifyCompose('jsep.sdp', t);
 };

@@ -24,15 +24,15 @@ exports.normalSdp = function (t) {
     t.equal(session.origin.ipVer, 4, 'origin ipVer');
     t.equal(session.origin.address, '203.0.113.1', 'origin address');
 
-    t.equal(session.connection.ip, '203.0.113.1');
-    t.equal(session.connection.version, 4);
+    t.equal(session.connection.ip, '203.0.113.1', 'session connect ip');
+    t.equal(session.connection.version, 4, 'session connect ip ver');
 
     // global ICE and fingerprint
     t.equal(session.iceUfrag, "F7gI", "global ufrag");
     t.equal(session.icePwd, "x9cml/YzichV2+XlhiMu8g", "global pwd");
 
     var audio = media[0];
-    t.equal(audio.type, "audio", "audio");
+    t.equal(audio.type, "audio", "audio type");
     t.equal(audio.port, 54400, "audio port");
     t.equal(audio.protocol, "RTP/SAVPF", "audio protocol");
     t.equal(audio.direction, "sendrecv", "audio direction");
@@ -52,7 +52,7 @@ exports.normalSdp = function (t) {
     }, "audio extension 1");
 
     var video = media[1];
-    t.equal(video.type, "video", "video");
+    t.equal(video.type, "video", "video type");
     t.equal(video.port, 55400, "video port");
     t.equal(video.protocol, "RTP/SAVPF", "video protocol");
     t.equal(video.direction, "sendrecv", "video direction");
