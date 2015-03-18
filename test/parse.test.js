@@ -306,7 +306,9 @@ exports.jsepSdp = function (t) {
       , 'msid'
     );
 
-    // video.invalids contains 'end-of-candidates'
+    t.ok(video.rtcpRsize, 'rtcp-rsize present');
+
+    // video contains 'a=end-of-candidates'
     // we want to ensure this comes after the candidate lines
     // so this is the only place we actually test the writer in here
     t.ok(video.endOfCandidates, "have end of candidates marker");

@@ -1,3 +1,7 @@
+1.4.0 / 2015-03-1X
+==================
+  * Add support for `a=rtcp-rsize`
+
 1.3.0 / 2015-03-16
 ==================
   * Add support for `a=end-of-candidates` trickle ice attribute
