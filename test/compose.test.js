@@ -28,7 +28,6 @@ var verifyCompose = function (file, t) {
   })
 };
 
-
 exports.normalCompose = function (t) {
   verifyCompose('normal.sdp', t);
 };
