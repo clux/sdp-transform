@@ -18,6 +18,7 @@ a=candidate:1 2 UDP 2113667326 203.0.113.1 54401 typ host
 m=video 55400 RTP/SAVPF 97 98
 a=rtpmap:97 H264/90000
 a=fmtp:97 profile-level-id=4d0028;packetization-mode=1
+a=fmtp:111 minptime=10; useinbandfec=1
 a=rtpmap:98 VP8/90000
 a=rtcp-fb:* nack
 a=rtcp-fb:98 nack rpsi

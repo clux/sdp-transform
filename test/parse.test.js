@@ -4,6 +4,8 @@ var fs = require('fs')
   , write = main.write
   , parseFmtpConfig = main.parseFmtpConfig;
 
+// some random sdp that keps having random attributes attached to it
+// so we can test that the grammar works as intended
 exports.normalSdp = function (t) {
   fs.readFile(__dirname + '/normal.sdp', function (err, sdp) {
     if (err) {
@@ -63,6 +65,10 @@ exports.normalSdp = function (t) {
     var vidFmtp = parseFmtpConfig(video.fmtp[0].config);
     t.equal(vidFmtp['profile-level-id'], "4d0028", "video fmtp 0 profile-level-id");
     t.equal(vidFmtp['packetization-mode'], 1, "video fmtp 0 packetization-mode");
+    t.equal(video.fmtp[1].payload, 111, "video fmtp 1 payload");
+    var vidFmtp2 = parseFmtpConfig(video.fmtp[1].config);
+    t.equal(vidFmtp2.minptime, 10, "video fmtp 1 minptime");
+    t.equal(vidFmtp2.useinbandfec, 1, "video fmtp 1 useinbandfec");
     t.equal(video.rtp[1].payload, 98, "video rtp 1 payload");
     t.equal(video.rtp[1].codec, "VP8", "video rtp 1 codec");
     t.equal(video.rtp[1].rate, 90000, "video rtp 1 rate");
