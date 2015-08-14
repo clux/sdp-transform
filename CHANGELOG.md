@@ -1,3 +1,8 @@
+1.4.1 / 2015-08-14
+==================
+  * Proper handling of whitespaces in a=fmtp: lines #29 - via @bgrozev
+  * `parseFmtpConfig` helper also handles whitespaces properly
+
 1.4.0 / 2015-03-18
 ==================
   * Add support for `a=rtcp-rsize`
