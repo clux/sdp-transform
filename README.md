@@ -3,7 +3,6 @@
 [![build status](https://secure.travis-ci.org/clux/sdp-transform.svg)](http://travis-ci.org/clux/sdp-transform)
 [![dependency status](https://david-dm.org/clux/sdp-transform.svg)](https://david-dm.org/clux/sdp-transform)
 [![coverage status](http://img.shields.io/coveralls/clux/sdp-transform.svg)](https://coveralls.io/r/clux/sdp-transform)
-[![unstable](http://img.shields.io/badge/stability-unstable-E5AE13.svg)](http://nodejs.org/api/documentation.html#documentation_stability_index)
 
 A simple parser and writer of SDP. Defines internal grammar based on [RFC4566 - SDP](http://tools.ietf.org/html/rfc4566), [RFC5245 - ICE](http://tools.ietf.org/html/rfc5245), and many more.
 

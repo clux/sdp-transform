@@ -3,7 +3,6 @@
   "description": "A simple parser/writer for the Session Description Protocol",
   "author": "Eirik Albrigtsen <analsandblaster@gmail.com>",
   "version": "1.4.1",
-  "stability": "unstable",
   "repository": {
     "type": "git",
     "url": "clux/sdp-transform"
