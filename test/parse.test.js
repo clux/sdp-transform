@@ -325,3 +325,30 @@ exports.jsepSdp = function (t) {
     t.done();
   });
 };
+
+exports.alacSdp = function (t) {
+  fs.readFile(__dirname + '/alac.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length > 0, "got media");
+
+    console.log(require('util').inspect(session, {depth: null}));
+
+    var audio = media[0];
+    t.equal(audio.type, "audio", "audio type");
+    t.equal(audio.protocol, "RTP/AVP", "audio protocol");
+    t.equal(audio.fmtp[0].payload, 96, "audio fmtp 0 payload");
+    t.equal(audio.fmtp[0].config, "352 0 16 40 10 14 2 255 0 0 44100", "audio fmtp 0 config");
+    t.equal(audio.rtp[0].payload, 96, "audio rtp 0 payload");
+    t.equal(audio.rtp[0].codec, "AppleLossless", "audio rtp 0 codec");
+    t.equal(audio.rtp[0].rate, undefined, "audio rtp 0 rate");
+
+    t.done();
+  });
+};
