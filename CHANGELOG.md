@@ -1,3 +1,7 @@
+1.5.0 / 2015-09-05
+==================
+  * Suport AirTunes a=rtpmap lines without clockrate #30 - via @DuBistKomisch
+
 1.4.1 / 2015-08-14
 ==================
   * Proper handling of whitespaces in a=fmtp: lines #29 - via @bgrozev
