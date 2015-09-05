@@ -338,8 +338,6 @@ exports.alacSdp = function (t) {
     var media = session.media;
     t.ok(media && media.length > 0, "got media");
 
-    console.log(require('util').inspect(session, {depth: null}));
-
     var audio = media[0];
     t.equal(audio.type, "audio", "audio type");
     t.equal(audio.protocol, "RTP/AVP", "audio protocol");
@@ -348,6 +346,7 @@ exports.alacSdp = function (t) {
     t.equal(audio.rtp[0].payload, 96, "audio rtp 0 payload");
     t.equal(audio.rtp[0].codec, "AppleLossless", "audio rtp 0 codec");
     t.equal(audio.rtp[0].rate, undefined, "audio rtp 0 rate");
+    t.equal(audio.rtp[0].encoding, undefined, "audio rtp 0 encoding");
 
     t.done();
   });

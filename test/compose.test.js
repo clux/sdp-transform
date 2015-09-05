@@ -25,7 +25,7 @@ var verifyCompose = function (file, t) {
     // because our own ordering is deterministic.
     t.equal(sdp2, write(obj2), "write ∘ parse === Id on Im(write) for " + file);
     t.done();
-  })
+  });
 };
 
 exports.normalCompose = function (t) {
@@ -42,4 +42,8 @@ exports.jssipCompose = function (t) {
 
 exports.jsepCompose = function (t) {
   verifyCompose('jsep.sdp', t);
+};
+
+exports.alacCompose = function (t) {
+  verifyCompose('alac.sdp', t);
 };
