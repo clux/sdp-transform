@@ -1,3 +1,7 @@
+1.5.1 / 2015-11-15
+==================
+  * Added `.npmignore`
+
 1.5.0 / 2015-09-05
 ==================
   * Suport AirTunes a=rtpmap lines without clockrate #30 - via @DuBistKomisch
