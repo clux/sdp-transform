@@ -136,6 +136,7 @@ exports.chromeSdp = function (t) {
     t.equal(media[0].rtcp.netType, 'IN', 'rtcp netType');
     t.equal(media[0].rtcp.ipVer, 4, 'rtcp ipVer');
     t.equal(media[0].rtcp.address, '0.0.0.0', 'rtcp address');
+    t.equal(media[0].candidates[1].tcptype, 'active');
 
     // and verify it works without specifying the ip
     t.equal(media[1].rtcp.port, 12312, 'rtcp port');
