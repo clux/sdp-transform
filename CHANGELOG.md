@@ -1,3 +1,7 @@
+1.5.2 / 2015-11-17
+==================
+  * Parse tcp ice-candidates lines correctly - #35 via @virtuacoplenny
+
 1.5.1 / 2015-11-15
 ==================
   * Added `.npmignore`
