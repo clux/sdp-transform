@@ -110,6 +110,10 @@ exports.normalSdp = function (t) {
   });
 };
 
+/* Test for an sdp that started out as something from chrome
+ * it's since been hacked to include tests for other stuff
+ * ignore the name
+ */
 exports.chromeSdp = function (t) {
   fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
     if (err) {
@@ -136,11 +140,27 @@ exports.chromeSdp = function (t) {
     t.equal(media[0].rtcp.netType, 'IN', 'rtcp netType');
     t.equal(media[0].rtcp.ipVer, 4, 'rtcp ipVer');
     t.equal(media[0].rtcp.address, '0.0.0.0', 'rtcp address');
+
+    // verify ice tcp types
     t.equal(media[0].candidates[0].tcptype, null, 'no tcptype');
     t.equal(media[0].candidates[1].tcptype, 'active', 'active tcptype');
     t.equal(media[0].candidates[1].transport, 'tcp', 'tcp transport');
     t.equal(media[0].candidates[1].generation, 0, 'generation 0');
     t.equal(media[0].candidates[1].type, 'host', 'tcp host');
+    t.equal(media[0].candidates[1].generation, '0', 'tcptype generation');
+    t.equal(media[0].candidates[2].type, 'host', 'tcp host');
+    t.equal(media[0].candidates[2].tcptype, 'active', 'active tcptype');
+    t.equal(media[0].candidates[3].tcptype, 'passive', 'passive tcptype');
+    t.equal(media[0].candidates[4].tcptype, 'so', 'so tcptype');
+    // raddr + rport + tcptype + generation
+    t.equal(media[0].candidates[5].type, 'srflx', 'tcp srflx');
+    t.equal(media[0].candidates[5].rport, 9, 'tcp rport');
+    t.equal(media[0].candidates[5].raddr, '10.0.1.1', 'tcp raddr');
+    t.equal(media[0].candidates[5].tcptype, 'active', 'active tcptype');
+    t.equal(media[0].candidates[6].tcptype, 'passive', 'passive tcptype');
+    t.equal(media[0].candidates[6].rport, 8998, 'tcp rport');
+    t.equal(media[0].candidates[6].raddr, '10.0.1.1', 'tcp raddr');
+    t.equal(media[0].candidates[6].generation, 5, 'tcp generation');
 
     // and verify it works without specifying the ip
     t.equal(media[1].rtcp.port, 12312, 'rtcp port');
