@@ -1,3 +1,7 @@
+1.5.3 / 2015-11-25
+==================
+ * Parse tcp ice-candidates with raddr + rport correctly - #37 via @damencho
+
 1.5.2 / 2015-11-17
 ==================
   * Parse tcp ice-candidates lines correctly - #35 via @virtuacoplenny
