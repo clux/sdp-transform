@@ -27,7 +27,7 @@ exports.normalCoverage = function (t) {
 };
 
 exports.chromeCoverage = function (t) {
-  verifyCoverage('chrome.sdp', t);
+  verifyCoverage('hacky.sdp', t);
 };
 
 exports.jssipCoverage = function (t) {

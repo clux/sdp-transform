@@ -114,8 +114,8 @@ exports.normalSdp = function (t) {
  * it's since been hacked to include tests for other stuff
  * ignore the name
  */
-exports.chromeSdp = function (t) {
-  fs.readFile(__dirname + '/chrome.sdp', function (err, sdp) {
+exports.hackySdp = function (t) {
+  fs.readFile(__dirname + '/hacky.sdp', function (err, sdp) {
     if (err) {
       t.ok(false, "failed to read file:" + err);
       t.done();

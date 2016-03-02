@@ -33,7 +33,7 @@ exports.normalCompose = function (t) {
 };
 
 exports.chromeCompose = function (t) {
-  verifyCompose('chrome.sdp', t);
+  verifyCompose('hacky.sdp', t);
 };
 
 exports.jssipCompose = function (t) {
