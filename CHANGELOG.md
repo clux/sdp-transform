@@ -1,3 +1,7 @@
+1.6.0 / 2016-03-02
+==================
+  * Add support for `a=sctpmap` - #41 via @6uliver
+
 1.5.3 / 2015-11-25
 ==================
  * Parse tcp ice-candidates with raddr + rport correctly - #37 via @damencho
