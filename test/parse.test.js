@@ -208,6 +208,12 @@ exports.chromeSdp = function (t) {
       value: "Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0"
     }, "4th ssrc line");
 
+    // verify a=sctpmap:5000 webrtc-datachannel 1024
+    t.ok(media[2].sctpmap, 'we have sctpmap');
+    t.equal(media[2].sctpmap.sctpmapNumber, 5000, 'sctpmap number is 5000');
+    t.equal(media[2].sctpmap.app, 'webrtc-datachannel', 'sctpmap app is webrtc-datachannel');
+    t.equal(media[2].sctpmap.maxMessageSize, 1024, 'sctpmap maxMessageSize is 1024');
+
     t.done();
   });
 };
