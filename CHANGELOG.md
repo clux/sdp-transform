@@ -1,3 +1,7 @@
+1.6.1 / 2016-03-18
+==================
+  * Fix parsing of fmtp parameters with base64 in `parseFmtpConfig` - #42 via @lmoj
+
 1.6.0 / 2016-03-02
 ==================
   * Add support for `a=sctpmap` - #41 via @6uliver
