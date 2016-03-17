@@ -65,6 +65,8 @@ exports.normalSdp = function (t) {
     var vidFmtp = parseFmtpConfig(video.fmtp[0].config);
     t.equal(vidFmtp['profile-level-id'], "4d0028", "video fmtp 0 profile-level-id");
     t.equal(vidFmtp['packetization-mode'], 1, "video fmtp 0 packetization-mode");
+    t.equal(vidFmtp['sprop-parameter-sets'], "Z0IAH5WoFAFuQA==,aM48gA==",
+      "video fmtp 0 sprop-parameter-sets");
     t.equal(video.fmtp[1].payload, 111, "video fmtp 1 payload");
     var vidFmtp2 = parseFmtpConfig(video.fmtp[1].config);
     t.equal(vidFmtp2.minptime, 10, "video fmtp 1 minptime");
