@@ -384,3 +384,44 @@ exports.alacSdp = function (t) {
     t.done();
   });
 };
+
+exports.onvifSdp = function (t) {
+  fs.readFile(__dirname + '/onvif.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length > 0, "got media");
+
+    var audio = media[0];
+    t.equal(audio.type, "audio", "audio type");
+    t.equal(audio.port, 0, "audio port");
+    t.equal(audio.protocol, "RTP/AVP", "audio protocol");
+    t.equal(audio.control, "rtsp://example.com/onvif_camera/audio", "audio control");
+    t.equal(audio.payloads, 0, "audio payloads");
+
+    var video = media[1];
+    t.equal(video.type, "video", "video type");
+    t.equal(video.port, 0, "video port");
+    t.equal(video.protocol, "RTP/AVP", "video protocol");
+    t.equal(video.control, "rtsp://example.com/onvif_camera/video", "video control");
+    t.equal(video.payloads, 26, "video payloads");
+
+    var application = media[2];
+    t.equal(application.type, "application", "application type");
+    t.equal(application.port, 0, "application port");
+    t.equal(application.protocol, "RTP/AVP", "application protocol");
+    t.equal(application.control, "rtsp://example.com/onvif_camera/metadata", "application control");
+    t.equal(application.payloads, 107, "application payloads");
+    t.equal(application.direction, "recvonly", "application direction");
+    t.equal(application.rtp[0].payload, 107, "application rtp 0 payload");
+    t.equal(application.rtp[0].codec, "vnd.onvif.metadata", "application rtp 0 codec");
+    t.equal(application.rtp[0].rate, 90000, "application rtp 0 rate");
+    t.equal(application.rtp[0].encoding, undefined, "application rtp 0 encoding");
+    t.done();
+  });
+};
