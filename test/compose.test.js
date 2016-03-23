@@ -47,3 +47,7 @@ exports.jsepCompose = function (t) {
 exports.alacCompose = function (t) {
   verifyCompose('alac.sdp', t);
 };
+
+exports.onvifCompose = function (t) {
+  verifyCompose('onvif.sdp', t);
+};
