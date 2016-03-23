@@ -1,3 +1,7 @@
+1.6.2 / 2016-03-23
+==================
+  * Fix `a=rtpmap` parsing when codec included dots - #44 via @alexanderklintstrom
+
 1.6.1 / 2016-03-18
 ==================
   * Fix parsing of fmtp parameters with base64 in `parseFmtpConfig` - #42 via @lmoj
