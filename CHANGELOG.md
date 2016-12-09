@@ -1,3 +1,8 @@
+1.7.0 / 2016-12-09
+==================
+  * a=ssrc lines now properly handle attributes without values - #40 via @zxcpoiu
+  * a=candidate now supports network-id and network-cost values - #49 via @zxcpoiu
+
 1.6.2 / 2016-03-23
 ==================
   * Fix `a=rtpmap` parsing when codec included dots - #44 via @alexanderklintstrom
