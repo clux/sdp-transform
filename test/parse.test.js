@@ -101,7 +101,7 @@ exports.normalSdp = function (t) {
     [audio.candidates, video.candidates].forEach(function (cs, i) {
       var str = (i === 0) ? "audio " : "video ";
       var port = (i === 0) ? 54400 : 55400;
-      t.equal(cs.length, 2, str + "got 2 candidates");
+      t.equal(cs.length, 4, str + "got 4 candidates");
       t.equal(cs[0].foundation, 0, str + "ice candidate 0 foundation");
       t.equal(cs[0].component, 1, str + "ice candidate 0 component");
       t.equal(cs[0].transport, "UDP", str + "ice candidate 0 transport");
@@ -116,6 +116,30 @@ exports.normalSdp = function (t) {
       t.equal(cs[1].ip, "203.0.113.1", str + "ice candidate 1 ip");
       t.equal(cs[1].port, port+1, str + "ice candidate 1 port");
       t.equal(cs[1].type, "host", str + "ice candidate 1 type");
+      t.equal(cs[2].foundation, 2, str + "ice candidate 2 foundation");
+      t.equal(cs[2].component, 1, str + "ice candidate 2 component");
+      t.equal(cs[2].transport, "UDP", str + "ice candidate 2 transport");
+      t.equal(cs[2].priority, 1686052607, str + "ice candidate 2 priority");
+      t.equal(cs[2].ip, "203.0.113.1", str + "ice candidate 2 ip");
+      t.equal(cs[2].port, port+2, str + "ice candidate 2 port");
+      t.equal(cs[2].type, "srflx", str + "ice candidate 2 type");
+      t.equal(cs[2].raddr, "192.168.1.145", str + "ice candidate 2 raddr");
+      t.equal(cs[2].rport, port+2, str + "ice candidate 2 rport");
+      t.equal(cs[2].generation, 0, str + "ice candidate 2 generation");
+      t.equal(cs[2]['network-id'], 3, str + "ice candidate 2 network-id");
+      t.equal(cs[2]['network-cost'], (i === 0 ? 10 : undefined), str + "ice candidate 2 network-cost");
+      t.equal(cs[3].foundation, 3, str + "ice candidate 3 foundation");
+      t.equal(cs[3].component, 2, str + "ice candidate 3 component");
+      t.equal(cs[3].transport, "UDP", str + "ice candidate 3 transport");
+      t.equal(cs[3].priority, 1686052606, str + "ice candidate 3 priority");
+      t.equal(cs[3].ip, "203.0.113.1", str + "ice candidate 3 ip");
+      t.equal(cs[3].port, port+3, str + "ice candidate 3 port");
+      t.equal(cs[3].type, "srflx", str + "ice candidate 3 type");
+      t.equal(cs[3].raddr, "192.168.1.145", str + "ice candidate 3 raddr");
+      t.equal(cs[3].rport, port+3, str + "ice candidate 3 rport");
+      t.equal(cs[3].generation, 0, str + "ice candidate 3 generation");
+      t.equal(cs[3]['network-id'], 3, str + "ice candidate 3 network-id");
+      t.equal(cs[3]['network-cost'], (i === 0 ? 10 : undefined), str + "ice candidate 3 network-cost");
     });
 
     t.equal(media.length, 2, "got 2 m-lines");
