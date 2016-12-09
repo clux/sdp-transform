@@ -27,3 +27,5 @@ a=crypto:1 AES_CM_128_HMAC_SHA1_32 inline:keNcG3HezSNID7LmfDa9J4lfdUL8W1F7TNJKcb
 a=sendrecv
 a=candidate:0 1 UDP 2113667327 203.0.113.1 55400 typ host
 a=candidate:1 2 UDP 2113667326 203.0.113.1 55401 typ host
+a=ssrc:1399694169 foo:bar
+a=ssrc:1399694169 baz
