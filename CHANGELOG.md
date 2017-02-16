@@ -1,3 +1,8 @@
+2.0.0 / 2017-02-16
+==================
+  * a=extmap lines now parsed into a 4 object struct rather than a broken 3 object compound struct - #51 via @ibc
+  * this is unlikely to be breaking, but we major bumped just to be sure
+
 1.7.0 / 2016-12-09
 ==================
   * a=ssrc lines now properly handle attributes without values - #40 via @zxcpoiu
