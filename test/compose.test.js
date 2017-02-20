@@ -51,3 +51,7 @@ exports.alacCompose = function (t) {
 exports.onvifCompose = function (t) {
   verifyCompose('onvif.sdp', t);
 };
+
+exports.onvifCompose = function (t) {
+  verifyCompose('ssrc.sdp', t);
+};

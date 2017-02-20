@@ -462,3 +462,32 @@ exports.onvifSdp = function (t) {
     t.done();
   });
 };
+
+
+exports.ssrcSdp = function (t) {
+  fs.readFile(__dirname + '/ssrc.sdp', function (err, sdp) {
+    if (err) {
+      t.ok(false, "failed to read file:" + err);
+      t.done();
+      return;
+    }
+    var session = parse(sdp+'');
+    t.ok(session, "got session info");
+    var media = session.media;
+    t.ok(media && media.length > 0, "got media");
+
+    t.equal(media[0].invalids, null, "no invalids in audio m line");
+    t.equal(media[1].invalids, null, "no invalids in video m line");
+
+    var video = media[1];
+    t.equal(video.ssrcGroups.length, 2, "video got 2 ssrc-group lines");
+
+    var expectedSsrc = [
+      { semantics: 'FID', ssrcs: '3004364195 1126032854' },
+      { semantics: 'FEC-FR', ssrcs: '3004364195 1080772241' }
+    ];
+    t.deepEqual(video.ssrcGroups, expectedSsrc, "video ssrc-group obj");
+
+    t.done();
+  });
+};
