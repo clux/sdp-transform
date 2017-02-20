@@ -1,39 +1,36 @@
-var fs = require('fs')
-  , main = require(process.env.SDP_TRANSFORM_COV ? '../lib-cov' : '../')
+var fs = require('co-fs')
+  , test = require('bandage')
+  , main = require('..')
   , parse = main.parse
   , write = main.write;
 
-var verifyCoverage = function (file, t) {
-  fs.readFile(__dirname + '/' + file, function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      return t.done();
+var verifyCoverage = function *(file, t) {
+  var sdp = yield fs.readFile(__dirname + '/' + file, 'utf8');
+  var obj = parse(sdp);
+  obj.media.forEach(function (m) {
+    t.ok(!m.invalid, "no invalids in " + file + " at m=" + m.type);
+    if (Array.isArray(m.invalid)) {
+      t.deepEqual(m.invalid, [], "no invalids in " + file + " at m=" + m.type);
     }
-    sdp += '';
-
-    var obj = parse(sdp);
-    obj.media.forEach(function (m) {
-      t.ok(!m.invalid, "no invalids in " + file + " at m=" + m.type);
-      if (Array.isArray(m.invalid)) {
-        t.deepEqual(m.invalid, [], "no invalids in " + file + " at m=" + m.type);
-      }
-    });
-    t.done();
-  })
+  });
 };
 
-exports.normalCoverage = function (t) {
-  verifyCoverage('normal.sdp', t);
-};
+test('normalCoverage', function *(t) {
+  yield verifyCoverage('normal.sdp', t);
+});
 
-exports.chromeCoverage = function (t) {
-  verifyCoverage('hacky.sdp', t);
-};
+test('chromeCoverage', function *(t) {
+  yield verifyCoverage('hacky.sdp', t);
+});
 
-exports.jssipCoverage = function (t) {
-  verifyCoverage('jssip.sdp', t);
-};
+test('jssipCoverage', function *(t) {
+  yield verifyCoverage('jssip.sdp', t);
+});
 
-exports.jsepCoverage = function (t) {
-  verifyCoverage('jsep.sdp', t);
-};
+test('jsepCoverage', function *(t) {
+  yield verifyCoverage('jsep.sdp', t);
+});
+
+test('ssrcCoverage', function *(t) {
+  yield verifyCoverage('ssrc.sdp', t);
+});

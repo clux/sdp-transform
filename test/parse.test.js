@@ -1,18 +1,16 @@
-var fs = require('fs')
-  , main = require(process.env.SDP_TRANSFORM_COV ? '../lib-cov' : '../')
+var fs = require('co-fs')
+  , test = require('bandage')
+  , main = require('..')
   , parse = main.parse
   , write = main.write
   , parseFmtpConfig = main.parseFmtpConfig;
 
 // some random sdp that keps having random attributes attached to it
 // so we can test that the grammar works as intended
-exports.normalSdp = function (t) {
-  fs.readFile(__dirname + '/normal.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('normalSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/normal.sdp', 'utf8');
+
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -145,21 +143,15 @@ exports.normalSdp = function (t) {
 
     t.equal(media.length, 2, "got 2 m-lines");
 
-    t.done();
-  });
-};
+});
 
 /* Test for an sdp that started out as something from chrome
  * it's since been hacked to include tests for other stuff
  * ignore the name
  */
-exports.hackySdp = function (t) {
-  fs.readFile(__dirname + '/hacky.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('hackySdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/hacky.sdp', 'utf8');
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -181,12 +173,12 @@ exports.hackySdp = function (t) {
     t.equal(media[0].rtcp.address, '0.0.0.0', 'rtcp address');
 
     // verify ice tcp types
-    t.equal(media[0].candidates[0].tcptype, null, 'no tcptype');
+    t.equal(media[0].candidates[0].tcptype, undefined, 'no tcptype');
     t.equal(media[0].candidates[1].tcptype, 'active', 'active tcptype');
     t.equal(media[0].candidates[1].transport, 'tcp', 'tcp transport');
     t.equal(media[0].candidates[1].generation, 0, 'generation 0');
     t.equal(media[0].candidates[1].type, 'host', 'tcp host');
-    t.equal(media[0].candidates[1].generation, '0', 'tcptype generation');
+    t.equal(media[0].candidates[1].generation, 0, 'tcptype generation');
     t.equal(media[0].candidates[2].type, 'host', 'tcp host');
     t.equal(media[0].candidates[2].tcptype, 'active', 'active tcptype');
     t.equal(media[0].candidates[3].tcptype, 'passive', 'passive tcptype');
@@ -252,18 +244,11 @@ exports.hackySdp = function (t) {
     t.equal(media[2].sctpmap.sctpmapNumber, 5000, 'sctpmap number is 5000');
     t.equal(media[2].sctpmap.app, 'webrtc-datachannel', 'sctpmap app is webrtc-datachannel');
     t.equal(media[2].sctpmap.maxMessageSize, 1024, 'sctpmap maxMessageSize is 1024');
+});
 
-    t.done();
-  });
-};
+test('iceliteSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/icelite.sdp', 'utf8');
 
-exports.iceliteSdp = function (t) {
-  fs.readFile(__dirname + '/icelite.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     t.equal(session.icelite, 'ice-lite', 'icelite parsed');
@@ -271,17 +256,11 @@ exports.iceliteSdp = function (t) {
     var rew = write(session);
     t.ok(rew.indexOf("a=ice-lite\r\n") >= 0, "got ice-lite");
     t.ok(rew.indexOf("m=") > rew.indexOf("a=ice-lite"), 'session level icelite');
-    t.done();
-  });
-};
+});
 
-exports.invalidSdp = function (t) {
-  fs.readFile(__dirname + '/invalid.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('invalidSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/invalid.sdp', 'utf8');
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -294,18 +273,11 @@ exports.invalidSdp = function (t) {
     t.equal(media[0].rtcp.address, 'X', 'rtcp address');
     t.equal(media[0].invalid.length, 1, 'found exactly 1 invalid line'); // f= lost
     t.equal(media[0].invalid[0].value, 'goo:hithere', 'copied verbatim');
+});
 
-    t.done();
-  });
-};
+test('jssipSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/jssip.sdp', 'utf8');
 
-exports.jssipSdp = function (t) {
-  fs.readFile(__dirname + '/jssip.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -351,19 +323,12 @@ exports.jssipSdp = function (t) {
         generation: 0
       }, "audio candidate 4 (tcp)"
     );
-
-    t.done();
-  });
-};
+});
 
 
-exports.jsepSdp = function (t) {
-  fs.readFile(__dirname + '/jsep.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('jsepSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/jsep.sdp', 'utf8');
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -392,17 +357,11 @@ exports.jsepSdp = function (t) {
     var idx = rewritten.indexOf('a=end-of-candidates');
     t.equal(rewritten[idx-1].slice(0, 11), 'a=candidate', 'marker after candidate');
 
-    t.done();
-  });
-};
+});
 
-exports.alacSdp = function (t) {
-  fs.readFile(__dirname + '/alac.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('alacSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/alac.sdp', 'utf8');
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -418,17 +377,11 @@ exports.alacSdp = function (t) {
     t.equal(audio.rtp[0].rate, undefined, "audio rtp 0 rate");
     t.equal(audio.rtp[0].encoding, undefined, "audio rtp 0 encoding");
 
-    t.done();
-  });
-};
+});
 
-exports.onvifSdp = function (t) {
-  fs.readFile(__dirname + '/onvif.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('onvifSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/onvif.sdp', 'utf8');
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
@@ -459,25 +412,17 @@ exports.onvifSdp = function (t) {
     t.equal(application.rtp[0].codec, "vnd.onvif.metadata", "application rtp 0 codec");
     t.equal(application.rtp[0].rate, 90000, "application rtp 0 rate");
     t.equal(application.rtp[0].encoding, undefined, "application rtp 0 encoding");
-    t.done();
-  });
-};
+
+});
 
 
-exports.ssrcSdp = function (t) {
-  fs.readFile(__dirname + '/ssrc.sdp', function (err, sdp) {
-    if (err) {
-      t.ok(false, "failed to read file:" + err);
-      t.done();
-      return;
-    }
+test('ssrcSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/ssrc.sdp', 'utf8');
+
     var session = parse(sdp+'');
     t.ok(session, "got session info");
     var media = session.media;
     t.ok(media && media.length > 0, "got media");
-
-    t.equal(media[0].invalids, null, "no invalids in audio m line");
-    t.equal(media[1].invalids, null, "no invalids in video m line");
 
     var video = media[1];
     t.equal(video.ssrcGroups.length, 2, "video got 2 ssrc-group lines");
@@ -487,7 +432,4 @@ exports.ssrcSdp = function (t) {
       { semantics: 'FEC-FR', ssrcs: '3004364195 1080772241' }
     ];
     t.deepEqual(video.ssrcGroups, expectedSsrc, "video ssrc-group obj");
-
-    t.done();
-  });
-};
+});

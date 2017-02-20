@@ -17,13 +17,15 @@
     "sdp-verify": "./checker.js"
   },
   "scripts": {
-    "test": "nodeunit --reporter=verbose test/*.js",
-    "coverage": "jscoverage lib && SDP_TRANSFORM_COV=1 nodeunit --reporter=lcov test"
+    "test": "bndg test/*.test.js",
+    "precoverage": "istanbul cover ./bin.js test/*.test.js",
+    "coverage": "cat coverage/lcov.info && rm -rf coverage"
   },
   "dependencies": {},
   "devDependencies": {
-    "jscoverage": "^0.5.5",
-    "nodeunit": "^0.9.0"
+    "bandage": "^0.5.0",
+    "co-fs": "^1.2.0",
+    "istanbul": "^0.4.5"
   },
   "bugs": {
     "url": "http://github.com/clux/sdp-transform/issues"
