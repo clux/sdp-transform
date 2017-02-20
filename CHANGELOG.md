@@ -1,3 +1,7 @@
+2.0.1 / 2017-02-20
+==================
+  * a=ssrc-group parsing now doesn't break on dash-separation #54 via @murillo128
+
 2.0.0 / 2017-02-16
 ==================
   * a=extmap lines now parsed into a 4 object struct rather than a broken 3 object compound struct - #51 via @ibc
