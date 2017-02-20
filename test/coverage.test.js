@@ -15,22 +15,18 @@ var verifyCoverage = function *(file, t) {
   });
 };
 
-test('normalCoverage', function *(t) {
-  yield verifyCoverage('normal.sdp', t);
-});
+var sdps = [
+  'normal.sdp',
+  'hacky.sdp',
+  'jssip.sdp',
+  'jsep.sdp',
+  //'alac.sdp', // deliberate invalids
+  //'onvif.sdp', // SHOULD PASS
+  'ssrc.sdp',
+];
 
-test('chromeCoverage', function *(t) {
-  yield verifyCoverage('hacky.sdp', t);
-});
-
-test('jssipCoverage', function *(t) {
-  yield verifyCoverage('jssip.sdp', t);
-});
-
-test('jsepCoverage', function *(t) {
-  yield verifyCoverage('jsep.sdp', t);
-});
-
-test('ssrcCoverage', function *(t) {
-  yield verifyCoverage('ssrc.sdp', t);
+sdps.forEach((name) => {
+  test(name.split('.')[0] + 'Coverage', function *(t) {
+    yield verifyCoverage(name, t);
+  });
 });

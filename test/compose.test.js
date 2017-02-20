@@ -23,30 +23,18 @@ var verifyCompose = function *(file, t) {
   t.equal(sdp2, write(obj2), 'write ∘ parse === Id on Im(write) for ' + file);
 };
 
-test('normalCompose', function *(t) {
-  yield verifyCompose('normal.sdp', t);
-});
+var sdps = [
+  'normal.sdp',
+  'hacky.sdp',
+  'jssip.sdp',
+  'jsep.sdp',
+  'alac.sdp',
+  'onvif.sdp',
+  'ssrc.sdp',
+];
 
-test('chromeCompose', function *(t) {
-  yield verifyCompose('hacky.sdp', t);
-});
-
-test('jssipCompose', function *(t) {
-  yield verifyCompose('jssip.sdp', t);
-});
-
-test('jsepCompose', function *(t) {
-  yield verifyCompose('jsep.sdp', t);
-});
-
-test('alacCompose', function *(t) {
-  yield verifyCompose('alac.sdp', t);
-});
-
-test('onvifCompose', function *(t) {
-  yield verifyCompose('onvif.sdp', t);
-});
-
-test('ssrcCompose', function *(t) {
-  yield verifyCompose('ssrc.sdp', t);
+sdps.forEach((name) => {
+  test(name.split('.')[0] + 'Compose', function *(t) {
+    yield verifyCompose(name, t);
+  });
 });
