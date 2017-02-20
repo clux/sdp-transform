@@ -2,7 +2,8 @@ var fs = require('co-fs')
   , test = require('bandage')
   , main = require('..')
   , parse = main.parse
-  , write = main.write;
+  , write = main.write
+  ;
 
 var verifyCompose = function *(file, t) {
   var sdp = yield fs.readFile(__dirname + '/' + file, 'utf8');
@@ -11,7 +12,7 @@ var verifyCompose = function *(file, t) {
   var sdp2 = write(obj);
   var obj2 = parse(sdp2);
 
-  t.deepEqual(obj, obj2, "parse ∘ write ∘ parse === parse | " + file);
+  t.deepEqual(obj, obj2, 'parse ∘ write ∘ parse === parse | ' + file);
   // This only tests that (parse ∘ write) == Id on the image of the parse.
 
   // It also doesn't test if (write ∘ parse) is the identity: which it isnt.
@@ -19,7 +20,7 @@ var verifyCompose = function *(file, t) {
 
   // However: (write ∘ parse) should be the identity on the image of write
   // because our own ordering is deterministic.
-  t.equal(sdp2, write(obj2), "write ∘ parse === Id on Im(write) for " + file);
+  t.equal(sdp2, write(obj2), 'write ∘ parse === Id on Im(write) for ' + file);
 };
 
 test('normalCompose', function *(t) {
