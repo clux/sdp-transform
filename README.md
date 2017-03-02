@@ -119,17 +119,13 @@ No excess parsing is done to the raw strings apart from maybe coercing to ints, 
 
 ```js
 // to parse the fmtp.config from the previous example
-transform.parseFmtpConfig(res.media[1].fmtp[0].config);
+transform.parseParams(res.media[1].fmtp[0].config);
 { 'profile-level-id': '4d0028',
   'packetization-mode': 1 }
 
 // what payloads where actually advertised in the main m-line ?
 transform.parsePayloads(res.media[1].payloads);
 [97, 98]
-
-// to parse generic params (such as those in the a=rid attribute)
-transform.parseParams(res.media[1].rids[0].params);
-{ 'pt': 97 }
 ```
 
 
