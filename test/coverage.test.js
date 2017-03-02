@@ -23,6 +23,7 @@ var sdps = [
   //'alac.sdp', // deliberate invalids
   //'onvif.sdp', // SHOULD PASS
   'ssrc.sdp',
+  //'simulcast.sdp', (imageattr not yet valid)
 ];
 
 sdps.forEach((name) => {

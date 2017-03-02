@@ -1,3 +1,9 @@
+2.2.0 / SOON
+==================
+  * `a=rid` now parseable - #58 via @ibc
+  * `parseFmtpConfig` now aliased as `parseParams` - works on a more general level
+  * `parseFmtpConfig` deprecated - will be removed in 3.0.0
+
 2.1.0 / 2017-03-02
 ==================
   * `a=x-google-flag:%s` now parseable - #58 via @ibc

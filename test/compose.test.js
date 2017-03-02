@@ -31,6 +31,7 @@ var sdps = [
   'alac.sdp',
   'onvif.sdp',
   'ssrc.sdp',
+  'simulcast.sdp',
 ];
 
 sdps.forEach((name) => {
