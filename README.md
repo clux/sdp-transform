@@ -126,6 +126,10 @@ transform.parseFmtpConfig(res.media[1].fmtp[0].config);
 // what payloads where actually advertised in the main m-line ?
 transform.parsePayloads(res.media[1].payloads);
 [97, 98]
+
+// to parse generic params (such as those in the a=rid attribute)
+transform.parseParams(res.media[1].rids[0].params);
+{ 'pt': 97 }
 ```
 
 

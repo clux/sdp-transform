@@ -4,6 +4,7 @@ var fs = require('co-fs')
   , parse = main.parse
   , write = main.write
   , parseFmtpConfig = main.parseFmtpConfig
+  , parseParams = main.parseParams
   ;
 
 // some random sdp that keps having random attributes attached to it
@@ -419,7 +420,6 @@ test('onvifSdp', function *(t) {
   t.equal(application.rtp[0].encoding, undefined, 'application rtp 0 encoding');
 });
 
-
 test('ssrcSdp', function *(t) {
   var sdp = yield fs.readFile(__dirname + '/ssrc.sdp', 'utf8');
 
@@ -436,4 +436,53 @@ test('ssrcSdp', function *(t) {
     { semantics: 'FEC-FR', ssrcs: '3004364195 1080772241' }
   ];
   t.deepEqual(video.ssrcGroups, expectedSsrc, 'video ssrc-group obj');
+});
+
+test('simulcastSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/simulcast.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length > 0, 'got media');
+
+  var video = media[1];
+  t.equal(video.type, 'video', 'video type');
+  t.equal(video.rids.length, 3, 'video got 3 rid lines');
+  // test rid 1
+  t.deepEqual(video.rids[0], {
+    id: 1,
+    direction: 'send',
+    params: 'pt=97;max-width=1280;max-height=720;max-fps=30'
+  }, 'video 1st rid line');
+  // test rid 2
+  t.deepEqual(video.rids[1], {
+    id: 2,
+    direction: 'send',
+    params: 'pt=98'
+  }, 'video 2nd rid line');
+  // test rid 3
+  t.deepEqual(video.rids[2], {
+    id: 'c',
+    direction: 'recv',
+    params: 'pt=97'
+  }, 'video 3rd rid line');
+  // test rid 1 params
+  var rid1Params = parseParams(video.rids[0].params);
+  t.deepEqual(rid1Params, {
+    'pt': 97,
+    'max-width': 1280,
+    'max-height': 720,
+    'max-fps': 30
+  }, 'video 1st rid params');
+  // test rid 2 params
+  var rid2Params = parseParams(video.rids[1].params);
+  t.deepEqual(rid2Params, {
+    'pt': 98
+  }, 'video 2nd rid params');
+  // test rid 3 params
+  var rid3Params = parseParams(video.rids[2].params);
+  t.deepEqual(rid3Params, {
+    'pt': 97
+  }, 'video 3rd rid params');
 });
