@@ -119,7 +119,7 @@ No excess parsing is done to the raw strings apart from maybe coercing to ints, 
 
 ```js
 // to parse the fmtp.config from the previous example
-transform.parseFmtpConfig(res.media[1].fmtp[0].config);
+transform.parseParams(res.media[1].fmtp[0].config);
 { 'profile-level-id': '4d0028',
   'packetization-mode': 1 }
 
