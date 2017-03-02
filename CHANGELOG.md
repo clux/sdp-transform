@@ -1,3 +1,7 @@
+2.1.0 / 2017-03-02
+==================
+  * `a=x-google-flag:%s` now parseable - #58 via @ibc
+
 2.0.1 / 2017-02-20
 ==================
   * a=ssrc-group parsing now doesn't break on dash-separation #54 via @murillo128
