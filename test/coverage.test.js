@@ -22,8 +22,8 @@ var sdps = [
   'jsep.sdp',
   //'alac.sdp', // deliberate invalids
   //'onvif.sdp', // SHOULD PASS
-  'ssrc.sdp',
-  //'simulcast.sdp', (imageattr not yet valid)
+  'ssrc.sdp'
+  //'simulcast.sdp', (a=simulcast not yet implemented)
 ];
 
 sdps.forEach((name) => {

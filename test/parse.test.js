@@ -5,6 +5,7 @@ var fs = require('co-fs')
   , write = main.write
   , parseFmtpConfig = main.parseFmtpConfig
   , parseParams = main.parseParams
+  , parseImageattrParams = main.parseImageattrParams
   ;
 
 // some random sdp that keps having random attributes attached to it
@@ -448,7 +449,9 @@ test('simulcastSdp', function *(t) {
 
   var video = media[1];
   t.equal(video.type, 'video', 'video type');
-  t.equal(video.rids.length, 3, 'video got 3 rid lines');
+
+  // test rid lines
+  t.equal(video.rids.length, 4, 'video got 4 rid lines');
   // test rid 1
   t.deepEqual(video.rids[0], {
     id: 1,
@@ -463,10 +466,16 @@ test('simulcastSdp', function *(t) {
   }, 'video 2nd rid line');
   // test rid 3
   t.deepEqual(video.rids[2], {
+    id: 3,
+    direction: 'send',
+    params: 'pt=99'
+  }, 'video 3rd rid line');
+  // test rid 4
+  t.deepEqual(video.rids[3], {
     id: 'c',
     direction: 'recv',
     params: 'pt=97'
-  }, 'video 3rd rid line');
+  }, 'video 3th rid line');
   // test rid 1 params
   var rid1Params = parseParams(video.rids[0].params);
   t.deepEqual(rid1Params, {
@@ -483,6 +492,58 @@ test('simulcastSdp', function *(t) {
   // test rid 3 params
   var rid3Params = parseParams(video.rids[2].params);
   t.deepEqual(rid3Params, {
-    'pt': 97
+    'pt': 99
   }, 'video 3rd rid params');
+  // test rid 4 params
+  var rid4Params = parseParams(video.rids[3].params);
+  t.deepEqual(rid4Params, {
+    'pt': 97
+  }, 'video 4th rid params');
+
+  // test imageattr lines
+  t.equal(video.imageattrs.length, 4, 'video got 4 imageattr lines');
+  // test imageattr 1
+  t.deepEqual(video.imageattrs[0], {
+    pt: 97,
+    send: '[x=1280,y=720]',
+    recv: '[x=1280,y=720] [x=320,y=180]'
+  }, 'video 1st imageattr line');
+  // test imageattr 2
+  t.deepEqual(video.imageattrs[1], {
+    pt: 98,
+    send: '[x=320,y=180]'
+  }, 'video 2nd imageattr line');
+  // test imageattr 3
+  t.deepEqual(video.imageattrs[2], {
+    pt: 99,
+    send: '[x=160,y=90]'
+  }, 'video 3rd imageattr line');
+  // test imageattr 4
+  t.deepEqual(video.imageattrs[3], {
+    pt: '*',
+    recv: '*'
+  }, 'video 4th imageattr line');
+  // test imageattr 1 send params
+  var imageattr1SendParams = parseImageattrParams(video.imageattrs[0].send);
+  t.deepEqual(imageattr1SendParams, [
+    {'x': 1280, 'y': 720}
+  ], 'video 1st imageattr send params');
+  // test imageattr 1 recv params
+  var imageattr1RecvParams = parseImageattrParams(video.imageattrs[0].recv);
+  t.deepEqual(imageattr1RecvParams, [
+    {'x': 1280, 'y': 720},
+    {'x': 320, 'y': 180},
+  ], 'video 1st imageattr recv params');
+  // test imageattr 2 send params
+  var imageattr2SendParams = parseImageattrParams(video.imageattrs[1].send);
+  t.deepEqual(imageattr2SendParams, [
+    {'x': 320, 'y': 180}
+  ], 'video 2nd imageattr send params');
+  // test imageattr 3 send params
+  var imageattr3SendParams = parseImageattrParams(video.imageattrs[2].send);
+  t.deepEqual(imageattr3SendParams, [
+    {'x': 160, 'y': 90}
+  ], 'video 3rd imageattr send params');
+  // test imageattr 4 recv params
+  t.equal(video.imageattrs[3].recv, '*', 'video 4th imageattr recv params');
 });

@@ -8,12 +8,17 @@ a=rtpmap:0 PCMU/8000
 m=video 49300 RTP/AVP 97 98
 a=rtpmap:97 H264/90000
 a=rtpmap:98 H264/90000
+a=rtpmap:99 H264/90000
 a=fmtp:97 profile-level-id=42c01f; max-fs=3600; max-mbps=108000
 a=fmtp:98 profile-level-id=42c00b; max-fs=240; max-mbps=3600
-a=imageattr:97 send [x=1280,y=720] recv [x=1280,y=720]
-a=imageattr:98 send [x=320,y=180] recv [x=320,y=180]
+a=fmtp:99 profile-level-id=42c00b; max-fs=120; max-mbps=1800
+a=imageattr:97 send [x=1280,y=720] recv [x=1280,y=720] [x=320,y=180]
+a=imageattr:98 send [x=320,y=180]
+a=imageattr:99 send [x=160,y=90]
+a=imageattr:* recv *
 a=rid:1 send pt=97;max-width=1280;max-height=720;max-fps=30
 a=rid:2 send pt=98
+a=rid:3 send pt=99
 a=rid:c recv pt=97
-a=simulcast:send 1;2 recv 3
+a=simulcast:send 1;2;3 recv c
 a=extmap:1 urn:ietf:params:rtp-hdrext:sdes:RtpStreamId
