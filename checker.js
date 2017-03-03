@@ -12,7 +12,7 @@ var transform = require('./')
   ;
 
 var parseFails = 0;
-parsed.media.forEach(function (media, i) {
+parsed.media.forEach(function (media) {
   (media.invalid || []).forEach(function (inv) {
     console.warn('unrecognized a=' + inv.value + ' belonging to m=' + media.type);
     parseFails += 1;
