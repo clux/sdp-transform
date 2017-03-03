@@ -40,8 +40,7 @@ a=candidate:1 2 UDP 2113667326 203.0.113.1 55401 typ host\r\n\
 ";
 
 var res = transform.parse(sdpStr);
-
-res;
+// =>
 { version: 0,
   origin:
    { username: '-',
@@ -80,6 +79,7 @@ res;
 
 // each media line is parsed into the following format
 res.media[1];
+// =>
 { rtp:
    [ { payload: 97,
        codec: 'H264',
@@ -117,15 +117,38 @@ In this example, only slightly dodgy string coercion case here is for `candidate
 ### Parser Postprocessing
 No excess parsing is done to the raw strings apart from maybe coercing to ints, because the writer is built to be the inverse of the parser. That said, a few helpers have been built in:
 
+#### parseParams()
+
+Parses `fmtp.config` and others such as `rid.params` and returns an object with all the params in a key/value fashion.
+
 ```js
 // to parse the fmtp.config from the previous example
 transform.parseParams(res.media[1].fmtp[0].config);
+// =>
 { 'profile-level-id': '4d0028',
   'packetization-mode': 1 }
+```
 
+#### parsePayloads()
+
+Returns an array with all the payload advertised in the main m-line.
+
+```js
 // what payloads where actually advertised in the main m-line ?
 transform.parsePayloads(res.media[1].payloads);
+// =>
 [97, 98]
+```
+
+#### parseImageattrParams()
+
+Parses Generic Image Attributes (RFC 6236). Must be provided with the `send` string or the `recv` string of a `imageattr` line. Returns an array of key/value objects.
+
+```js
+// a=imageattr:97 send [x=1280,y=720] recv [x=1280,y=720] [x=320,y=180]
+transform.parseImageattrParams(res.media[1].imageattrs[0].recv)
+// =>
+[ {'x': 1280, 'y': 720}, {'x': 320, 'y': 180} ]
 ```
 
 
@@ -134,6 +157,7 @@ The writer is the inverse of the parser, and will need a struct equivalent to th
 
 ```js
 transform.write(res).split('\r\n'); // res parsed above
+// =>
 [ 'v=0',
   'o=- 20518 0 IN IP4 203.0.113.1',
   's= ',
