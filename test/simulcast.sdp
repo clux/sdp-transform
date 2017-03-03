@@ -20,5 +20,5 @@ a=rid:1 send pt=97;max-width=1280;max-height=720;max-fps=30
 a=rid:2 send pt=98
 a=rid:3 send pt=99
 a=rid:c recv pt=97
-a=simulcast:send 1;2;3 recv 3
+a=simulcast:send 1;2;3 recv c
 a=extmap:1 urn:ietf:params:rtp-hdrext:sdes:RtpStreamId
