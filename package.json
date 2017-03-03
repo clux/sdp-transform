@@ -17,6 +17,7 @@
     "sdp-verify": "./checker.js"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "bndg test/*.test.js",
     "precoverage": "istanbul cover bndg test/*.test.js",
     "coverage": "cat coverage/lcov.info && rm -rf coverage"
@@ -25,10 +26,11 @@
   "devDependencies": {
     "bandage": "^0.5.0",
     "co-fs": "^1.2.0",
+    "eslint": "^3.16.1",
     "istanbul": "^0.4.5"
   },
   "bugs": {
-    "url": "http://github.com/clux/sdp-transform/issues"
+    "url": "https://github.com/clux/sdp-transform/issues"
   },
   "license": "MIT"
 }
