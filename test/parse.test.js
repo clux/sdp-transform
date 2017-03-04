@@ -6,6 +6,7 @@ var fs = require('co-fs')
   , parseFmtpConfig = main.parseFmtpConfig
   , parseParams = main.parseParams
   , parseImageattrParams = main.parseImageattrParams
+  , parseSimulcast = main.parseSimulcast
   ;
 
 // some random sdp that keps having random attributes attached to it
@@ -451,7 +452,7 @@ test('simulcastSdp', function *(t) {
   t.equal(video.type, 'video', 'video type');
 
   // test rid lines
-  t.equal(video.rids.length, 4, 'video got 4 rid lines');
+  t.equal(video.rids.length, 5, 'video got 5 rid lines');
   // test rid 1
   t.deepEqual(video.rids[0], {
     id: 1,
@@ -472,10 +473,16 @@ test('simulcastSdp', function *(t) {
   }, 'video 3rd rid line');
   // test rid 4
   t.deepEqual(video.rids[3], {
+    id: 4,
+    direction: 'send',
+    params: 'pt=100'
+  }, 'video 4th rid line');
+  // test rid 5
+  t.deepEqual(video.rids[4], {
     id: 'c',
     direction: 'recv',
     params: 'pt=97'
-  }, 'video 3th rid line');
+  }, 'video 5th rid line');
   // test rid 1 params
   var rid1Params = parseParams(video.rids[0].params);
   t.deepEqual(rid1Params, {
@@ -497,11 +504,16 @@ test('simulcastSdp', function *(t) {
   // test rid 4 params
   var rid4Params = parseParams(video.rids[3].params);
   t.deepEqual(rid4Params, {
-    'pt': 97
+    'pt': 100
   }, 'video 4th rid params');
+  // test rid 5 params
+  var rid5Params = parseParams(video.rids[4].params);
+  t.deepEqual(rid5Params, {
+    'pt': 97
+  }, 'video 5th rid params');
 
   // test imageattr lines
-  t.equal(video.imageattrs.length, 4, 'video got 4 imageattr lines');
+  t.equal(video.imageattrs.length, 5, 'video got 5 imageattr lines');
   // test imageattr 1
   t.deepEqual(video.imageattrs[0], {
     pt: 97,
@@ -520,9 +532,15 @@ test('simulcastSdp', function *(t) {
   }, 'video 3rd imageattr line');
   // test imageattr 4
   t.deepEqual(video.imageattrs[3], {
+    pt: 100,
+    send: '[x=1280,y=720]',
+    recv: '[x=1280,y=720] [x=320,y=180]'
+  }, 'video 4th imageattr line');
+  // test imageattr 5
+  t.deepEqual(video.imageattrs[4], {
     pt: '*',
     recv: '*'
-  }, 'video 4th imageattr line');
+  }, 'video 5th imageattr line');
   // test imageattr 1 send params
   var imageattr1SendParams = parseImageattrParams(video.imageattrs[0].send);
   t.deepEqual(imageattr1SendParams, [
@@ -544,6 +562,35 @@ test('simulcastSdp', function *(t) {
   t.deepEqual(imageattr3SendParams, [
     {'x': 160, 'y': 90}
   ], 'video 3rd imageattr send params');
+  // test imageattr 4 send params
+  var imageattr4SendParams = parseImageattrParams(video.imageattrs[3].send);
+  t.deepEqual(imageattr4SendParams, [
+    {'x': 1280, 'y': 720}
+  ], 'video 4th imageattr send params');
   // test imageattr 4 recv params
-  t.equal(video.imageattrs[3].recv, '*', 'video 4th imageattr recv params');
+  var imageattr4RecvParams = parseImageattrParams(video.imageattrs[3].recv);
+  t.deepEqual(imageattr4RecvParams, [
+    {'x': 1280, 'y': 720},
+    {'x': 320, 'y': 180},
+  ], 'video 4th imageattr recv params');
+  // test imageattr 5 recv params
+  t.equal(video.imageattrs[4].recv, '*', 'video 5th imageattr recv params');
+
+  // test simulcast line
+  t.deepEqual(video.simulcast, {
+    send: '1,~4;2;3',
+    recv: 'c'
+  }, 'video simulcast line');
+  // test simulcast send streams
+  var simulcastSendStreams = parseSimulcast(video.simulcast.send);
+  t.deepEqual(simulcastSendStreams, [
+    [ {scid: 1, paused: false}, {scid: 4, paused: true} ],
+    [ {scid: 2, paused: false} ],
+    [ {scid: 3, paused: false} ]
+  ], 'video simulcast send streams');
+  // test simulcast recv streams
+  var simulcastRecvStreams = parseSimulcast(video.simulcast.recv);
+  t.deepEqual(simulcastRecvStreams, [
+    [ {scid: 'c', paused: false} ]
+  ], 'video simulcast recv streams');
 });
