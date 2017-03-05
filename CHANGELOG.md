@@ -1,8 +1,12 @@
-2.2.0 / SOON
+2.2.0 / 2017-03-05
 ==================
-  * `a=rid` now parseable - #58 via @ibc
-  * `parseFmtpConfig` now aliased as `parseParams` - works on a more general level
+  * `a=rid` now parseable - #59 from @ibc
+  * `parseFmtpConfig` now aliased as `parseParams` - works on a more general level - #60
   * `parseFmtpConfig` deprecated - will be removed in 3.0.0
+  * `a=imageattr` now parseable - #61 from @ibc
+  * `parseImageattrParams` for extended image attr parsing RFC6236 - #61
+  * `a=simulcast` now parseable (both draft version 3 and draft v7) - #62 from @ibc
+  - `parseSimulcastStreamList` for more detailed simulcast parsing - #62
 
 2.1.0 / 2017-03-02
 ==================
