@@ -140,20 +140,20 @@ transform.parsePayloads(res.media[1].payloads);
 [97, 98]
 ```
 
-#### parseImageattrParams()
+#### parseImageAttributes()
 
-Parses [Generic Image Attributes](https://tools.ietf.org/html/rfc6236). Must be provided with the `send` string or the `recv` string of a `a=imageattr` line. Returns an array of key/value objects.
+Parses [Generic Image Attributes](https://tools.ietf.org/html/rfc6236). Must be provided with the `attrs1` or `attrs2` string of a `a=imageattr` line. Returns an array of key/value objects.
 
 ```js
 // a=imageattr:97 send [x=1280,y=720] recv [x=1280,y=720] [x=320,y=180]
-transform.parseImageattrParams(res.media[1].imageattrs[0].recv)
+transform.parseImageAttributes(res.media[1].imageattrs[0].attrs2)
 // =>
 [ {'x': 1280, 'y': 720}, {'x': 320, 'y': 180} ]
 ```
 
-#### parseSimulcast()
+#### parseSimulcastStreamList()
 
-Parses [simulcast](https://tools.ietf.org/html/draft-ietf-mmusic-sdp-simulcast) streams/formats. Must be provided with the `send` string or the `recv` string of the `a=simulcast` line.
+Parses [simulcast](https://tools.ietf.org/html/draft-ietf-mmusic-sdp-simulcast) streams/formats. Must be provided with the `attrs1` or `attrs2` string of the `a=simulcast` line.
 
 Returns an array of simulcast streams. Each entry is an array of alternative simulcast formats, which are objects with two keys:
 
@@ -162,7 +162,7 @@ Returns an array of simulcast streams. Each entry is an array of alternative sim
 
 ```js
 // a=simulcast:send 1,~4;2;3 recv c
-transform.parseSimulcast(res.media[1].simulcast.send);
+transform.parseSimulcastStreamList(res.media[1].simulcast.attrs1);
 // =>
 [
   // First simulcast stream (two alternative formats)

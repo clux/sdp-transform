@@ -5,8 +5,8 @@ var fs = require('co-fs')
   , write = main.write
   , parseFmtpConfig = main.parseFmtpConfig
   , parseParams = main.parseParams
-  , parseImageattrParams = main.parseImageattrParams
-  , parseSimulcast = main.parseSimulcast
+  , parseImageAttributes = main.parseImageAttributes
+  , parseSimulcastStreamList = main.parseSimulcastStreamList
   ;
 
 // some random sdp that keps having random attributes attached to it
@@ -517,80 +517,96 @@ test('simulcastSdp', function *(t) {
   // test imageattr 1
   t.deepEqual(video.imageattrs[0], {
     pt: 97,
-    send: '[x=1280,y=720]',
-    recv: '[x=1280,y=720] [x=320,y=180]'
+    dir1: 'send',
+    attrs1: '[x=1280,y=720]',
+    dir2: 'recv',
+    attrs2: '[x=1280,y=720] [x=320,y=180] [x=160,y=90]'
   }, 'video 1st imageattr line');
   // test imageattr 2
   t.deepEqual(video.imageattrs[1], {
     pt: 98,
-    send: '[x=320,y=180]'
+    dir1: 'send',
+    attrs1: '[x=320,y=180]'
   }, 'video 2nd imageattr line');
   // test imageattr 3
   t.deepEqual(video.imageattrs[2], {
     pt: 99,
-    send: '[x=160,y=90]'
+    dir1: 'send',
+    attrs1: '[x=160,y=90]'
   }, 'video 3rd imageattr line');
   // test imageattr 4
   t.deepEqual(video.imageattrs[3], {
     pt: 100,
-    send: '[x=1280,y=720]',
-    recv: '[x=1280,y=720] [x=320,y=180]'
+    dir1: 'recv',
+    attrs1: '[x=1280,y=720] [x=320,y=180]',
+    dir2: 'send',
+    attrs2: '[x=1280,y=720]'
   }, 'video 4th imageattr line');
   // test imageattr 5
   t.deepEqual(video.imageattrs[4], {
     pt: '*',
-    recv: '*'
+    dir1: 'recv',
+    attrs1: '*'
   }, 'video 5th imageattr line');
   // test imageattr 1 send params
-  var imageattr1SendParams = parseImageattrParams(video.imageattrs[0].send);
+  var imageattr1SendParams = parseImageAttributes(video.imageattrs[0].attrs1);
   t.deepEqual(imageattr1SendParams, [
     {'x': 1280, 'y': 720}
   ], 'video 1st imageattr send params');
   // test imageattr 1 recv params
-  var imageattr1RecvParams = parseImageattrParams(video.imageattrs[0].recv);
+  var imageattr1RecvParams = parseImageAttributes(video.imageattrs[0].attrs2);
   t.deepEqual(imageattr1RecvParams, [
     {'x': 1280, 'y': 720},
     {'x': 320, 'y': 180},
+    {'x': 160, 'y': 90},
   ], 'video 1st imageattr recv params');
   // test imageattr 2 send params
-  var imageattr2SendParams = parseImageattrParams(video.imageattrs[1].send);
+  var imageattr2SendParams = parseImageAttributes(video.imageattrs[1].attrs1);
   t.deepEqual(imageattr2SendParams, [
     {'x': 320, 'y': 180}
   ], 'video 2nd imageattr send params');
   // test imageattr 3 send params
-  var imageattr3SendParams = parseImageattrParams(video.imageattrs[2].send);
+  var imageattr3SendParams = parseImageAttributes(video.imageattrs[2].attrs1);
   t.deepEqual(imageattr3SendParams, [
     {'x': 160, 'y': 90}
   ], 'video 3rd imageattr send params');
-  // test imageattr 4 send params
-  var imageattr4SendParams = parseImageattrParams(video.imageattrs[3].send);
-  t.deepEqual(imageattr4SendParams, [
-    {'x': 1280, 'y': 720}
-  ], 'video 4th imageattr send params');
   // test imageattr 4 recv params
-  var imageattr4RecvParams = parseImageattrParams(video.imageattrs[3].recv);
+  var imageattr4RecvParams = parseImageAttributes(video.imageattrs[3].attrs1);
   t.deepEqual(imageattr4RecvParams, [
     {'x': 1280, 'y': 720},
     {'x': 320, 'y': 180},
   ], 'video 4th imageattr recv params');
+  // test imageattr 4 send params
+  var imageattr4SendParams = parseImageAttributes(video.imageattrs[3].attrs2);
+  t.deepEqual(imageattr4SendParams, [
+    {'x': 1280, 'y': 720}
+  ], 'video 4th imageattr send params');
   // test imageattr 5 recv params
-  t.equal(video.imageattrs[4].recv, '*', 'video 5th imageattr recv params');
+  t.equal(video.imageattrs[4].attrs1, '*', 'video 5th imageattr recv params');
 
   // test simulcast line
   t.deepEqual(video.simulcast, {
-    send: '1,~4;2;3',
-    recv: 'c'
+    dir1: 'send',
+    list1: '1,~4;2;3',
+    dir2: 'recv',
+    list2: 'c'
   }, 'video simulcast line');
   // test simulcast send streams
-  var simulcastSendStreams = parseSimulcast(video.simulcast.send);
+  var simulcastSendStreams = parseSimulcastStreamList(video.simulcast.list1);
   t.deepEqual(simulcastSendStreams, [
     [ {scid: 1, paused: false}, {scid: 4, paused: true} ],
     [ {scid: 2, paused: false} ],
     [ {scid: 3, paused: false} ]
   ], 'video simulcast send streams');
   // test simulcast recv streams
-  var simulcastRecvStreams = parseSimulcast(video.simulcast.recv);
+  var simulcastRecvStreams = parseSimulcastStreamList(video.simulcast.list2);
   t.deepEqual(simulcastRecvStreams, [
     [ {scid: 'c', paused: false} ]
   ], 'video simulcast recv streams');
+
+  // test simulcast version 03 line
+  // test simulcast line
+  t.deepEqual(video.simulcast_03, {
+    value: 'send rid=1,4;2;3 paused=4 recv rid=c'
+  }, 'video simulcast draft 03 line');
 });
