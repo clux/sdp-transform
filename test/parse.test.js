@@ -246,6 +246,10 @@ test('hackySdp', function *(t) {
   t.equal(media[2].sctpmap.sctpmapNumber, 5000, 'sctpmap number is 5000');
   t.equal(media[2].sctpmap.app, 'webrtc-datachannel', 'sctpmap app is webrtc-datachannel');
   t.equal(media[2].sctpmap.maxMessageSize, 1024, 'sctpmap maxMessageSize is 1024');
+
+  // verify a=framerate:29.97
+  t.ok(media[2].framerate, 'we have framerate');
+  t.equal(media[2].framerate, 29.97, 'framerate is 29.97');
 });
 
 test('iceliteSdp', function *(t) {
