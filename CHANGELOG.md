@@ -1,3 +1,7 @@
+2.3.0 / 2017-03-06
+==================
+  * `a=framerate` from rfc4566 now parseable - #63 via @gregpabian
+
 2.2.0 / 2017-03-05
 ==================
   * `a=rid` now parseable - #59 from @ibc
