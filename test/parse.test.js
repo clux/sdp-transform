@@ -180,7 +180,7 @@ test('hackySdp', function *(t) {
   t.equal(media[0].candidates[1].transport, 'tcp', 'tcp transport');
   t.equal(media[0].candidates[1].generation, 0, 'generation 0');
   t.equal(media[0].candidates[1].type, 'host', 'tcp host');
-  t.equal(media[0].candidates[1].generation, 0, 'tcptype generation');
+  t.equal(media[0].candidates[2].generation, undefined, 'no generation');
   t.equal(media[0].candidates[2].type, 'host', 'tcp host');
   t.equal(media[0].candidates[2].tcptype, 'active', 'active tcptype');
   t.equal(media[0].candidates[3].tcptype, 'passive', 'passive tcptype');
