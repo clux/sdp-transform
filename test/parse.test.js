@@ -69,7 +69,7 @@ test('normalSdp', function *(t) {
   t.equal(vidFmtp['packetization-mode'], 1, 'video fmtp 0 packetization-mode');
   t.equal(vidFmtp['sprop-parameter-sets'], 'Z0IAH5WoFAFuQA==,aM48gA==',
     'video fmtp 0 sprop-parameter-sets');
-  t.equal(video.fmtp[1].payload, 111, 'video fmtp 1 payload');
+  t.equal(video.fmtp[1].payload, 98, 'video fmtp 1 payload');
   var vidFmtp2 = parseFmtpConfig(video.fmtp[1].config);
   t.equal(vidFmtp2.minptime, 10, 'video fmtp 1 minptime');
   t.equal(vidFmtp2.useinbandfec, 1, 'video fmtp 1 useinbandfec');
