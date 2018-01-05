@@ -33,3 +33,4 @@ a=candidate:2 1 UDP 1686052607 203.0.113.1 55402 typ srflx raddr 192.168.1.145 r
 a=candidate:3 2 UDP 1686052606 203.0.113.1 55403 typ srflx raddr 192.168.1.145 rport 55403 generation 0 network-id 3
 a=ssrc:1399694169 foo:bar
 a=ssrc:1399694169 baz
+a=ssrc:1399694169 foo-bar:baz
