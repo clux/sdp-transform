@@ -1,3 +1,7 @@
+2.3.1 / 2018-01-05
+==================
+  * `a=ssrc` bug attributes including dashes fixed in #68 via @MichelSimonot
+
 2.3.0 / 2017-03-06
 ==================
   * `a=framerate` from rfc4566 now parseable - #63 via @gregpabian
