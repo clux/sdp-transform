@@ -86,7 +86,7 @@ test('normalSdp', function *(t) {
   t.equal(video.crypto[0].id, 1, 'video crypto 0 id');
   t.equal(video.crypto[0].suite, 'AES_CM_128_HMAC_SHA1_32', 'video crypto 0 suite');
   t.equal(video.crypto[0].config, 'inline:keNcG3HezSNID7LmfDa9J4lfdUL8W1F7TNJKcbuy|2^20|1:32', 'video crypto 0 config');
-  t.equal(video.ssrcs.length, 2, 'video got 2 ssrc lines');
+  t.equal(video.ssrcs.length, 3, 'video got 3 ssrc lines');
   // test ssrc with attr:value
   t.deepEqual(video.ssrcs[0], {
     id: 1399694169,
@@ -98,6 +98,12 @@ test('normalSdp', function *(t) {
     id: 1399694169,
     attribute: 'baz',
   }, 'video 2nd ssrc line attr only');
+  // test ssrc with at-tr:value
+  t.deepEqual(video.ssrcs[2], {
+    id: 1399694169,
+    attribute: 'foo-bar',
+    value: 'baz'
+  }, 'video 3rd ssrc line attr with dash');
 
   // ICE candidates (same for both audio and video in this case)
   [audio.candidates, video.candidates].forEach(function (cs, i) {
