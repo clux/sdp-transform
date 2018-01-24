@@ -620,3 +620,20 @@ test('simulcastSdp', function *(t) {
     value: 'send rid=1,4;2;3 paused=4 recv rid=c'
   }, 'video simulcast draft 03 line');
 });
+
+test('ST2022-6', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/st2022-6.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length > 0, 'got media');
+
+  var video = media[0];
+  var sourceFilter = video.sourceFilter;
+  t.equal(sourceFilter.filterMode, 'incl', 'filter-mode is "incl"');
+  t.equal(sourceFilter.netType, 'IN', 'nettype is "IN"');
+  t.equal(sourceFilter.addressTypes, 'IP4', 'address-type is "IP4"');
+  t.equal(sourceFilter.destAddress, '239.0.0.1', 'dest-address is "239.0.0.1"');
+  t.equal(sourceFilter.srcList, '192.168.20.20', 'src-list is "192.168.20.20"');
+});
