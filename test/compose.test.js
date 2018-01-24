@@ -32,6 +32,7 @@ var sdps = [
   'onvif.sdp',
   'ssrc.sdp',
   'simulcast.sdp',
+  'st2022-6.sdp',
 ];
 
 sdps.forEach((name) => {

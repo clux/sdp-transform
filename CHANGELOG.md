@@ -1,3 +1,7 @@
+2.4.0 / 2018-01-24
+==================
+  * `a=source-filter` support added in #69 via @thosil
+
 2.3.1 / 2018-01-05
 ==================
   * `a=ssrc` bug attributes including dashes fixed in #68 via @MichelSimonot
