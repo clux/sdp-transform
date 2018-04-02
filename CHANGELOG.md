@@ -1,3 +1,7 @@
+2.4.1 / 2018-04-02
+==================
+  * `parseParams` now doesn't break on name only params #70 via @manuc66
+
 2.4.0 / 2018-01-24
 ==================
   * `a=source-filter` support added in #69 via @thosil
