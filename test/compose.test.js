@@ -33,6 +33,7 @@ var sdps = [
   'ssrc.sdp',
   'simulcast.sdp',
   'st2022-6.sdp',
+  'st2110-20.sdp',
 ];
 
 sdps.forEach((name) => {
