@@ -655,7 +655,6 @@ test('ST2110-20', function* (t) {
   t.equal(sourceFilter.srcList, '192.168.100.2', 'src-list is "192.168.100.2"');
 
   t.equal(video.type, 'video', 'video type');
-  console.log(video);
   var fmtp0Params = parseParams(video.fmtp[0].config);
   t.deepEqual(fmtp0Params, {
     sampling: 'YCbCr-4:2:2',
