@@ -637,3 +637,36 @@ test('ST2022-6', function *(t) {
   t.equal(sourceFilter.destAddress, '239.0.0.1', 'dest-address is "239.0.0.1"');
   t.equal(sourceFilter.srcList, '192.168.20.20', 'src-list is "192.168.20.20"');
 });
+
+test('ST2110-20', function* (t) {
+  var sdp = yield fs.readFile(__dirname + '/st2110-20.sdp', 'utf8');
+
+  var session = parse(sdp + '');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length > 0, 'got media');
+
+  var video = media[0];
+  var sourceFilter = video.sourceFilter;
+  t.equal(sourceFilter.filterMode, 'incl', 'filter-mode is "incl"');
+  t.equal(sourceFilter.netType, 'IN', 'nettype is "IN"');
+  t.equal(sourceFilter.addressTypes, 'IP4', 'address-type is "IP4"');
+  t.equal(sourceFilter.destAddress, '239.100.9.10', 'dest-address is "239.100.9.10"');
+  t.equal(sourceFilter.srcList, '192.168.100.2', 'src-list is "192.168.100.2"');
+
+  t.equal(video.type, 'video', 'video type');
+  console.log(video);
+  var fmtp0Params = parseParams(video.fmtp[0].config);
+  t.deepEqual(fmtp0Params, {
+    sampling: 'YCbCr-4:2:2',
+    width: 1280,
+    height: 720,
+    interlace: undefined,
+    exactframerate: '60000/1001',
+    depth: 10,
+    TCS: 'SDR',
+    colorimetry: 'BT709',
+    PM: '2110GPM',
+    SSN: 'ST2110-20:2017'
+  }, 'video 5th rid params');
+});
