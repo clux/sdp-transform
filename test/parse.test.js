@@ -368,6 +368,7 @@ test('jsepSdp', function *(t) {
   );
 
   t.ok(video.rtcpRsize, 'rtcp-rsize present');
+  t.ok(video.bundleOnly, 'bundle-only present');
 
   // video contains 'a=end-of-candidates'
   // we want to ensure this comes after the candidate lines
