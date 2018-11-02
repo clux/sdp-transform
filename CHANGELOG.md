@@ -1,3 +1,7 @@
+2.5.0 / 2018-11-02
+==================
+  * `a=bundle-only` support added in #73 via @ibc
+
 2.4.1 / 2018-04-02
 ==================
   * `parseParams` now doesn't break on name only params #70 via @manuc66
