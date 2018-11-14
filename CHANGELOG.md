@@ -1,3 +1,7 @@
+2.6.0 / 2018-11-14
+==================
+  * `a=label` support added in #75 via @jeremy-j-ackso
+
 2.5.0 / 2018-11-02
 ==================
   * `a=bundle-only` support added in #73 via @ibc
