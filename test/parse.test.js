@@ -256,6 +256,10 @@ test('hackySdp', function *(t) {
   // verify a=framerate:29.97
   t.ok(media[2].framerate, 'we have framerate');
   t.equal(media[2].framerate, 29.97, 'framerate is 29.97');
+
+  // verify a=label:1
+  t.ok(media[0].label, 'we have label');
+  t.equal(media[0].label, 1, 'label is 1');
 });
 
 test('iceliteSdp', function *(t) {

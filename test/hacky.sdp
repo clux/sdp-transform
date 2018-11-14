@@ -39,6 +39,7 @@ a=ssrc:2754920552 cname:t9YU8M1UxTF8Y1A1
 a=ssrc:2754920552 msid:Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0
 a=ssrc:2754920552 mslabel:Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV
 a=ssrc:2754920552 label:Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0
+a=label:1
 m=video 1 RTP/SAVPF 100 116 117
 c=IN IP4 0.0.0.0
 a=rtcp:12312
