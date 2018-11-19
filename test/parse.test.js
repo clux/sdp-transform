@@ -674,3 +674,32 @@ test('ST2110-20', function* (t) {
     SSN: 'ST2110-20:2017'
   }, 'video 5th rid params');
 });
+
+test('SCTP-DTLS-26', function* (t) {
+  var sdp = yield fs.readFile(__dirname + '/sctp-dtls-26.sdp', 'utf8');
+
+  var session = parse(sdp + '');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length > 0, 'got media');
+
+  t.equal(session.origin.sessionId, '5636137646675714991', 'origin sessionId');
+  t.ok(session.groups, 'parsing session groups');
+  t.equal(session.groups.length, 1, 'one grouping');
+  t.equal(session.groups[0].type, 'BUNDLE', 'grouping is BUNDLE');
+  t.equal(session.groups[0].mids, 'data', 'bundling data');
+  t.ok(session.msidSemantic, 'have an msid semantic');
+  t.equal(session.msidSemantic.semantic, 'WMS', 'webrtc semantic');
+
+  // verify media is data application
+  t.equal(media[0].type, 'application', 'media type application');
+  t.equal(media[0].mid, 'data', 'media  id pplication');
+
+  // verify protocol and ports
+  t.equal(media[0].protocol, 'UDP/DTLS/SCTP', 'protocol is UDP/DTLS/SCTP');
+  t.equal(media[0].port, 9, 'the UDP port value is 9');
+  t.equal(media[0].sctpPort, 5000, 'the offerer/answer SCTP port value is 5000');
+
+  // verify maxMessageSize 
+  t.equal(media[0].maxMessageSize, 10000, 'maximum message size is 10000');
+});
