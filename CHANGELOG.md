@@ -1,3 +1,7 @@
+2.7.0 / 2018-11-21
+==================
+  * `a=sctp-port` + `a=max-message-size` support added in #76 via @egzonzeneli
+
 2.6.0 / 2018-11-14
 ==================
   * `a=label` support added in #75 via @jeremy-j-ackso
