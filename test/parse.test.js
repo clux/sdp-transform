@@ -700,6 +700,6 @@ test('SCTP-DTLS-26', function* (t) {
   t.equal(media[0].port, 9, 'the UDP port value is 9');
   t.equal(media[0].sctpPort, 5000, 'the offerer/answer SCTP port value is 5000');
 
-  // verify maxMessageSize 
+  // verify maxMessageSize
   t.equal(media[0].maxMessageSize, 10000, 'maximum message size is 10000');
 });
