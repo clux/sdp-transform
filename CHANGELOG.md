@@ -1,3 +1,8 @@
+2.8.0 / 2019-05-29
+==================
+  * `a=extmap` `encrypt-uri` improvements in #81
+  * `parsePayloads` safe parsing bugfix for integer equivalent m-lines #80
+
 2.7.0 / 2018-11-21
 ==================
   * `a=sctp-port` + `a=max-message-size` support added in #76 via @egzonzeneli
