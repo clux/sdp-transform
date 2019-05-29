@@ -1,4 +1,5 @@
 # SDP Transform
+
 [![npm status](http://img.shields.io/npm/v/sdp-transform.svg)](https://www.npmjs.org/package/sdp-transform)
 [![build status](https://secure.travis-ci.org/clux/sdp-transform.svg)](http://travis-ci.org/clux/sdp-transform)
 [![dependency status](https://david-dm.org/clux/sdp-transform.svg)](https://david-dm.org/clux/sdp-transform)
@@ -10,6 +11,7 @@ For simplicity it will force values that are integers to integers and leave ever
 
 
 ## Usage - Parser
+
 Require it and pass it an unprocessed SDP string.
 
 ```js
@@ -115,6 +117,7 @@ res.media[1];
 In this example, only slightly dodgy string coercion case here is for `candidates[i].foundation`, which can be a string, but in this case can be equally parsed as an integer.
 
 ### Parser Postprocessing
+
 No excess parsing is done to the raw strings apart from maybe coercing to ints, because the writer is built to be the inverse of the parser. That said, a few helpers have been built in:
 
 #### parseParams()
@@ -175,6 +178,7 @@ transform.parseSimulcastStreamList(res.media[1].simulcast.attrs1);
 ```
 
 ## Usage - Writer
+
 The writer is the inverse of the parser, and will need a struct equivalent to the one returned by it.
 
 ```js
@@ -206,7 +210,9 @@ transform.write(res).split('\r\n'); // res parsed above
 
 The only thing different from the original input is we follow the order specified by the SDP RFC, and we will always do so.
 
+
 ## Installation
+
 Install locally from npm:
 
 ```bash
@@ -214,4 +220,5 @@ $ npm install sdp-transform
 ```
 
 ## License
+
 MIT-Licensed. See LICENSE file for details.

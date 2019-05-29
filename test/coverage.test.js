@@ -18,12 +18,17 @@ var verifyCoverage = function *(file, t) {
 var sdps = [
   'normal.sdp',
   'hacky.sdp',
+  'icelite.sdp',
   'jssip.sdp',
   'jsep.sdp',
-  //'alac.sdp', // deliberate invalids
-  //'onvif.sdp', // SHOULD PASS
+  // 'alac.sdp', // deliberate invalids
+  'onvif.sdp',
   'ssrc.sdp',
-  'simulcast.sdp'
+  'simulcast.sdp',
+  'st2022-6.sdp',
+  // 'st2110-20.sdp', // deliberate invalids
+  'sctp-dtls-26.sdp',
+  'extmap-encrypt.sdp'
 ];
 
 sdps.forEach((name) => {
