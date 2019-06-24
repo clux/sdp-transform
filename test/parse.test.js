@@ -752,3 +752,37 @@ test('extmapEncryptSdp', function *(t) {
 
   t.equal(media.length, 1, 'got 1 m-lines');
 });
+
+test('dante-aes67', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/dante-aes67.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 1423986, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 1423994, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '169.254.98.63', 'origin address');
+
+  t.equal(session.name, 'AOIP44-serial-1614 : 2', 'Session Name');
+  t.equal(session.keywords, 'Dante', 'Keywords');
+
+  t.equal(session.connection.ip, '239.65.125.63/32', 'session connect ip');
+  t.equal(session.connection.version, 4, 'session connect ip ver');
+
+  var audio = media[0];
+  t.equal(audio.type, 'audio', 'audio type');
+  t.equal(audio.port, 5004, 'audio port');
+  t.equal(audio.protocol, 'RTP/AVP', 'audio protocol');
+  t.equal(audio.direction, 'recvonly', 'audio direction');
+  t.equal(audio.description, '2 channels: TxChan 0, TxChan 1', 'audio description');
+  t.equal(audio.ptime, 1, 'audio packet duration');
+  t.equal(audio.rtp[0].payload, 97, 'audio rtp payload type');
+  t.equal(audio.rtp[0].codec, 'L24', 'audio rtp codec');
+  t.equal(audio.rtp[0].rate, 48000, 'audio sample rate');
+  t.equal(audio.rtp[0].encoding, 2, 'audio channels');
+});

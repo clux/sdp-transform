@@ -37,7 +37,8 @@ var sdps = [
   'st2022-6.sdp',
   'st2110-20.sdp',
   'sctp-dtls-26.sdp',
-  'extmap-encrypt.sdp'
+  'extmap-encrypt.sdp',
+  'dante-aes67.sdp'
 ];
 
 sdps.forEach((name) => {
