@@ -1,0 +1,11 @@
+v=0
+o=- 1423986 1423994 IN IP4 169.254.98.63
+s=AOIP44-serial-1614 : 2
+c=IN IP4 239.65.125.63/32
+t=0 0
+a=keywds:Dante
+m=audio 5004 RTP/AVP 97
+i=2 channels: TxChan 0, TxChan 1
+a=recvonly
+a=rtpmap:97 L24/48000/2
+a=ptime:1
