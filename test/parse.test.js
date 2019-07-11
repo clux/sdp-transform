@@ -786,3 +786,56 @@ test('dante-aes67', function *(t) {
   t.equal(audio.rtp[0].rate, 48000, 'audio sample rate');
   t.equal(audio.rtp[0].encoding, 2, 'audio channels');
 });
+
+
+test('tcp-active', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/tcp-active.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 1562876543, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 11, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '192.0.2.3', 'origin address');
+
+  var image = media[0];
+  t.equal(image.type, 'image', 'image type');
+  t.equal(image.port, 9, 'port');
+  t.equal(image.connection.version, 4, 'Connection is IPv4');
+  t.equal(image.connection.ip, '192.0.2.3', 'Connection address');
+  t.equal(image.protocol, 'TCP', 'TCP protocol');
+  t.equal(image.payloads, 't38', 'TCP payload');
+  t.equal(image.setup, 'active', 'setup active');
+  t.equal(image.connectionType, 'new', 'new connection');
+});
+
+test('tcp-passive', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/tcp-passive.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 1562876543, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 11, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '192.0.2.2', 'origin address');
+
+  var image = media[0];
+  t.equal(image.type, 'image', 'image type');
+  t.equal(image.port, 54111, 'port');
+  t.equal(image.connection.version, 4, 'Connection is IPv4');
+  t.equal(image.connection.ip, '192.0.2.2', 'Connection address');
+  t.equal(image.protocol, 'TCP', 'TCP protocol');
+  t.equal(image.payloads, 't38', 'TCP payload');
+  t.equal(image.setup, 'passive', 'setup passive');
+  t.equal(image.connectionType, 'existing', 'existing connection');
+});

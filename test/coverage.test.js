@@ -29,7 +29,9 @@ var sdps = [
   // 'st2110-20.sdp', // deliberate invalids
   'sctp-dtls-26.sdp',
   'extmap-encrypt.sdp',
-  'dante-aes67.sdp'
+  'dante-aes67.sdp',
+  'tcp-active.sdp',
+  'tcp-passive.sdp'
 ];
 
 sdps.forEach((name) => {
