@@ -1,3 +1,7 @@
+2.9.0 / 2019-07-1
+==================
+  * `a=keywds` support via #82
+
 2.8.0 / 2019-05-29
 ==================
   * `a=extmap` `encrypt-uri` improvements in #81
