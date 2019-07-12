@@ -1,0 +1,7 @@
+v=0
+o=- 1562876543 11 IN IP4 192.0.2.2
+s=RFC4145 Example 7.3.1
+m=image 54111 TCP t38
+c=IN IP4 192.0.2.2
+a=setup:passive
+a=connection:existing
