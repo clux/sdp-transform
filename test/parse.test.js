@@ -787,6 +787,43 @@ test('dante-aes67', function *(t) {
   t.equal(audio.rtp[0].encoding, 2, 'audio channels');
 });
 
+test('bfcp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/bfcp.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 4, 'got 4 media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+
+  var audio = media[0];
+  t.equal(audio.type, 'audio', 'audio type');
+
+  var video = media[1];
+  t.equal(video.type, 'video', 'main video type');
+  t.equal(video.direction, 'sendrecv', 'main video direction');
+  t.equal(video.content, 'main', 'main video content');
+  t.equal(video.label, 1, 'main video label');
+
+  var app = media[2];
+  t.equal(app.type, 'application', 'application type');
+  t.equal(app.port, 3238, 'application port');
+  t.equal(app.protocol, 'UDP/BFCP', 'bfcp protocol');
+  t.equal(app.payloads, '*', 'bfcp payloads');
+  t.equal(app.connectionType, 'new', 'connection type');
+  t.equal(app.bfcpFloorCtrl, 's-only', 'bfcp Floor Control');
+  t.equal(app.bfcpConfId, 1, 'bfcp ConfId');
+  t.equal(app.bfcpUserId, 1, 'bfcp UserId');
+  t.equal(app.bfcpFloorId.id, 1, 'bfcp FloorId');
+  t.equal(app.bfcpFloorId.mStream, 3, 'bfcp Floor Stream');
+
+  var video2 = media[3];
+  t.equal(video2.type, 'video', '2nd video type');
+  t.equal(video2.direction, 'sendrecv', '2nd video direction');
+  t.equal(video2.content, 'slides', '2nd video content');
+  t.equal(video2.label, 3, '2nd video label');
+});
 
 test('tcp-active', function *(t) {
   var sdp = yield fs.readFile(__dirname + '/tcp-active.sdp', 'utf8');

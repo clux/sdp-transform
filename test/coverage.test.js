@@ -30,6 +30,7 @@ var sdps = [
   'sctp-dtls-26.sdp',
   'extmap-encrypt.sdp',
   'dante-aes67.sdp',
+  'bfcp.sdp',
   'tcp-active.sdp',
   'tcp-passive.sdp'
 ];

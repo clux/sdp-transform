@@ -1,0 +1,30 @@
+v=0
+o=- 1556822052 1556822053 IN IP4 192.0.0.0
+s=
+c=IN IP4 192.0.0.0
+b=AS:1024
+t=0 0
+a=sendrecv
+m=audio 3230 RTP/AVP 9
+a=sendrecv
+a=rtpmap:9 G722/8000
+a=fmtp:9 bitrate=64000
+m=video 3232 RTP/AVP 111
+a=sendrecv
+a=content:main
+a=label:1
+a=rtpmap:111 H264/90000
+a=fmtp:111 profile-level-id=64001f; packetization-mode=1; max-br=20010; sar=13
+m=application 3238 UDP/BFCP *
+a=floorctrl:s-only
+a=confid:1
+a=userid:1
+a=floorid:1 m-stream:3
+a=setup:passive
+a=connection:new
+m=video 3234 RTP/AVP 111
+a=sendrecv
+a=content:slides
+a=label:3
+a=rtpmap:111 H264/90000
+a=fmtp:111 profile-level-id=64001f; packetization-mode=1; max-mbps=122500; max-fs=8192; max-br=20010; sar=13
