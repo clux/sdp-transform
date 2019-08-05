@@ -11,6 +11,7 @@ a=rtpmap:0 PCMU/8000
 a=rtpmap:96 opus/48000
 a=extmap:1 URI-toffset
 a=extmap:2/recvonly URI-gps-string
+a=extmap-allow-mixed
 a=ptime:20
 a=sendrecv
 a=candidate:0 1 UDP 2113667327 203.0.113.1 54400 typ host
