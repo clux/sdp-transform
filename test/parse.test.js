@@ -51,6 +51,7 @@ test('normalSdp', function *(t) {
     direction: 'recvonly',
     uri: 'URI-gps-string'
   }, 'audio extension 1');
+  t.equal(audio.extmapAllowMixed, 'extmap-allow-mixed', 'extmap-allow-mixed present');
 
   var video = media[1];
   t.equal(video.type, 'video', 'video type');
