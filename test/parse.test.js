@@ -9,8 +9,6 @@ var fs = require('co-fs')
   , parseSimulcastStreamList = main.parseSimulcastStreamList
   ;
 
-// some random sdp that keps having random attributes attached to it
-// so we can test that the grammar works as intended
 test('normalSdp', function *(t) {
   var sdp = yield fs.readFile(__dirname + '/normal.sdp', 'utf8');
 
@@ -19,7 +17,6 @@ test('normalSdp', function *(t) {
   var media = session.media;
   t.ok(media && media.length > 0, 'got media');
 
-  // t.equal(session.identifier, '- 20518 0 IN IP4 203.0.113.1', 'identifier');
   t.equal(session.origin.username, '-', 'origin username');
   t.equal(session.origin.sessionId, 20518, 'origin sessionId');
   t.equal(session.origin.sessionVersion, 0, 'origin sessionVersion');
@@ -54,6 +51,7 @@ test('normalSdp', function *(t) {
     direction: 'recvonly',
     uri: 'URI-gps-string'
   }, 'audio extension 1');
+  t.equal(audio.extmapAllowMixed, 'extmap-allow-mixed', 'extmap-allow-mixed present');
 
   var video = media[1];
   t.equal(video.type, 'video', 'video type');
@@ -153,7 +151,8 @@ test('normalSdp', function *(t) {
   t.equal(media.length, 2, 'got 2 m-lines');
 });
 
-/* Test for an sdp that started out as something from chrome
+/*
+ * Test for an sdp that started out as something from chrome
  * it's since been hacked to include tests for other stuff
  * ignore the name
  */
@@ -346,7 +345,6 @@ test('jssipSdp', function *(t) {
     'audio candidate 4 (tcp)'
   );
 });
-
 
 test('jsepSdp', function *(t) {
   var sdp = yield fs.readFile(__dirname + '/jsep.sdp', 'utf8');
@@ -702,4 +700,180 @@ test('SCTP-DTLS-26', function* (t) {
 
   // verify maxMessageSize
   t.equal(media[0].maxMessageSize, 10000, 'maximum message size is 10000');
+});
+
+test('extmapEncryptSdp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/extmap-encrypt.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length > 0, 'got media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 20518, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 0, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '203.0.113.1', 'origin address');
+
+  t.equal(session.connection.ip, '203.0.113.1', 'session connect ip');
+  t.equal(session.connection.version, 4, 'session connect ip ver');
+
+  var audio = media[0];
+  t.equal(audio.type, 'audio', 'audio type');
+  t.equal(audio.port, 54400, 'audio port');
+  t.equal(audio.protocol, 'RTP/SAVPF', 'audio protocol');
+  t.equal(audio.rtp[0].payload, 96, 'audio rtp 0 payload');
+  t.equal(audio.rtp[0].codec, 'opus', 'audio rtp 0 codec');
+  t.equal(audio.rtp[0].rate, 48000, 'audio rtp 0 rate');
+
+  // extmap and encrypted extmap
+  t.deepEqual(audio.ext[0], {
+    value: 1,
+    direction: 'sendonly',
+    uri: 'URI-toffset'
+  }, 'audio extension 0');
+  t.deepEqual(audio.ext[1], {
+    value: 2,
+    uri: 'urn:ietf:params:rtp-hdrext:toffset'
+  }, 'audio extension 1');
+  t.deepEqual(audio.ext[2], {
+    value: 3,
+    'encrypt-uri': 'urn:ietf:params:rtp-hdrext:encrypt',
+    uri: 'urn:ietf:params:rtp-hdrext:smpte-tc',
+    config: '25@600/24'
+  }, 'audio extension 2');
+  t.deepEqual(audio.ext[3], {
+    value: 4,
+    direction: 'recvonly',
+    'encrypt-uri': 'urn:ietf:params:rtp-hdrext:encrypt',
+    uri: 'URI-gps-string'
+  }, 'audio extension 3');
+
+  t.equal(media.length, 1, 'got 1 m-lines');
+});
+
+test('dante-aes67', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/dante-aes67.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 1423986, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 1423994, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '169.254.98.63', 'origin address');
+
+  t.equal(session.name, 'AOIP44-serial-1614 : 2', 'Session Name');
+  t.equal(session.keywords, 'Dante', 'Keywords');
+
+  t.equal(session.connection.ip, '239.65.125.63/32', 'session connect ip');
+  t.equal(session.connection.version, 4, 'session connect ip ver');
+
+  var audio = media[0];
+  t.equal(audio.type, 'audio', 'audio type');
+  t.equal(audio.port, 5004, 'audio port');
+  t.equal(audio.protocol, 'RTP/AVP', 'audio protocol');
+  t.equal(audio.direction, 'recvonly', 'audio direction');
+  t.equal(audio.description, '2 channels: TxChan 0, TxChan 1', 'audio description');
+  t.equal(audio.ptime, 1, 'audio packet duration');
+  t.equal(audio.rtp[0].payload, 97, 'audio rtp payload type');
+  t.equal(audio.rtp[0].codec, 'L24', 'audio rtp codec');
+  t.equal(audio.rtp[0].rate, 48000, 'audio sample rate');
+  t.equal(audio.rtp[0].encoding, 2, 'audio channels');
+});
+
+test('bfcp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/bfcp.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 4, 'got 4 media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+
+  var audio = media[0];
+  t.equal(audio.type, 'audio', 'audio type');
+
+  var video = media[1];
+  t.equal(video.type, 'video', 'main video type');
+  t.equal(video.direction, 'sendrecv', 'main video direction');
+  t.equal(video.content, 'main', 'main video content');
+  t.equal(video.label, 1, 'main video label');
+
+  var app = media[2];
+  t.equal(app.type, 'application', 'application type');
+  t.equal(app.port, 3238, 'application port');
+  t.equal(app.protocol, 'UDP/BFCP', 'bfcp protocol');
+  t.equal(app.payloads, '*', 'bfcp payloads');
+  t.equal(app.connectionType, 'new', 'connection type');
+  t.equal(app.bfcpFloorCtrl, 's-only', 'bfcp Floor Control');
+  t.equal(app.bfcpConfId, 1, 'bfcp ConfId');
+  t.equal(app.bfcpUserId, 1, 'bfcp UserId');
+  t.equal(app.bfcpFloorId.id, 1, 'bfcp FloorId');
+  t.equal(app.bfcpFloorId.mStream, 3, 'bfcp Floor Stream');
+
+  var video2 = media[3];
+  t.equal(video2.type, 'video', '2nd video type');
+  t.equal(video2.direction, 'sendrecv', '2nd video direction');
+  t.equal(video2.content, 'slides', '2nd video content');
+  t.equal(video2.label, 3, '2nd video label');
+});
+
+test('tcp-active', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/tcp-active.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 1562876543, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 11, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '192.0.2.3', 'origin address');
+
+  var image = media[0];
+  t.equal(image.type, 'image', 'image type');
+  t.equal(image.port, 9, 'port');
+  t.equal(image.connection.version, 4, 'Connection is IPv4');
+  t.equal(image.connection.ip, '192.0.2.3', 'Connection address');
+  t.equal(image.protocol, 'TCP', 'TCP protocol');
+  t.equal(image.payloads, 't38', 'TCP payload');
+  t.equal(image.setup, 'active', 'setup active');
+  t.equal(image.connectionType, 'new', 'new connection');
+});
+
+test('tcp-passive', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/tcp-passive.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  t.equal(session.origin.username, '-', 'origin username');
+  t.equal(session.origin.sessionId, 1562876543, 'origin sessionId');
+  t.equal(session.origin.sessionVersion, 11, 'origin sessionVersion');
+  t.equal(session.origin.netType, 'IN', 'origin netType');
+  t.equal(session.origin.ipVer, 4, 'origin ipVer');
+  t.equal(session.origin.address, '192.0.2.2', 'origin address');
+
+  var image = media[0];
+  t.equal(image.type, 'image', 'image type');
+  t.equal(image.port, 54111, 'port');
+  t.equal(image.connection.version, 4, 'Connection is IPv4');
+  t.equal(image.connection.ip, '192.0.2.2', 'Connection address');
+  t.equal(image.protocol, 'TCP', 'TCP protocol');
+  t.equal(image.payloads, 't38', 'TCP payload');
+  t.equal(image.setup, 'passive', 'setup passive');
+  t.equal(image.connectionType, 'existing', 'existing connection');
 });

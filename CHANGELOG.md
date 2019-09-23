@@ -1,3 +1,24 @@
+2.12.0 / 2019-08-05
+===================
+  * a=extmap-allow-mixed (RFC 8285) #87
+
+2.11.0 / 2019-07-28
+===================
+  * BFCP RFC4583 support via #86
+
+2.10.0 / 2019-07-12
+===================
+  * `a=connection` support for RFC4145 via #85
+
+2.9.0 / 2019-07-11
+==================
+  * `a=keywds` support via #82
+
+2.8.0 / 2019-05-29
+==================
+  * `a=extmap` `encrypt-uri` improvements in #81
+  * `parsePayloads` safe parsing bugfix for integer equivalent m-lines #80
+
 2.7.0 / 2018-11-21
 ==================
   * `a=sctp-port` + `a=max-message-size` support added in #76 via @egzonzeneli

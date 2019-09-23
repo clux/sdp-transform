@@ -26,6 +26,8 @@ var verifyCompose = function *(file, t) {
 var sdps = [
   'normal.sdp',
   'hacky.sdp',
+  'icelite.sdp',
+  'invalid.sdp',
   'jssip.sdp',
   'jsep.sdp',
   'alac.sdp',
@@ -34,6 +36,12 @@ var sdps = [
   'simulcast.sdp',
   'st2022-6.sdp',
   'st2110-20.sdp',
+  'sctp-dtls-26.sdp',
+  'extmap-encrypt.sdp',
+  'dante-aes67.sdp',
+  'bfcp.sdp',
+  'tcp-active.sdp',
+  'tcp-passive.sdp'
 ];
 
 sdps.forEach((name) => {

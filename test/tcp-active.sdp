@@ -1,0 +1,7 @@
+v=0
+o=- 1562876543 11 IN IP4 192.0.2.3
+s=RFC4145 Example 7.4.2
+m=image 9 TCP t38
+c=IN IP4 192.0.2.3
+a=setup:active
+a=connection:new
