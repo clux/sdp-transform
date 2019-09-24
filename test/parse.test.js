@@ -877,3 +877,101 @@ test('tcp-passive', function *(t) {
   t.equal(image.setup, 'passive', 'setup passive');
   t.equal(image.connectionType, 'existing', 'existing connection');
 });
+
+test('mediaclk-avbtp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/mediaclk-avbtp.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  var audio = media[0];
+  t.equal(audio.mediaClk.mediaClockName, 'IEEE1722', 'IEEE1722 Media Clock');
+  t.equal(audio.mediaClk.mediaClockValue, '38-D6-6D-8E-D2-78-13-2F', 'AVB stream ID');
+});
+
+test('mediaclk-ptp-v2-w-rate', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/mediaclk-ptp-v2-w-rate.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  var audio = media[0];
+  t.equal(audio.mediaClk.mediaClockName, 'direct', 'Direct Media Clock');
+  t.equal(audio.mediaClk.mediaClockValue, 963214424, 'offset');
+  t.equal(audio.mediaClk.rateNumerator, 1000, 'rate numerator');
+  t.equal(audio.mediaClk.rateDenominator, 1001, 'rate denominator');
+});
+
+test('mediaclk-ptp-v2', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/mediaclk-ptp-v2.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  var audio = media[0];
+  t.equal(audio.mediaClk.mediaClockName, 'direct', 'Direct Media Clock');
+  t.equal(audio.mediaClk.mediaClockValue, 963214424, 'offset');
+});
+
+test('mediaclk-rtp', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/mediaclk-rtp.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+  var media = session.media;
+  t.ok(media && media.length == 1, 'got single media');
+
+  var audio = media[0];
+  t.equal(audio.mediaClk.id, 'MDA6NjA6MmI6MjA6MTI6MWY=', 'Media Clock ID');
+  t.equal(audio.mediaClk.mediaClockName, 'sender', 'sender type');
+});
+
+test('ts-refclk-media', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/ts-refclk-media.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+
+  var sessTsRefClocks = session.tsRefClocks;
+  t.ok(sessTsRefClocks && sessTsRefClocks.length == 1, 'got one TS Ref Clock');
+  t.equal(sessTsRefClocks[0].clksrc, 'local', 'local Clock Source at Session Level');
+
+  var media = session.media;
+  t.ok(media && media.length == 2, 'got two media');
+
+  var audio = media[0];
+  var audTsRefClocks = audio.tsRefClocks;
+  t.ok(audTsRefClocks && audTsRefClocks.length == 2, 'got two audio TS Ref Clocks');
+
+  var audTsRefClock1 = audTsRefClocks[0];
+  t.equal(audTsRefClock1.clksrc, 'ntp', 'NTP Clock Source');
+  t.equal(audTsRefClock1.clksrcExt, '203.0.113.10', 'IPv4 address');
+
+  var audTsRefClock2 = audTsRefClocks[1];
+  t.equal(audTsRefClock2.clksrc, 'ntp', 'NTP Clock Source');
+  t.equal(audTsRefClock2.clksrcExt, '198.51.100.22', 'IPv4 address');
+
+  var video = media[1];
+  var vidTsRefClocks = video.tsRefClocks;
+  t.ok(vidTsRefClocks && vidTsRefClocks.length == 1, 'got one video TS Ref Clocks');
+  t.equal(vidTsRefClocks[0].clksrc, 'ptp', 'PTP Clock Source');
+  t.equal(vidTsRefClocks[0].clksrcExt, 'IEEE802.1AS-2011:39-A7-94-FF-FE-07-CB-D0', 'PTP config');
+});
+
+test('ts-refclk-sess', function *(t) {
+  var sdp = yield fs.readFile(__dirname + '/ts-refclk-sess.sdp', 'utf8');
+
+  var session = parse(sdp+'');
+  t.ok(session, 'got session info');
+
+  var sessTsRefClocks = session.tsRefClocks;
+  t.ok(sessTsRefClocks && sessTsRefClocks.length == 1, 'got one TS Ref Clock at Session Level');
+  t.equal(sessTsRefClocks[0].clksrc, 'ntp', 'NTP Clock Source');
+  t.equal(sessTsRefClocks[0].clksrcExt, '/traceable/', 'traceable Clock Source');
+});
