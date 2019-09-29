@@ -32,7 +32,13 @@ var sdps = [
   'dante-aes67.sdp',
   'bfcp.sdp',
   'tcp-active.sdp',
-  'tcp-passive.sdp'
+  'tcp-passive.sdp',
+  'mediaclk-avbtp.sdp',
+  'mediaclk-ptp-v2-w-rate.sdp',
+  'mediaclk-ptp-v2.sdp',
+  'mediaclk-rtp.sdp',
+  'ts-refclk-media.sdp',
+  'ts-refclk-sess.sdp'
 ];
 
 sdps.forEach((name) => {
