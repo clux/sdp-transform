@@ -1,3 +1,7 @@
+2.13.0 / 2019-09-29
+===================
+  * Add `a=ts-refclk` and `a=mediaclk` for RFC7273 support via #78
+
 2.12.0 / 2019-08-05
 ===================
   * a=extmap-allow-mixed (RFC 8285) #87
