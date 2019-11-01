@@ -12,10 +12,17 @@ For simplicity it will force values that are integers to integers and leave ever
 
 ## Installation
 
-Install locally from npm:
-
 ```bash
 $ npm install sdp-transform
+```
+
+
+## TypeScript Definitions
+
+Available in the [@types/sdp-transform](https://www.npmjs.com/package/@types/sdp-transform) package:
+
+```bash
+$ npm install -D @types/sdp-transform
 ```
 
 
