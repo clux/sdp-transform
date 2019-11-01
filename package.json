@@ -12,7 +12,8 @@
     "webrtc",
     "serializer"
   ],
-  "main": "./lib/",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
   "bin": {
     "sdp-verify": "./checker.js"
   },
