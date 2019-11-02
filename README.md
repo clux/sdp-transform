@@ -10,14 +10,41 @@ A simple parser and writer of SDP. Defines internal grammar based on [RFC4566 - 
 For simplicity it will force values that are integers to integers and leave everything else as strings when parsing. The module should be simple to extend or build upon, and is constructed rigorously.
 
 
-## Usage - Parser
+## Installation
 
-Require it and pass it an unprocessed SDP string.
+```bash
+$ npm install sdp-transform
+```
+
+
+## TypeScript Definitions
+
+Available in the [@types/sdp-transform](https://www.npmjs.com/package/@types/sdp-transform) package:
+
+```bash
+$ npm install -D @types/sdp-transform
+```
+
+
+## Usage
+
+Load using CommonJS syntax or ES6 syntax:
 
 ```js
-var transform = require('sdp-transform');
+// CommonJS
+const sdpTransform = require('sdp-transform');
 
-var sdpStr = "v=0\r\n\
+// ES6
+import * as sdpTransform from 'sdp-transform';
+```
+
+
+## Usage - Parser
+
+Pass it an unprocessed SDP string.
+
+```js
+const sdpStr = "v=0\r\n\
 o=- 20518 0 IN IP4 203.0.113.1\r\n\
 s= \r\n\
 t=0 0\r\n\
@@ -41,7 +68,7 @@ a=candidate:0 1 UDP 2113667327 203.0.113.1 55400 typ host\r\n\
 a=candidate:1 2 UDP 2113667326 203.0.113.1 55401 typ host\r\n\
 ";
 
-var res = transform.parse(sdpStr);
+const res = sdpTransform.parse(sdpStr);
 // =>
 { version: 0,
   origin:
@@ -126,7 +153,7 @@ Parses `fmtp.config` and others such as `rid.params` and returns an object with 
 
 ```js
 // to parse the fmtp.config from the previous example
-transform.parseParams(res.media[1].fmtp[0].config);
+sdpTransform.parseParams(res.media[1].fmtp[0].config);
 // =>
 { 'profile-level-id': '4d0028',
   'packetization-mode': 1 }
@@ -138,7 +165,7 @@ Returns an array with all the payload advertised in the main m-line.
 
 ```js
 // what payloads where actually advertised in the main m-line ?
-transform.parsePayloads(res.media[1].payloads);
+sdpTransform.parsePayloads(res.media[1].payloads);
 // =>
 [97, 98]
 ```
@@ -149,7 +176,7 @@ Parses [Generic Image Attributes](https://tools.ietf.org/html/rfc6236). Must be 
 
 ```js
 // a=imageattr:97 send [x=1280,y=720] recv [x=1280,y=720] [x=320,y=180]
-transform.parseImageAttributes(res.media[1].imageattrs[0].attrs2)
+sdpTransform.parseImageAttributes(res.media[1].imageattrs[0].attrs2)
 // =>
 [ {'x': 1280, 'y': 720}, {'x': 320, 'y': 180} ]
 ```
@@ -165,7 +192,7 @@ Returns an array of simulcast streams. Each entry is an array of alternative sim
 
 ```js
 // a=simulcast:send 1,~4;2;3 recv c
-transform.parseSimulcastStreamList(res.media[1].simulcast.attrs1);
+sdpTransform.parseSimulcastStreamList(res.media[1].simulcast.attrs1);
 // =>
 [
   // First simulcast stream (two alternative formats)
@@ -182,7 +209,7 @@ transform.parseSimulcastStreamList(res.media[1].simulcast.attrs1);
 The writer is the inverse of the parser, and will need a struct equivalent to the one returned by it.
 
 ```js
-transform.write(res).split('\r\n'); // res parsed above
+sdpTransform.write(res).split('\r\n'); // res parsed above
 // =>
 [ 'v=0',
   'o=- 20518 0 IN IP4 203.0.113.1',
@@ -210,14 +237,6 @@ transform.write(res).split('\r\n'); // res parsed above
 
 The only thing different from the original input is we follow the order specified by the SDP RFC, and we will always do so.
 
-
-## Installation
-
-Install locally from npm:
-
-```bash
-$ npm install sdp-transform
-```
 
 ## License
 
