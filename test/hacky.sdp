@@ -34,6 +34,7 @@ a=rtpmap:106 CN/32000
 a=rtpmap:105 CN/16000
 a=rtpmap:13 CN/8000
 a=rtpmap:126 telephone-event/8000
+a=ptime:0.125
 a=maxptime:60
 a=ssrc:2754920552 cname:t9YU8M1UxTF8Y1A1
 a=ssrc:2754920552 msid:Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlV Jvlam5X3SX1OP6pn20zWogvaKJz5Hjf9OnlVa0
