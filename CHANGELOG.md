@@ -1,3 +1,7 @@
+2.14.0 / 2020-01-22
+===================
+  * Add `a=ptime` now support float values for sub-ms values via #89
+
 2.13.0 / 2019-09-29
 ===================
   * Add `a=ts-refclk` and `a=mediaclk` for RFC7273 support via #78
