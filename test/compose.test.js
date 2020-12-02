@@ -47,7 +47,8 @@ var sdps = [
   'mediaclk-ptp-v2.sdp',
   'mediaclk-rtp.sdp',
   'ts-refclk-media.sdp',
-  'ts-refclk-sess.sdp'
+  'ts-refclk-sess.sdp',
+  'rtcp-fb.sdp'
 ];
 
 sdps.forEach((name) => {
