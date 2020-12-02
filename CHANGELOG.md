@@ -1,3 +1,7 @@
+2.14.1 / 2020-12-02
+===================
+  * Fix `a=rtcp-fb` bug where trr-int is `*` via #91
+
 2.14.0 / 2020-01-22
 ===================
   * Add `a=ptime` now support float values for sub-ms values via #89
