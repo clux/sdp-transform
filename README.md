@@ -183,7 +183,7 @@ sdpTransform.parseImageAttributes(res.media[1].imageattrs[0].attrs2)
 
 #### parseSimulcastStreamList()
 
-Parses [simulcast](https://tools.ietf.org/html/draft-ietf-mmusic-sdp-simulcast) streams/formats. Must be provided with the `attrs1` or `attrs2` string of the `a=simulcast` line.
+Parses [simulcast](https://tools.ietf.org/html/draft-ietf-mmusic-sdp-simulcast) streams/formats. Must be provided with the `list1` or `list2` string of the `a=simulcast` line.
 
 Returns an array of simulcast streams. Each entry is an array of alternative simulcast formats, which are objects with two keys:
 
@@ -192,7 +192,7 @@ Returns an array of simulcast streams. Each entry is an array of alternative sim
 
 ```js
 // a=simulcast:send 1,~4;2;3 recv c
-sdpTransform.parseSimulcastStreamList(res.media[1].simulcast.attrs1);
+sdpTransform.parseSimulcastStreamList(res.media[1].simulcast.list1);
 // =>
 [
   // First simulcast stream (two alternative formats)
