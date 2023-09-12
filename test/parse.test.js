@@ -985,7 +985,20 @@ test('precondition', function* (t) {
   t.equal(session.media[0].precondition[0].status, 'local', 'precondition parsed');
 
   var rew = write(session);
-  console.log(rew.indexOf('m='));
   t.ok(rew.indexOf('a=curr:qos') >= 0, 'got qos precondition');
   t.ok(rew.indexOf('a=des:qos') > rew.indexOf('a=curr:qos'), 'precondition curr and then des state');
+});
+
+
+test('mrcp', function* (t) {
+  var sdp = yield fs.readFile(__dirname + '/mrcp.sdp', 'utf8');
+
+  var session = parse(sdp + '');
+  t.ok(session, 'got session info');
+  t.equal(session.media[0].resource, 'speechsynth', 'MRCP resource parsed');
+  t.equal(session.media[0].cmid, 1, 'MRCP cmid parsed');
+
+  var rew = write(session);
+  t.ok(rew.indexOf('a=resource:') >= 0, 'got MRCP resource');
+  t.ok(rew.indexOf('a=cmid:') >= 0, 'got MRCP cmid');
 });
