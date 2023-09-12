@@ -976,3 +976,16 @@ test('ts-refclk-sess', function *(t) {
   t.equal(sessTsRefClocks[0].clksrc, 'ntp', 'NTP Clock Source');
   t.equal(sessTsRefClocks[0].clksrcExt, '/traceable/', 'traceable Clock Source');
 });
+
+test('precondition', function* (t) {
+  var sdp = yield fs.readFile(__dirname + '/precondition.sdp', 'utf8');
+
+  var session = parse(sdp + '');
+  t.ok(session, 'got session info');
+  t.equal(session.media[0].precondition[0].status, 'local', 'precondition parsed');
+
+  var rew = write(session);
+  console.log(rew.indexOf('m='));
+  t.ok(rew.indexOf('a=curr:qos') >= 0, 'got qos precondition');
+  t.ok(rew.indexOf('a=des:qos') > rew.indexOf('a=curr:qos'), 'precondition curr and then des state');
+});
