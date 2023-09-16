@@ -19,15 +19,13 @@
   "scripts": {
     "lint": "eslint .",
     "test": "bndg test/*.test.js",
-    "precoverage": "istanbul cover bndg test/*.test.js",
-    "coverage": "cat coverage/lcov.info && rm -rf coverage"
+    "coverage": "nyc --reporter=lcov npm run test"
   },
-  "dependencies": {},
   "devDependencies": {
     "bandage": "^0.5.0",
     "co-fs": "^1.2.0",
     "eslint": "^5.10.0",
-    "istanbul": "^0.4.5"
+    "nyc": "^15.1.0"
   },
   "bugs": {
     "url": "https://github.com/clux/sdp-transform/issues"
