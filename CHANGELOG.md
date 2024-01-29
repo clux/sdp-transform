@@ -1,3 +1,7 @@
+2.14.2 / 2024-01-29
+===================
+  * Release a new version to prove we actually exist #102
+
 2.14.1 / 2020-12-02
 ===================
   * Fix `a=rtcp-fb` bug where trr-int is `*` via #91
