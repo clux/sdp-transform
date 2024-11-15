@@ -245,7 +245,7 @@ sdpTransform.grammar['a'].push({
   name: 'xCustomTag',
   reg: /^x-custom-tag:(\d*)/,
   names: ['tagId'],
-  format: 'x-custom:%d
+  format: 'x-custom-tag:%d
 })
 ```
 
