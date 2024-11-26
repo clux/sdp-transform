@@ -1,3 +1,8 @@
+
+2.15.0 / 2024-11-26
+===================
+  * Expose `grammar` object to allow injecting custom rules #103
+
 2.14.2 / 2024-01-29
 ===================
   * Release a new version to prove we actually exist #102
