@@ -236,6 +236,18 @@ sdpTransform.write(res).split('\r\n'); // res parsed above
 
 The only thing different from the original input is we follow the order specified by the SDP RFC, and we will always do so.
 
+## Usage - Custom grammar
+
+In case you need to add custom grammar (e.g. add unofficial attributes) to the parser, you can do so by mutating the `grammar` object before parsing.
+
+```js
+sdpTransform.grammar['a'].push({
+  name: 'xCustomTag',
+  reg: /^x-custom-tag:(\d*)/,
+  names: ['tagId'],
+  format: 'x-custom-tag:%d
+})
+```
 
 ## License
 
