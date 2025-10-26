@@ -365,10 +365,16 @@ test('jsepSdp', function *(t) {
     'ssrc-group'
   );
 
-  t.equal(video.msid,
-    '61317484-2ed4-49d7-9eb7-1414322a7aae f30bdb4a-5db8-49b5-bcdc-e0c9a23172e0'
-    , 'msid'
-  );
+  t.equal(video.msid, [
+    {
+      id: '61317484-2ed4-49d7-9eb7-1414322a7aae',
+      appdata: 'f30bdb4a-5db8-49b5-bcdc-e0c9a23172e0'
+    },
+    {
+      id: '93e8b9bb-ad32-417e-9d2d-42c215f50713',
+      appdata: 'f30bdb4a-5db8-49b5-bcdc-e0c9a23172e0'
+    }
+  ], 'msid');
 
   t.ok(video.rtcpRsize, 'rtcp-rsize present');
   t.ok(video.bundleOnly, 'bundle-only present');
