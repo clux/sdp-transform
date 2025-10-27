@@ -1,2 +1,4 @@
-node_modules
-lib-cov
+/lib/
+/node_modules/
+/nyc_output/
+/coverage/

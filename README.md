@@ -8,13 +8,11 @@ A simple parser and writer of SDP. Defines internal grammar based on [RFC4566 - 
 
 For simplicity it will force values that are integers to integers and leave everything else as strings when parsing. The module should be simple to extend or build upon, and is constructed rigorously.
 
-
 ## Installation
 
 ```bash
 $ npm install sdp-transform
 ```
-
 
 ## TypeScript Definitions
 
@@ -23,7 +21,6 @@ Available in the [@types/sdp-transform](https://www.npmjs.com/package/@types/sdp
 ```bash
 $ npm install -D @types/sdp-transform
 ```
-
 
 ## Usage
 
@@ -36,7 +33,6 @@ const sdpTransform = require('sdp-transform');
 // ES6
 import * as sdpTransform from 'sdp-transform';
 ```
-
 
 ## Usage - Parser
 
@@ -166,7 +162,7 @@ Returns an array with all the payload advertised in the main m-line.
 // what payloads where actually advertised in the main m-line ?
 sdpTransform.parsePayloads(res.media[1].payloads);
 // =>
-[97, 98]
+[97, 98];
 ```
 
 #### parseImageAttributes()
@@ -175,10 +171,13 @@ Parses [Generic Image Attributes](https://tools.ietf.org/html/rfc6236). Must be 
 
 ```js
 // a=imageattr:97 send [x=1280,y=720] recv [x=1280,y=720] [x=320,y=180]
-sdpTransform.parseImageAttributes(res.media[1].imageattrs[0].attrs2)
-// =>
-[ {'x': 1280, 'y': 720}, {'x': 320, 'y': 180} ]
+sdpTransform.parseImageAttributes(res.media[1].imageattrs[0].attrs2)[
+  // =>
+  ({ x: 1280, y: 720 }, { x: 320, y: 180 })
+];
 ```
+
+// TOOD: Rename to parseSimulcast()
 
 #### parseSimulcastStreamList()
 
@@ -186,8 +185,8 @@ Parses [simulcast](https://tools.ietf.org/html/draft-ietf-mmusic-sdp-simulcast) 
 
 Returns an array of simulcast streams. Each entry is an array of alternative simulcast formats, which are objects with two keys:
 
-* `scid`: Simulcast identifier
-* `paused`: Whether the simulcast format is paused
+- `scid`: Simulcast identifier
+- `paused`: Whether the simulcast format is paused
 
 ```js
 // a=simulcast:send 1,~4;2;3 recv c
@@ -195,12 +194,15 @@ sdpTransform.parseSimulcastStreamList(res.media[1].simulcast.list1);
 // =>
 [
   // First simulcast stream (two alternative formats)
-  [ {scid: 1, paused: false}, {scid: 4, paused: true} ],
+  [
+    { scid: 1, paused: false },
+    { scid: 4, paused: true },
+  ],
   // Second simulcast stream
-  [ {scid: 2, paused: false} ],
+  [{ scid: 2, paused: false }],
   // Third simulcast stream
-  [ {scid: 3, paused: false} ]
-]
+  [{ scid: 3, paused: false }],
+];
 ```
 
 ## Usage - Writer
@@ -210,7 +212,8 @@ The writer is the inverse of the parser, and will need a struct equivalent to th
 ```js
 sdpTransform.write(res).split('\r\n'); // res parsed above
 // =>
-[ 'v=0',
+[
+  'v=0',
   'o=- 20518 0 IN IP4 203.0.113.1',
   's= ',
   'c=IN IP4 203.0.113.1',
@@ -231,7 +234,8 @@ sdpTransform.write(res).split('\r\n'); // res parsed above
   'a=fmtp:97 profile-level-id=4d0028;packetization-mode=1',
   'a=sendrecv',
   'a=candidate:0 1 UDP 2113667327 203.0.113.1 55400 typ host',
-  'a=candidate:1 2 UDP 2113667326 203.0.113.1 55401 typ host' ]
+  'a=candidate:1 2 UDP 2113667326 203.0.113.1 55401 typ host',
+];
 ```
 
 The only thing different from the original input is we follow the order specified by the SDP RFC, and we will always do so.

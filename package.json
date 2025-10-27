@@ -3,32 +3,55 @@
   "description": "A simple parser/writer for the Session Description Protocol",
   "author": "Eirik Albrigtsen <sszynrae@gmail.com>",
   "version": "3.0.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "clux/sdp-transform"
+  },
+  "bugs": {
+    "url": "https://github.com/clux/sdp-transform/issues"
   },
   "keywords": [
     "sdp",
     "webrtc",
     "serializer"
   ],
-  "main": "./lib/",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "bin": {
     "sdp-verify": "./checker.js"
   },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "checker.js",
+    "lib"
+  ],
   "scripts": {
-    "lint": "eslint .",
+    "prepare": "npm run typescript:build",
+    "typescript:build": "tsc",
+    "typescript:watch": "tsc --watch",
+    "lint": "eslint-config-prettier eslint.config.mjs && eslint -c eslint.config.mjs --max-warnings 0 eslint.config.mjs src && prettier --check README.md CHANGELOG.md eslint.config.mjs package.json tsconfig.json src",
+    "format": "prettier --write README.md CHANGELOG.md eslint.config.mjs package.json tsconfig.json src",
     "test": "bndg test/*.test.js",
     "coverage": "nyc --reporter=lcov npm run test"
   },
   "devDependencies": {
+    "@eslint/js": "^9.38.0",
     "bandage": "^0.5.0",
     "co-fs": "^1.2.0",
-    "eslint": "^5.10.0",
-    "nyc": "^15.1.0"
-  },
-  "bugs": {
-    "url": "https://github.com/clux/sdp-transform/issues"
-  },
-  "license": "MIT"
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "nyc": "^15.1.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
+  }
 }
