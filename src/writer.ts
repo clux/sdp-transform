@@ -1,5 +1,5 @@
 import { grammar } from './grammar';
-import type { Grammar } from './grammar';
+import type { GrammarAttributeValue } from './grammar';
 import type { SessionDescription, MediaDescription } from './types';
 
 // customized util.format - discards excess arguments and can void middle ones
@@ -143,18 +143,13 @@ function format(...args: string[]): string {
 
 function makeLine(
   type: string,
-  obj: Grammar[keyof Grammar][number],
-  location: SessionDescription | MediaDescription
+  obj: GrammarAttributeValue,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  location: any
 ): string {
   const str =
     obj.format instanceof Function
-      ? obj.format(
-          obj.push
-            ? location
-            : location[
-                obj.name as keyof (SessionDescription | MediaDescription)
-              ]
-        )
+      ? obj.format(obj.push ? location : location[obj.name!])
       : obj.format;
 
   const args = [`${type}=${str}`];
@@ -162,29 +157,14 @@ function makeLine(
   if (obj.names) {
     for (const name of obj.names) {
       if (obj.name) {
-        args.push(
-          (
-            location[
-              obj.name as keyof (SessionDescription | MediaDescription)
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            ] as any
-          )[name]
-        );
+        args.push(location[obj.name][name]);
       } else {
         // for mLine and push attributes
-        args.push(
-          location[
-            name as keyof (SessionDescription | MediaDescription)
-          ] as string
-        );
+        args.push(location[name]);
       }
     }
   } else {
-    args.push(
-      location[
-        obj.name as keyof (SessionDescription | MediaDescription)
-      ] as string
-    );
+    args.push(location[obj.name!]);
   }
 
   return format(...args);

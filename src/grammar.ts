@@ -9,6 +9,8 @@ export type Grammar = {
   }[];
 };
 
+export type GrammarAttributeValue = Grammar[keyof Grammar][number];
+
 export const grammar: Grammar = {
   v: [
     {

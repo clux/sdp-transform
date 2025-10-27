@@ -1,4 +1,5 @@
 import { grammar } from './grammar';
+import type { GrammarAttributeValue } from './grammar';
 import type {
   SessionDescription,
   MediaDescription,
@@ -130,12 +131,12 @@ function attachProperties(
   match: RegExpMatchArray,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   location: any,
-  names: string[],
-  rawName: string
+  names?: string[],
+  rawName?: string
 ): void {
   if (rawName && !names) {
     location[rawName] = toIntIfInt(match[1]!);
-  } else {
+  } else if (names) {
     for (let i = 0; i < names.length; i++) {
       if (match[i + 1] != null) {
         location[names[i]!] = toIntIfInt(match[i + 1]!);
@@ -144,20 +145,24 @@ function attachProperties(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseReg(obj: any, location: any, content: string): void {
+function parseReg(
+  obj: GrammarAttributeValue,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  location: any,
+  content: string
+): void {
   const needsBlank = obj.name && obj.names;
 
   if (obj.push && !location[obj.push]) {
     location[obj.push] = [];
-  } else if (needsBlank && !location[obj.name]) {
-    location[obj.name] = {};
+  } else if (needsBlank && !location[obj.name!]) {
+    location[obj.name!] = {};
   }
 
   const keyLocation = obj.push
     ? {} // blank object that will be pushed
     : needsBlank
-      ? location[obj.name]
+      ? location[obj.name!]
       : location; // otherwise, named location or root
 
   attachProperties(content.match(obj.reg)!, keyLocation, obj.names, obj.name);
