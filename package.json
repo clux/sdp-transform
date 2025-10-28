@@ -25,32 +25,33 @@
     }
   },
   "bin": {
-    "sdp-verify": "./checker.js"
+    "sdp-verify": "./checker.mjs"
   },
   "files": [
     "LICENSE",
     "README.md",
     "checker.js",
-    "lib"
+    "lib/"
   ],
   "scripts": {
-    "prepare": "npm run typescript:build",
+    "prepare": "npm run typescript:build && rm -rf lib/test",
     "typescript:build": "tsc",
     "typescript:watch": "tsc --watch",
-    "lint": "eslint-config-prettier eslint.config.mjs && eslint -c eslint.config.mjs --max-warnings 0 eslint.config.mjs src && prettier --check README.md CHANGELOG.md eslint.config.mjs package.json tsconfig.json src",
-    "format": "prettier --write README.md CHANGELOG.md eslint.config.mjs package.json tsconfig.json src",
-    "test": "bndg test/*.test.js",
-    "coverage": "nyc --reporter=lcov npm run test"
+    "lint": "eslint-config-prettier eslint.config.mjs && eslint -c eslint.config.mjs --max-warnings 0 eslint.config.mjs jest.config.mjs checker.mjs src && prettier --check README.md CHANGELOG.md eslint.config.mjs jest.config.mjs package.json tsconfig.json checker.mjs src",
+    "format": "prettier --write README.md CHANGELOG.md eslint.config.mjs jest.config.mjs package.json tsconfig.json checker.mjs src",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "devDependencies": {
     "@eslint/js": "^9.38.0",
-    "bandage": "^0.5.0",
-    "co-fs": "^1.2.0",
+    "@types/jest": "^30.0.0",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jest": "^29.0.1",
     "eslint-plugin-prettier": "^5.5.4",
-    "nyc": "^15.1.0",
+    "jest": "^30.2.0",
     "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2"
   }

@@ -62,6 +62,7 @@ export interface SessionAttributes extends SharedAttributes {
     type: string;
     mids: string;
   }[];
+  keywords?: string;
 }
 
 /**
@@ -116,7 +117,7 @@ export interface MediaAttributes extends SharedAttributes {
   // a=mid:foo
   mid?: string;
   // a=msid:0c8b064d-d807-43b4-b434-f92a889d8587 98178685-d409-46e0-8e16-7ef0db0db64a
-  msid?: string;
+  msid?: { id: string; appdata?: string }[];
   // a=ptime:20
   ptime?: number;
   // a=maxptime:60
@@ -218,10 +219,14 @@ export interface MediaAttributes extends SharedAttributes {
   // a=max-message-size
   // https://tools.ietf.org/html/draft-ietf-mmusic-sctp-sdp-26#section-6
   maxMessageSize?: number;
+  content?: string;
   bfcpFloorCtrl?: string;
   bfcpConfId?: string;
   bfcpUserId?: string;
-  bfcpFloorId?: string;
+  bfcpFloorId?: {
+    id: string;
+    mStream: string;
+  };
 }
 
 /**
@@ -292,7 +297,7 @@ export interface SharedAttributes {
   tsRefClocks?: {
     clksrc: string;
     clksrcExt?: string;
-  };
+  }[];
   // a=mediaclk:direct=963214424
   mediaClk?: {
     id?: string;

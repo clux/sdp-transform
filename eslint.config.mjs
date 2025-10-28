@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import tsEslint from 'typescript-eslint';
+import jestEslint from 'eslint-plugin-jest';
 import prettierRecommendedEslint from 'eslint-plugin-prettier/recommended';
 
 const config = tsEslint.config(
@@ -155,6 +156,19 @@ const config = tsEslint.config(
       '@typescript-eslint/require-await': 0,
       '@typescript-eslint/restrict-template-expressions': 0,
       '@typescript-eslint/unbound-method': 0,
+    },
+  },
+  {
+    name: '.ts test files',
+    ...jestEslint.configs['flat/recommended'],
+    files: ['src/test/**/*.ts'],
+    rules: {
+      ...jestEslint.configs['flat/recommended'].rules,
+      'jest/no-disabled-tests': 2,
+      'jest/prefer-expect-assertions': 0,
+      'jest/valid-title': 0,
+      'jest/no-conditional-expect': 0,
+      '@typescript-eslint/no-unnecessary-type-assertion': 0,
     },
   }
 );

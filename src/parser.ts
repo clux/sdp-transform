@@ -47,15 +47,27 @@ export function parse(sdp: string): SessionDescription {
   return session;
 }
 
-export function parseParams(str: string): ParamMap {
+export function parseParams(str?: string): ParamMap {
+  if (!str) {
+    return {};
+  }
+
   return str.split(/;\s?/).reduce(paramReducer, {});
 }
 
-export function parsePayloads(str: string): number[] {
+export function parsePayloads(str?: string): number[] {
+  if (!str) {
+    return [];
+  }
+
   return str.toString().split(' ').map(Number);
 }
 
-export function parseRemoteCandidates(str: string): RemoteCandidate[] {
+export function parseRemoteCandidates(str?: string): RemoteCandidate[] {
+  if (!str) {
+    return [];
+  }
+
   const remoteCandidates: RemoteCandidate[] = [];
   const parts = str.split(' ').map(toIntIfInt);
 
@@ -70,8 +82,12 @@ export function parseRemoteCandidates(str: string): RemoteCandidate[] {
   return remoteCandidates;
 }
 
-export function parseImageAttributes(params: string): ImageAttributes[] {
-  return params.split(' ').map(function (item) {
+export function parseImageAttributes(str?: string): ImageAttributes[] {
+  if (!str) {
+    return [];
+  }
+
+  return str.split(' ').map(function (item) {
     return item
       .substring(1, item.length - 1)
       .split(',')
@@ -86,7 +102,11 @@ export function parseImageAttributes(params: string): ImageAttributes[] {
   });
 }
 
-export function parseSimulcast(str: string): SimulcastStream[] {
+export function parseSimulcast(str?: string): SimulcastStream[] {
+  if (!str) {
+    return [];
+  }
+
   return str.split(';').map(function (stream) {
     return stream.split(',').map(function (format) {
       let scid: number | string;
