@@ -3,7 +3,6 @@ import type { GrammarAttributeValue } from './grammar';
 import type {
   SessionDescription,
   MediaDescription,
-  MediaAttributes,
   ParamMap,
   RemoteCandidate,
   ImageAttributes,
