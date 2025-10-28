@@ -11,3 +11,5 @@ export {
 } from './parser';
 
 export { write } from './writer';
+
+export type * from './types';

@@ -11,6 +11,9 @@ export type Grammar = {
 
 export type GrammarAttributeValue = Grammar[keyof Grammar][number];
 
+/**
+ * The whole supported SDP grammar.
+ */
 export const grammar: Grammar = {
   v: [
     {
@@ -516,14 +519,14 @@ export const grammar: Grammar = {
     },
     {
       // RFC version 26 for SCTP over DTLS
-      // https://tools.ietf.org/html/draft-ietf-mmusic-sctp-sdp-26#section-5
+      // https://datatracker.ietf.org/doc/html/rfc8841#name-sdp-sctp-port-attribute
       name: 'sctpPort',
       reg: /^sctp-port:(\d+)$/,
       format: 'sctp-port:%s',
     },
     {
       // RFC version 26 for SCTP over DTLS
-      // https://tools.ietf.org/html/draft-ietf-mmusic-sctp-sdp-26#section-6
+      // https://datatracker.ietf.org/doc/html/rfc8841#name-sdp-max-message-size-attrib
       name: 'maxMessageSize',
       reg: /^max-message-size:(\d+)$/,
       format: 'max-message-size:%s',

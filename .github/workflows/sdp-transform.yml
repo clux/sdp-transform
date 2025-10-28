@@ -25,6 +25,7 @@ jobs:
         with:
           node-version: 'lts/*'
       - run: npm install
+      - run: npm run docs:check
       - run: npm run coverage
       - uses: codecov/codecov-action@v5
         with:
