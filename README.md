@@ -43,6 +43,18 @@ Extra helpers for parsing:
 
 Check the full API documentation: https://clux.github.io/sdp-transform
 
+## Development
+
+- `npm run typescript:build`: Transpiles TypeScript code in `src/` to JavaScript code in `lib/`.
+- `npm run typescript:watch`: The same, but in live mode.
+- `npm run lint`: ESLint and Prettier checks.
+- `npm run format`: Fixes Prettier issues.
+- `npm run test`: Runs tests. No need to transpile TypeScript to JavaScript first.
+- `npm run coverage`: Runs tests and generates test coverage output in `coverage/` folder.
+- `npm run docs`: Generates API documentation in HTML in `docs/` folder using [TypeDoc](https://typedoc.org).
+- `npm run docs:watch`: The same, but in live mode.
+- `npm run docs:check`: Checks if TypeDoc configuration and TypeDoc documentation in TypeScript source files are correct (used in GitHub CI actions).
+
 ## Author
 
 Eirik Albrigtsen
