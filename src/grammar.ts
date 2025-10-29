@@ -1,5 +1,8 @@
 /**
  * Type definition of the supported SDP grammar.
+ *
+ * The exact value of the grammar is available through the exported
+ * {@link grammar} constant.
  */
 export type Grammar = {
   [key: string]: {
@@ -12,6 +15,9 @@ export type Grammar = {
   }[];
 };
 
+/**
+ * @hidden
+ */
 export type GrammarAttributeValue = Grammar[keyof Grammar][number];
 
 /**
@@ -33,6 +39,9 @@ export type GrammarAttributeValue = Grammar[keyof Grammar][number];
  * ```
  */
 export const grammar: Grammar = {
+  /**
+   * `v=` attribute.
+   */
   v: [
     {
       name: 'version',

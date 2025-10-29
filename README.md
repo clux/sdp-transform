@@ -14,10 +14,6 @@ For simplicity it will force values that are integers to integers and leave ever
 npm install sdp-transform
 ```
 
-## API documentation
-
-Check the full API documentation: https://clux.github.io/sdp-transform
-
 ## Usage
 
 Load it using ES6 or CommonJS syntax:
@@ -43,18 +39,14 @@ Extra helpers for parsing:
 - `parseImageAttributes()`
 - `parseRemoteCandidates()`
 
-## Usage - Custom grammar
+## API documentation
 
-In case you need to add custom grammar (e.g. add unofficial attributes) to the parser, you can do so by mutating the `grammar` object before parsing.
+Check the full API documentation: https://clux.github.io/sdp-transform
 
-```js
-sdpTransform.grammar['a'].push({
-  name: 'xCustomTag',
-  reg: /^x-custom-tag:(\d*)/,
-  names: ['tagId'],
-  format: 'x-custom-tag:%d
-})
-```
+## Author
+
+Eirik Albrigtsen
+[[website](https://clux.dev)|[github](https://github.com/clux)]
 
 ## License
 

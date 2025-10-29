@@ -989,7 +989,6 @@ export function parse(sdp: string): SessionDescription {
  * ```ts
  * import { parseParams } from 'sdp-transform';
  *
- * // Parse `fmtp.config`:
  * parseParams(res.media[1].fmtp[0].config);
  * // =>
  * {
