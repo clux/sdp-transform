@@ -2,33 +2,63 @@
   "name": "sdp-transform",
   "description": "A simple parser/writer for the Session Description Protocol",
   "author": "Eirik Albrigtsen <sszynrae@gmail.com>",
-  "version": "3.0.0",
+  "version": "4.0.0-pre.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "clux/sdp-transform"
+  },
+  "bugs": {
+    "url": "https://github.com/clux/sdp-transform/issues"
   },
   "keywords": [
     "sdp",
     "webrtc",
     "serializer"
   ],
-  "main": "./lib/",
-  "bin": {
-    "sdp-verify": "./checker.js"
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "typedoc": "./src/index.ts",
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
   },
+  "bin": {
+    "sdp-verify": "./checker.mjs"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "checker.js",
+    "lib/"
+  ],
   "scripts": {
-    "lint": "eslint .",
-    "test": "bndg test/*.test.js",
-    "coverage": "nyc --reporter=lcov npm run test"
+    "prepare": "npm run typescript:build && rm -rf lib/test",
+    "typescript:build": "tsc",
+    "typescript:watch": "tsc --watch",
+    "lint": "eslint-config-prettier eslint.config.mjs && eslint -c eslint.config.mjs --max-warnings 0 eslint.config.mjs jest.config.mjs checker.mjs src && prettier --check README.md CHANGELOG.md eslint.config.mjs jest.config.mjs package.json tsconfig.json typedoc.config.mjs checker.mjs src",
+    "format": "prettier --write README.md CHANGELOG.md eslint.config.mjs jest.config.mjs package.json tsconfig.json typedoc.config.mjs checker.mjs src",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "docs": "typedoc",
+    "docs:watch": "open-cli docs/index.html && typedoc --watch",
+    "docs:check": "typedoc --emit none"
   },
   "devDependencies": {
-    "bandage": "^0.5.0",
-    "co-fs": "^1.2.0",
-    "eslint": "^5.10.0",
-    "nyc": "^15.1.0"
-  },
-  "bugs": {
-    "url": "https://github.com/clux/sdp-transform/issues"
-  },
-  "license": "MIT"
+    "@eslint/js": "^9.38.0",
+    "@types/jest": "^30.0.0",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jest": "^29.0.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "jest": "^30.2.0",
+    "open-cli": "^8.0.0",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.5",
+    "typedoc": "^0.28.14",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
+  }
 }

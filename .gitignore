@@ -1,2 +1,5 @@
-node_modules
-lib-cov
+/lib
+/node_modules
+/coverage
+/docs
+/.cache

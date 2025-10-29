@@ -1,0 +1,44 @@
+name: sdp-transform
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - run: npm install
+
+      - run: npm run lint
+
+      - run: npm test
+
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - run: npm install
+
+      - run: npm run docs:check
+
+      - run: npm run coverage
+
+      - uses: codecov/codecov-action@v5
+        with:
+          files: coverage/lcov.info
