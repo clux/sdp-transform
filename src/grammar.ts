@@ -1,3 +1,6 @@
+/**
+ * Type definition of the supported SDP grammar.
+ */
 export type Grammar = {
   [key: string]: {
     name?: string;
@@ -12,7 +15,22 @@ export type Grammar = {
 export type GrammarAttributeValue = Grammar[keyof Grammar][number];
 
 /**
- * The whole supported SDP grammar.
+ * Definition of the supported SDP grammar.
+ *
+ * In case you need to add custom grammar (e.g. add unofficial attributes) to
+ * the parser, you can do so by mutating the `grammar` object before parsing.
+ *
+ * @example
+ * ```ts
+ * import { grammar } from 'sdp-transform';
+ *
+ * grammar['a']!.push({
+ *   name: 'xCustomTag',
+ *   reg: /^x-custom-tag:(\d*)/,
+ *   names: ['tagId'],
+ *   format: 'x-custom-tag:%d
+ * })
+ * ```
  */
 export const grammar: Grammar = {
   v: [

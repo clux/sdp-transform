@@ -12,7 +12,7 @@ const config = {
   skipErrorChecking: false,
   excludePrivate: true,
   excludeProtected: true,
-  excludeNotDocumented: true,
+  excludeNotDocumented: false,
   excludeInternal: true,
   excludeExternals: true,
   includeVersion: true,
@@ -22,7 +22,8 @@ const config = {
   cacheBust: true,
   categorizeByGroup: false,
   searchInComments: true,
-  projectDocuments: ['README.md', 'LICENSE'],
+  readme: 'README.md',
+  projectDocuments: ['README.md', 'LICENSE.md'],
   navigationLinks: {
     GitHub: 'https://github.com/clux/sdp-transform',
     NPM: 'https://www.npmjs.com/package/sdp-transform',
