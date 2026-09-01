@@ -355,6 +355,9 @@ test('jsepSdp', function *(t) {
   var media = session.media;
   t.ok(media && media.length === 2, 'got media');
 
+  t.equal(media[0].iceOptions, 'trickle ice2', 'multiple ice options');
+  t.equal(media[1].iceOptions, 'trickle', 'single ice option');
+
   var video = media[1];
   t.equal(video.ssrcGroups.length, 1, '1 ssrc grouping');
   t.deepEqual(video.ssrcGroups[0],
