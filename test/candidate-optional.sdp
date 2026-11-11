@@ -1,0 +1,6 @@
+v=0
+o=- 1 2 IN IP4 127.0.0.1
+s=-
+t=0 0
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+a=candidate:1 1 udp 2113937151 192.0.2.1 5000 typ host network-id 1 network-cost 10
